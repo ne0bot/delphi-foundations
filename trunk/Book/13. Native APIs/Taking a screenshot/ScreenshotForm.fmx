@@ -1,0 +1,38 @@
+object frmScreenshot: TfrmScreenshot
+  Left = 0
+  Top = 0
+  Caption = 'API Demo'
+  ClientHeight = 400
+  ClientWidth = 600
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object panFrame: TPanel
+    Align = alClient
+    Position.Point = '(4,39)'
+    Width = 592.000000000000000000
+    Height = 357.000000000000000000
+    Margins.Rect = '(2,2,2,2)'
+    Padding.Rect = '(4,0,4,4)'
+    TabOrder = 0
+    object imgDest: TImage
+      Align = alClient
+      Position.Point = '(2,2)'
+      Width = 588.000000000000000000
+      Height = 353.000000000000000000
+    end
+  end
+  object lyoHeader: TLayout
+    Align = alTop
+    Width = 600.000000000000000000
+    Height = 39.000000000000000000
+    object btnTakeScreenshot: TButton
+      Align = alCenter
+      Position.Point = '(235,8)'
+      Width = 129.000000000000000000
+      Height = 22.000000000000000000
+      OnClick = btnTakeScreenshotClick
+      TabOrder = 0
+      Text = 'Take Screenshot'
+    end
+  end
+end

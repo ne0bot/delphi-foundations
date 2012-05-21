@@ -1,0 +1,75 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+		<ProjectExtensions>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup Condition="'$(Platform)'=='Win64'"/>
+		<ItemGroup Condition="'$(Platform)'=='OSX32'">
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\NSAlertExample.rsm">
+				<RemoteDir>NSAlertExample.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>NSAlertExample.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="OSX32\Release\NSAlertExample.rsm">
+				<RemoteDir>NSAlertExample.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>NSAlertExample.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\NSAlertExample">
+				<RemoteDir>NSAlertExample.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>NSAlertExample</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\NSAlertExample.info.plist">
+				<RemoteDir>NSAlertExample.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="OSX32\Release\NSAlertExample.icns">
+				<RemoteDir>NSAlertExample.app\Contents\Resources\</RemoteDir>
+				<RemoteName>NSAlertExample.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+				<RemoteDir>NSAlertExample.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="OSX32\Release\NSAlertExample.info.plist">
+				<RemoteDir>NSAlertExample.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="OSX32\Release\NSAlertExample">
+				<RemoteDir>NSAlertExample.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>NSAlertExample</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\NSAlertExample.icns">
+				<RemoteDir>NSAlertExample.app\Contents\Resources\</RemoteDir>
+				<RemoteName>NSAlertExample.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='Win32'"/>
+	</Project>
