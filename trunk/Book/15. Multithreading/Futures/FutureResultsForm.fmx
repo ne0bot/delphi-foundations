@@ -1,0 +1,19 @@
+object frmPrimeResults: TfrmPrimeResults
+  Left = 0
+  Top = 0
+  Caption = 'Results'
+  BorderIcons = [biSystemMenu, biMaximize]
+  ClientHeight = 223
+  ClientWidth = 384
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object memResults: TMemo
+    Align = alClient
+    Position.Point = '(8,8)'
+    Width = 368.000000000000000000
+    Height = 207.000000000000000000
+    Padding.Rect = '(8,8,8,8)'
+    TabOrder = 0
+    KeyboardType = vktDefault
+  end
+end

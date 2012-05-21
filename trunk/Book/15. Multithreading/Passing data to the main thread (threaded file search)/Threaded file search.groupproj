@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{7FD46B79-109F-44E2-983F-B3D1C3C335BD}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="VCL\ThreadedFileSearchVCL.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="FMX\ThreadedFileSearchFMX.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ThreadedFileSearchVCL">
+			<MSBuild Projects="VCL\ThreadedFileSearchVCL.dproj"/>
+		</Target>
+		<Target Name="ThreadedFileSearchVCL:Clean">
+			<MSBuild Projects="VCL\ThreadedFileSearchVCL.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ThreadedFileSearchVCL:Make">
+			<MSBuild Projects="VCL\ThreadedFileSearchVCL.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX">
+			<MSBuild Projects="FMX\ThreadedFileSearchFMX.dproj"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX:Clean">
+			<MSBuild Projects="FMX\ThreadedFileSearchFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX:Make">
+			<MSBuild Projects="FMX\ThreadedFileSearchFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ThreadedFileSearchVCL;ThreadedFileSearchFMX"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ThreadedFileSearchVCL:Clean;ThreadedFileSearchFMX:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ThreadedFileSearchVCL:Make;ThreadedFileSearchFMX:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

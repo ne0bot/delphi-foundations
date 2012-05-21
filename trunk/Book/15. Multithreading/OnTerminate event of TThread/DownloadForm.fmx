@@ -1,0 +1,89 @@
+object frmDownloadTest: TfrmDownloadTest
+  Left = 0
+  Top = 0
+  Caption = 'TThread.OnTerminate Example'
+  ClientHeight = 453
+  ClientWidth = 719
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object Layout1: TLayout
+    Align = alTop
+    Width = 719.000000000000000000
+    Height = 39.000000000000000000
+    Margins.Rect = '(8,8,8,8)'
+    object Label1: TLabel
+      Align = alLeft
+      Position.Point = '(8,8)'
+      Width = 33.000000000000000000
+      Height = 23.000000000000000000
+      TabOrder = 0
+      Text = 'URL:'
+    end
+    object edtURL: TEdit
+      Align = alClient
+      Position.Point = '(41,8)'
+      Width = 316.000000000000000000
+      Height = 23.000000000000000000
+      TabOrder = 1
+      KeyboardType = vktDefault
+      Password = False
+      Text = 'http://delphihaven.files.wordpress.com/2012/01/dublin.png'
+    end
+    object btnUnthreadedDL: TButton
+      Align = alRight
+      Position.Point = '(365,8)'
+      Width = 129.000000000000000000
+      Height = 23.000000000000000000
+      Padding.Rect = '(8,0,0,0)'
+      OnClick = btnUnthreadedDLClick
+      TabOrder = 2
+      Text = 'Download Unthreaded'
+    end
+    object btnAbout: TButton
+      Align = alRight
+      Position.Point = '(631,8)'
+      Width = 80.000000000000000000
+      Height = 23.000000000000000000
+      Padding.Rect = '(8,0,0,0)'
+      OnClick = btnAboutClick
+      TabOrder = 3
+      Text = 'About'
+    end
+    object btnThreadedDL: TButton
+      Align = alRight
+      Position.Point = '(502,8)'
+      Width = 121.000000000000000000
+      Height = 23.000000000000000000
+      Padding.Rect = '(8,0,0,0)'
+      OnClick = btnThreadedDLClick
+      TabOrder = 4
+      Text = 'Download Threaded'
+    end
+  end
+  object Rectangle1: TRectangle
+    Align = alClient
+    Position.Point = '(4,39)'
+    Width = 711.000000000000000000
+    Height = 410.000000000000000000
+    Margins.Rect = '(2,2,2,2)'
+    Padding.Rect = '(4,0,4,4)'
+    Fill.Color = claIvory
+    Stroke.Color = claLightgray
+    object imgOutput: TImage
+      Align = alClient
+      Position.Point = '(2,2)'
+      Width = 707.000000000000000000
+      Height = 406.000000000000000000
+      object lblInfo: TLabel
+        Align = alClient
+        Width = 707.000000000000000000
+        Height = 406.000000000000000000
+        TabOrder = 0
+        TextAlign = taCenter
+        Text = 
+          'Type the URL of an image before chosing either a non-threaded or' +
+          ' threaded download'
+      end
+    end
+  end
+end

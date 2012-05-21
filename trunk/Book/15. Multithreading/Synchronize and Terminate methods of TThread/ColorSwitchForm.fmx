@@ -1,0 +1,38 @@
+object frmColorSwitcher: TfrmColorSwitcher
+  Left = 0
+  Top = 0
+  Caption = 'TThread.Synchronize Demo'
+  ClientHeight = 301
+  ClientWidth = 487
+  Margins.Rect = '(6,6,6,6)'
+  Visible = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Fill.Kind = bkSolid
+  ActiveControl = Memo1
+  StyleLookup = 'backgroundstyle'
+  object Memo1: TMemo
+    Align = alClient
+    Position.Point = '(12,12)'
+    Width = 463.000000000000000000
+    Height = 258.000000000000000000
+    Padding.Rect = '(6,6,6,6)'
+    OnApplyStyleLookup = Memo1ApplyStyleLookup
+    StyleLookup = 'Memo1Style1'
+    TabOrder = 0
+    DisableFocusEffect = True
+    AutoSelect = False
+    WordWrap = True
+    Text = 'The colour of the form is randomly changed by a backgound thread'
+    KeyboardType = vktDefault
+  end
+  object chkPauseSwitchingColor: TCheckBox
+    Align = alBottom
+    Position.Point = '(6,276)'
+    Width = 475.000000000000000000
+    Height = 19.000000000000000000
+    TabOrder = 1
+    Text = 'Pause switching colour'
+    OnChange = chkPauseSwitchingColorChange
+  end
+end
