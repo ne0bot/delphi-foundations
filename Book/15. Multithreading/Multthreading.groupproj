@@ -1,0 +1,252 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{967805C8-FD5E-4279-A2BB-94DF79F9427D}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Basics of TThread\BasicsOfTThread.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="OnTerminate event of TThread\OnTerminateExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="CreateAnonymousThread and Synchronize\CreateAnonThreadDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Thread-local global variables (threadvar)\ThreadVarExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Synchronize and Terminate methods of TThread\SynchronizeAndTerminateDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Critical section objects\CriticalSectionLocking.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TSpinWait.SpinUntil\SpinUntilExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Semaphore basics\SemaphoreBasics.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Semaphore deadlock\SemaphoreDeadlock.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Semaphore used between processes\MultiProcessSemaphore.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Event basics\EventBasics.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Condition variables\ConditionVariableBasics.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Condition variables vs events\ConditionVariablesVsEvents.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TMonitor Wait and Pulse\MonitorWaitAndPulseExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Futures\FuturesExample.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="BasicsOfTThread">
+			<MSBuild Projects="Basics of TThread\BasicsOfTThread.dproj"/>
+		</Target>
+		<Target Name="BasicsOfTThread:Clean">
+			<MSBuild Projects="Basics of TThread\BasicsOfTThread.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BasicsOfTThread:Make">
+			<MSBuild Projects="Basics of TThread\BasicsOfTThread.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="OnTerminateExample">
+			<MSBuild Projects="OnTerminate event of TThread\OnTerminateExample.dproj"/>
+		</Target>
+		<Target Name="OnTerminateExample:Clean">
+			<MSBuild Projects="OnTerminate event of TThread\OnTerminateExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="OnTerminateExample:Make">
+			<MSBuild Projects="OnTerminate event of TThread\OnTerminateExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CreateAnonThreadDemo">
+			<MSBuild Projects="CreateAnonymousThread and Synchronize\CreateAnonThreadDemo.dproj"/>
+		</Target>
+		<Target Name="CreateAnonThreadDemo:Clean">
+			<MSBuild Projects="CreateAnonymousThread and Synchronize\CreateAnonThreadDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CreateAnonThreadDemo:Make">
+			<MSBuild Projects="CreateAnonymousThread and Synchronize\CreateAnonThreadDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ThreadVarExample">
+			<MSBuild Projects="Thread-local global variables (threadvar)\ThreadVarExample.dproj"/>
+		</Target>
+		<Target Name="ThreadVarExample:Clean">
+			<MSBuild Projects="Thread-local global variables (threadvar)\ThreadVarExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ThreadVarExample:Make">
+			<MSBuild Projects="Thread-local global variables (threadvar)\ThreadVarExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SynchronizeAndTerminateDemo">
+			<MSBuild Projects="Synchronize and Terminate methods of TThread\SynchronizeAndTerminateDemo.dproj"/>
+		</Target>
+		<Target Name="SynchronizeAndTerminateDemo:Clean">
+			<MSBuild Projects="Synchronize and Terminate methods of TThread\SynchronizeAndTerminateDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SynchronizeAndTerminateDemo:Make">
+			<MSBuild Projects="Synchronize and Terminate methods of TThread\SynchronizeAndTerminateDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CriticalSectionLocking">
+			<MSBuild Projects="Critical section objects\CriticalSectionLocking.dproj"/>
+		</Target>
+		<Target Name="CriticalSectionLocking:Clean">
+			<MSBuild Projects="Critical section objects\CriticalSectionLocking.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CriticalSectionLocking:Make">
+			<MSBuild Projects="Critical section objects\CriticalSectionLocking.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SingleInstWithMutex">
+			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj"/>
+		</Target>
+		<Target Name="SingleInstWithMutex:Clean">
+			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SingleInstWithMutex:Make">
+			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SpinUntilExample">
+			<MSBuild Projects="TSpinWait.SpinUntil\SpinUntilExample.dproj"/>
+		</Target>
+		<Target Name="SpinUntilExample:Clean">
+			<MSBuild Projects="TSpinWait.SpinUntil\SpinUntilExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SpinUntilExample:Make">
+			<MSBuild Projects="TSpinWait.SpinUntil\SpinUntilExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ThreadedFileSearchVCL">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj"/>
+		</Target>
+		<Target Name="ThreadedFileSearchVCL:Clean">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ThreadedFileSearchVCL:Make">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX:Clean">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ThreadedFileSearchFMX:Make">
+			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CountdownEventExample">
+			<MSBuild Projects="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj"/>
+		</Target>
+		<Target Name="CountdownEventExample:Clean">
+			<MSBuild Projects="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CountdownEventExample:Make">
+			<MSBuild Projects="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SemaphoreBasics">
+			<MSBuild Projects="Semaphore basics\SemaphoreBasics.dproj"/>
+		</Target>
+		<Target Name="SemaphoreBasics:Clean">
+			<MSBuild Projects="Semaphore basics\SemaphoreBasics.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SemaphoreBasics:Make">
+			<MSBuild Projects="Semaphore basics\SemaphoreBasics.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SemaphoreDeadlock">
+			<MSBuild Projects="Semaphore deadlock\SemaphoreDeadlock.dproj"/>
+		</Target>
+		<Target Name="SemaphoreDeadlock:Clean">
+			<MSBuild Projects="Semaphore deadlock\SemaphoreDeadlock.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SemaphoreDeadlock:Make">
+			<MSBuild Projects="Semaphore deadlock\SemaphoreDeadlock.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MultiProcessSemaphore">
+			<MSBuild Projects="Semaphore used between processes\MultiProcessSemaphore.dproj"/>
+		</Target>
+		<Target Name="MultiProcessSemaphore:Clean">
+			<MSBuild Projects="Semaphore used between processes\MultiProcessSemaphore.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MultiProcessSemaphore:Make">
+			<MSBuild Projects="Semaphore used between processes\MultiProcessSemaphore.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="EventBasics">
+			<MSBuild Projects="Event basics\EventBasics.dproj"/>
+		</Target>
+		<Target Name="EventBasics:Clean">
+			<MSBuild Projects="Event basics\EventBasics.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="EventBasics:Make">
+			<MSBuild Projects="Event basics\EventBasics.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ConditionVariableBasics">
+			<MSBuild Projects="Condition variables\ConditionVariableBasics.dproj"/>
+		</Target>
+		<Target Name="ConditionVariableBasics:Clean">
+			<MSBuild Projects="Condition variables\ConditionVariableBasics.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ConditionVariableBasics:Make">
+			<MSBuild Projects="Condition variables\ConditionVariableBasics.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ConditionVariablesVsEvents">
+			<MSBuild Projects="Condition variables vs events\ConditionVariablesVsEvents.dproj"/>
+		</Target>
+		<Target Name="ConditionVariablesVsEvents:Clean">
+			<MSBuild Projects="Condition variables vs events\ConditionVariablesVsEvents.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ConditionVariablesVsEvents:Make">
+			<MSBuild Projects="Condition variables vs events\ConditionVariablesVsEvents.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MonitorWaitAndPulseExample">
+			<MSBuild Projects="TMonitor Wait and Pulse\MonitorWaitAndPulseExample.dproj"/>
+		</Target>
+		<Target Name="MonitorWaitAndPulseExample:Clean">
+			<MSBuild Projects="TMonitor Wait and Pulse\MonitorWaitAndPulseExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MonitorWaitAndPulseExample:Make">
+			<MSBuild Projects="TMonitor Wait and Pulse\MonitorWaitAndPulseExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="FuturesExample">
+			<MSBuild Projects="Futures\FuturesExample.dproj"/>
+		</Target>
+		<Target Name="FuturesExample:Clean">
+			<MSBuild Projects="Futures\FuturesExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="FuturesExample:Make">
+			<MSBuild Projects="Futures\FuturesExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="BasicsOfTThread;OnTerminateExample;CreateAnonThreadDemo;ThreadVarExample;SynchronizeAndTerminateDemo;CriticalSectionLocking;SingleInstWithMutex;SpinUntilExample;ThreadedFileSearchVCL;ThreadedFileSearchFMX;CountdownEventExample;SemaphoreBasics;SemaphoreDeadlock;MultiProcessSemaphore;EventBasics;ConditionVariableBasics;ConditionVariablesVsEvents;MonitorWaitAndPulseExample;FuturesExample"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="BasicsOfTThread:Clean;OnTerminateExample:Clean;CreateAnonThreadDemo:Clean;ThreadVarExample:Clean;SynchronizeAndTerminateDemo:Clean;CriticalSectionLocking:Clean;SingleInstWithMutex:Clean;SpinUntilExample:Clean;ThreadedFileSearchVCL:Clean;ThreadedFileSearchFMX:Clean;CountdownEventExample:Clean;SemaphoreBasics:Clean;SemaphoreDeadlock:Clean;MultiProcessSemaphore:Clean;EventBasics:Clean;ConditionVariableBasics:Clean;ConditionVariablesVsEvents:Clean;MonitorWaitAndPulseExample:Clean;FuturesExample:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="BasicsOfTThread:Make;OnTerminateExample:Make;CreateAnonThreadDemo:Make;ThreadVarExample:Make;SynchronizeAndTerminateDemo:Make;CriticalSectionLocking:Make;SingleInstWithMutex:Make;SpinUntilExample:Make;ThreadedFileSearchVCL:Make;ThreadedFileSearchFMX:Make;CountdownEventExample:Make;SemaphoreBasics:Make;SemaphoreDeadlock:Make;MultiProcessSemaphore:Make;EventBasics:Make;ConditionVariableBasics:Make;ConditionVariablesVsEvents:Make;MonitorWaitAndPulseExample:Make;FuturesExample:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

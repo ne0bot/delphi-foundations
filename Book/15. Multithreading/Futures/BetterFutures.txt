@@ -1,0 +1,34 @@
+--------------------------------------------------------------------------------------------------
+                                Notes on BetterFutures.pas
+--------------------------------------------------------------------------------------------------
+
+A 'future' is a value that is calculated in the background. At some later point, the calling code
+asks for the value; if the background calculation has completed, the result is returned, otherwise
+the calling thread is blocked until it can be given.
+
+In this implementation, a future is a TFunc<T>, i.e. a parameterless anonymous method that returns
+something. In use, you pass the instance of TFunc<T> that will be doing the actual calculation to
+TFuture<T>.Create; in return, you get a wrapper TFunc<T>. The original function is put in a
+queue with other future tasks, to be popped out and run by one of x worker threads (where x is the
+number of CPU cores) in the background. As and when the wrapper TFunc<T> is called, the return
+value of the original function is returned, with it being waited on if it has yet to complete.
+
+Example usage:
+
+  function DoSomeCalc: Integer;
+  begin
+    //...
+  end;
+
+  var
+    SomeCalc: TFunc<Integer>;
+    CalcResult: Integer;
+  begin
+    SomeCalc := TFuture<Integer>.Create(DoSomeCalc);
+    //... (do some other stuff while DoSomeCalc runs in the background)
+    CalcResult := SomeCalc;
+
+If the function you pass raises an exception, then it is caught and re-raised when the proxy
+function is called. Also implemented is the ability to cancel a future if it is still awaits
+allocation to a thread: for this, TFuture<T>.Create is overloaded to return a cancellation token
+that can be passed to TFutureTasks.Cancel.

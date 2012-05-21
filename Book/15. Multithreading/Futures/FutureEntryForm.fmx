@@ -1,0 +1,85 @@
+object frmPrimeNumberTest: TfrmPrimeNumberTest
+  Left = 0
+  Top = 0
+  Caption = 'URL Tester'
+  BorderStyle = bsSingle
+  BorderIcons = [biSystemMenu]
+  ClientHeight = 302
+  ClientWidth = 385
+  Visible = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  StyleLookup = 'backgroundstyle'
+  object Label1: TLabel
+    Position.Point = '(8,8)'
+    Width = 97.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 0
+    Text = 'URLs to test:'
+  end
+  object edtURLToTest: TEdit
+    Position.Point = '(8,24)'
+    Width = 201.000000000000000000
+    Height = 22.000000000000000000
+    OnExit = edtURLToTestExit
+    TabOrder = 1
+    KeyboardType = vktDefault
+    Password = False
+    Text = 'http://www.bbc.co.uk'
+  end
+  object btnAddURL: TButton
+    Position.Point = '(216,24)'
+    Width = 65.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnAddURLClick
+    TabOrder = 2
+    Text = 'Add'
+  end
+  object lsbNumsToTest: TListBox
+    Position.Point = '(8,56)'
+    Width = 369.000000000000000000
+    Height = 209.000000000000000000
+    TabOrder = 3
+  end
+  object btnGetResults: TButton
+    Position.Point = '(96,272)'
+    Width = 88.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnGetResultsClick
+    TabOrder = 4
+    Text = 'Get Results'
+  end
+  object btnClear: TButton
+    Position.Point = '(192,272)'
+    Width = 88.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnClearClick
+    TabOrder = 5
+    Text = 'Clear'
+  end
+  object btnClose: TButton
+    Position.Point = '(288,272)'
+    Width = 88.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnCloseClick
+    TabOrder = 6
+    Text = 'Close'
+  end
+  object chkUseFutures: TCheckBox
+    Position.Point = '(8,273)'
+    Width = 81.000000000000000000
+    Height = 19.000000000000000000
+    TabOrder = 7
+    IsChecked = True
+    Text = 'Use futures'
+    OnChange = chkUseFuturesChange
+  end
+  object btnAddExamples: TButton
+    Position.Point = '(288,24)'
+    Width = 89.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnAddExamplesClick
+    TabOrder = 8
+    Text = 'Add Examples'
+  end
+end
