@@ -1,0 +1,38 @@
+object frmQTMovie: TfrmQTMovie
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'QTMovie Demo'
+  ClientHeight = 39
+  ClientWidth = 218
+  Transparency = False
+  Visible = False
+  OnDestroy = FormDestroy
+  StyleLookup = 'backgroundstyle'
+  object btnFindFile: TButton
+    Position.Point = '(8,8)'
+    Width = 113.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnFindFileClick
+    TabOrder = 1
+    StaysPressed = False
+    IsPressed = False
+    Text = 'Find file to play...'
+  end
+  object btnExit: TButton
+    Position.Point = '(128,8)'
+    Width = 80.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnExitClick
+    TabOrder = 12
+    StaysPressed = False
+    IsPressed = False
+    Text = 'Exit'
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = 'mp3'
+    Filter = 'MP3s|*.mp3'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 184
+  end
+end

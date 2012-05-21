@@ -1,0 +1,65 @@
+object frmMacSpecialFolders: TfrmMacSpecialFolders
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'Special Folders (Mac)'
+  ClientHeight = 516
+  ClientWidth = 1010
+  Transparency = False
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object stgFolders: TStringGrid
+    Align = alClient
+    Position.Point = '(4,4)'
+    Width = 1002.000000000000000000
+    Height = 508.000000000000000000
+    Padding.Rect = '(4,4,4,4)'
+    StyleLookup = 'gridstyle'
+    TabOrder = 0
+    AlternatingRowBackground = True
+    RowHeight = 21.000000000000000000
+    ShowSelectedCell = False
+    ReadOnly = True
+    RowCount = 22
+    object StringColumn1: TStringColumn
+      Width = 200.000000000000000000
+      Height = 485.000000000000000000
+      HitTest = False
+      TabOrder = 0
+      Header = 'Directory Type'
+    end
+    object StringColumn2: TStringColumn
+      Position.Point = '(200,0)'
+      Width = 200.000000000000000000
+      Height = 485.000000000000000000
+      HitTest = False
+      TabOrder = 1
+      Header = 'User Domain'
+    end
+    object StringColumn3: TStringColumn
+      Position.Point = '(400,0)'
+      Width = 200.000000000000000000
+      Height = 485.000000000000000000
+      HitTest = False
+      TabOrder = 2
+      Header = 'Local Domain'
+    end
+    object StringColumn4: TStringColumn
+      Position.Point = '(600,0)'
+      Width = 200.000000000000000000
+      Height = 485.000000000000000000
+      HitTest = False
+      TabOrder = 3
+      Header = 'Network Domain'
+    end
+    object StringColumn5: TStringColumn
+      Position.Point = '(800,0)'
+      Width = 200.000000000000000000
+      Height = 485.000000000000000000
+      HitTest = False
+      TabOrder = 4
+      Header = 'System Domain'
+    end
+  end
+end

@@ -1,0 +1,122 @@
+object frmNSWindowTips: TfrmNSWindowTips
+  Left = 0
+  Top = 0
+  Caption = 'NSWindow Tips and Tricks'
+  ClientHeight = 250
+  ClientWidth = 450
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object MinSizeSelector: TSelection
+    Width = 441.000000000000000000
+    Height = 233.000000000000000000
+    GripSize = 3.000000000000000000
+    HideSelection = False
+    MinSize = 100
+    Proportional = False
+  end
+  object btnToggleZoom: TButton
+    Position.Point = '(136,64)'
+    Width = 297.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnToggleZoomClick
+    TabOrder = 10
+    Text = 'Toggle maximised state (= clicking on green traffic light)'
+  end
+  object chkConstrainAspectRatio: TCheckBox
+    Position.Point = '(8,32)'
+    Width = 137.000000000000000000
+    Height = 19.000000000000000000
+    TabOrder = 11
+    Text = 'Constrain aspect ratio'
+    OnChange = chkConstrainAspectRatioChange
+  end
+  object chkDragFromAnywhere: TCheckBox
+    Position.Point = '(8,8)'
+    Width = 401.000000000000000000
+    Height = 19.000000000000000000
+    TabOrder = 12
+    Text = 
+      'Allow dragging form from anywhere in the client area, not just t' +
+      'he title bar'
+    OnChange = chkDragFromAnywhereChange
+  end
+  object btnOpenFile: TButton
+    Position.Point = '(8,160)'
+    Width = 313.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnOpenFileClick
+    TabOrder = 13
+    Text = #39'Open'#39' file (adds icon to title bar that can be right clicked)'
+  end
+  object btnCreatePDF: TButton
+    Position.Point = '(328,160)'
+    Width = 105.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnCreatePDFClick
+    TabOrder = 14
+    Text = 'Save form to PDF'
+  end
+  object btnConstrainMaxSize: TButton
+    Position.Point = '(8,128)'
+    Width = 257.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnConstrainMaxSizeClick
+    TabOrder = 15
+    Text = 'Constrain maximum size to current size'
+  end
+  object btnCenter: TButton
+    Position.Point = '(8,64)'
+    Width = 121.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnCenterClick
+    TabOrder = 16
+    Text = 'Centre form in screen'
+  end
+  object btnUnconstrainMaxSize: TButton
+    Position.Point = '(272,128)'
+    Width = 161.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnUnconstrainMaxSizeClick
+    TabOrder = 17
+    Text = 'Unconstrain maximum size'
+  end
+  object btnConstrainMinSize: TButton
+    Position.Point = '(8,96)'
+    Width = 257.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnConstrainMinSizeClick
+    TabOrder = 22
+    Text = 'Constrain minimum size to selection rectangle'
+  end
+  object btnUnconstrainMinSize: TButton
+    Position.Point = '(272,96)'
+    Width = 161.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnUnconstrainMinSizeClick
+    TabOrder = 23
+    Text = 'Unconstrain minimum size'
+  end
+  object Label1: TLabel
+    Position.Point = '(8,192)'
+    Width = 425.000000000000000000
+    Height = 33.000000000000000000
+    TabOrder = 24
+    Text = 
+      'If you close and reopen this application, the form will be resto' +
+      'red to the size and position it had previously'
+  end
+  object dlgOpen: TOpenDialog
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 328
+    Top = 200
+  end
+  object dlgSave: TSaveDialog
+    DefaultExt = 'pdf'
+    Filter = 'PDF files|*.pdf'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Title = 'Save Form Image as PDF'
+    Left = 400
+    Top = 200
+  end
+end

@@ -1,0 +1,37 @@
+object frmShellOpen: TfrmShellOpen
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'Shell Open'
+  BorderStyle = bsSingle
+  BorderIcons = []
+  ClientHeight = 55
+  ClientWidth = 265
+  Transparency = False
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object btnSelect: TButton
+    Position.Point = '(16,16)'
+    Width = 137.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnSelectClick
+    TabOrder = 0
+    StaysPressed = False
+    IsPressed = False
+    Text = 'Select file to open...'
+  end
+  object btnClose: TButton
+    Position.Point = '(168,16)'
+    Width = 80.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnCloseClick
+    TabOrder = 1
+    StaysPressed = False
+    IsPressed = False
+    Text = 'Close'
+  end
+  object dlgOpen: TOpenDialog
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing, ofDontAddToRecent]
+    Left = 56
+  end
+end

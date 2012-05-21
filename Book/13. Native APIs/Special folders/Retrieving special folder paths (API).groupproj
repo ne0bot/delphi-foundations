@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{CAD2E9DC-F1BB-4A4B-B2A3-4987460ABF90}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Mac\MacSpecialFolders.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Windows\WinSpecialFolders.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="MacSpecialFolders">
+			<MSBuild Projects="Mac\MacSpecialFolders.dproj"/>
+		</Target>
+		<Target Name="MacSpecialFolders:Clean">
+			<MSBuild Projects="Mac\MacSpecialFolders.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MacSpecialFolders:Make">
+			<MSBuild Projects="Mac\MacSpecialFolders.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="WinSpecialFolders">
+			<MSBuild Projects="Windows\WinSpecialFolders.dproj"/>
+		</Target>
+		<Target Name="WinSpecialFolders:Clean">
+			<MSBuild Projects="Windows\WinSpecialFolders.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="WinSpecialFolders:Make">
+			<MSBuild Projects="Windows\WinSpecialFolders.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="MacSpecialFolders;WinSpecialFolders"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="MacSpecialFolders:Clean;WinSpecialFolders:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="MacSpecialFolders:Make;WinSpecialFolders:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>
