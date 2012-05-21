@@ -1,0 +1,55 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Simple Dynamic Library Demo'
+  ClientHeight = 52
+  ClientWidth = 297
+  Visible = False
+  OnDestroy = FormDestroy
+  StyleLookup = 'backgroundstyle'
+  object btnAddThem: TButton
+    Position.Point = '(120,16)'
+    Width = 33.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnAddThemClick
+    TabOrder = 0
+    Text = '='
+  end
+  object nbxLeft: TNumberBox
+    Position.Point = '(16,16)'
+    Width = 33.000000000000000000
+    Height = 22.000000000000000000
+    TabOrder = 10
+    TextAlign = taTrailing
+    KeyboardType = vktDefault
+    Max = 10.000000000000000000
+    Value = 2.000000000000000000
+    HorzIncrement = 1.000000000000000000
+    VertIncrement = 5.000000000000000000
+  end
+  object Label1: TLabel
+    Position.Point = '(56,20)'
+    Width = 17.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 11
+    Text = '+'
+  end
+  object nbxRight: TNumberBox
+    Position.Point = '(72,16)'
+    Width = 33.000000000000000000
+    Height = 22.000000000000000000
+    TabOrder = 12
+    TextAlign = taTrailing
+    KeyboardType = vktDefault
+    Max = 10.000000000000000000
+    Value = 2.000000000000000000
+    HorzIncrement = 1.000000000000000000
+    VertIncrement = 5.000000000000000000
+  end
+  object lblResult: TLabel
+    Position.Point = '(160,20)'
+    Width = 120.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 13
+  end
+end
