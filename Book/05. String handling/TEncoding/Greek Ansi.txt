@@ -1,0 +1,3 @@
+Αφέλεια κατά το χειρισμό κειμένου είναι ασυγχώρητο.
+
+This is encoded in Greek Ansi (alias Windows 1253).
