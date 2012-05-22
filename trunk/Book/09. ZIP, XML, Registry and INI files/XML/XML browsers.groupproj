@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{8B6343E9-4CD6-4CA6-B88C-4367931E0A30}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="XML browser (MSXML directly)\XMLBrowserWithMSXMLDirectly.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="XMLBrowserWithIDOMDocument">
+			<MSBuild Projects="XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj"/>
+		</Target>
+		<Target Name="XMLBrowserWithIDOMDocument:Clean">
+			<MSBuild Projects="XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XMLBrowserWithIDOMDocument:Make">
+			<MSBuild Projects="XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument">
+			<MSBuild Projects="XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument:Clean">
+			<MSBuild Projects="XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument:Make">
+			<MSBuild Projects="XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="XMLBrowserWithMSXMLDirectly">
+			<MSBuild Projects="XML browser (MSXML directly)\XMLBrowserWithMSXMLDirectly.dproj"/>
+		</Target>
+		<Target Name="XMLBrowserWithMSXMLDirectly:Clean">
+			<MSBuild Projects="XML browser (MSXML directly)\XMLBrowserWithMSXMLDirectly.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XMLBrowserWithMSXMLDirectly:Make">
+			<MSBuild Projects="XML browser (MSXML directly)\XMLBrowserWithMSXMLDirectly.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="XMLBrowserWithIDOMDocument;XMLBrowserWithIXMLDocument;XMLBrowserWithMSXMLDirectly"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="XMLBrowserWithIDOMDocument:Clean;XMLBrowserWithIXMLDocument:Clean;XMLBrowserWithMSXMLDirectly:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="XMLBrowserWithIDOMDocument:Make;XMLBrowserWithIXMLDocument:Make;XMLBrowserWithMSXMLDirectly:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

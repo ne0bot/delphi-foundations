@@ -1,0 +1,79 @@
+object frmWithIDOMDocument: TfrmWithIDOMDocument
+  Left = 0
+  Top = 0
+  Caption = 'XML Parsing with IDOMDocument'
+  ClientHeight = 400
+  ClientWidth = 600
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object Layout1: TLayout
+    Align = alTop
+    Width = 600.000000000000000000
+    Height = 41.000000000000000000
+    object btnLoad: TButton
+      Position.Point = '(202,8)'
+      Width = 80.000000000000000000
+      Height = 22.000000000000000000
+      OnClick = btnLoadClick
+      TabOrder = 0
+      Text = 'Load XML...'
+    end
+    object lblBackend: TLabel
+      Position.Point = '(8,12)'
+      Width = 57.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 1
+      Text = 'Backend:'
+    end
+    object cboBackend: TComboBox
+      Position.Point = '(64,8)'
+      Width = 129.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 2
+      ItemIndex = -1
+      OnChange = cboBackendChange
+    end
+  end
+  object trvStructure: TTreeView
+    Align = alLeft
+    Position.Point = '(0,41)'
+    Width = 321.000000000000000000
+    Height = 359.000000000000000000
+    OnKeyDown = TreeViewKeyDown
+    OnMouseDown = TreeViewMouseDown
+    TabOrder = 1
+    OnChange = trvStructureChange
+  end
+  object Splitter1: TSplitter
+    Align = alLeft
+    Cursor = crHSplit
+    Position.Point = '(321,41)'
+    Width = 5.000000000000000000
+    Height = 359.000000000000000000
+    TabOrder = 2
+    MinSize = 20.000000000000000000
+  end
+  object Layout2: TLayout
+    Align = alClient
+    Position.Point = '(326,41)'
+    Width = 274.000000000000000000
+    Height = 359.000000000000000000
+    object memContent: TMemo
+      Align = alClient
+      Width = 274.000000000000000000
+      Height = 359.000000000000000000
+      TabOrder = 0
+      ReadOnly = True
+      WordWrap = True
+      KeyboardType = vktDefault
+    end
+  end
+  object dlgOpen: TOpenDialog
+    DefaultExt = 'xml'
+    Filter = 'XML files|*.xml'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 520
+    Top = 8
+  end
+end
