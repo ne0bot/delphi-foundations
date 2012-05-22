@@ -21,16 +21,16 @@
 			<Projects Include="Critical section objects\CriticalSectionLocking.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj">
+			<Projects Include="Mutexes\SingleInstWithMutex.dproj">
 				<Dependencies/>
 			</Projects>
 			<Projects Include="TSpinWait.SpinUntil\SpinUntilExample.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj">
+			<Projects Include="Threaded file search\VCL\ThreadedFileSearchVCL.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj">
+			<Projects Include="Threaded file search\FMX\ThreadedFileSearchFMX.dproj">
 				<Dependencies/>
 			</Projects>
 			<Projects Include="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj">
@@ -123,13 +123,13 @@
 			<MSBuild Projects="Critical section objects\CriticalSectionLocking.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="SingleInstWithMutex">
-			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj"/>
+			<MSBuild Projects="Mutexes\SingleInstWithMutex.dproj"/>
 		</Target>
 		<Target Name="SingleInstWithMutex:Clean">
-			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj" Targets="Clean"/>
+			<MSBuild Projects="Mutexes\SingleInstWithMutex.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="SingleInstWithMutex:Make">
-			<MSBuild Projects="Mutexes (enforce single instance of a VCL application)\SingleInstWithMutex.dproj" Targets="Make"/>
+			<MSBuild Projects="Mutexes\SingleInstWithMutex.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="SpinUntilExample">
 			<MSBuild Projects="TSpinWait.SpinUntil\SpinUntilExample.dproj"/>
@@ -141,22 +141,22 @@
 			<MSBuild Projects="TSpinWait.SpinUntil\SpinUntilExample.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="ThreadedFileSearchVCL">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj"/>
+			<MSBuild Projects="Threaded file search\VCL\ThreadedFileSearchVCL.dproj"/>
 		</Target>
 		<Target Name="ThreadedFileSearchVCL:Clean">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj" Targets="Clean"/>
+			<MSBuild Projects="Threaded file search\VCL\ThreadedFileSearchVCL.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="ThreadedFileSearchVCL:Make">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\VCL\ThreadedFileSearchVCL.dproj" Targets="Make"/>
+			<MSBuild Projects="Threaded file search\VCL\ThreadedFileSearchVCL.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="ThreadedFileSearchFMX">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj"/>
+			<MSBuild Projects="Threaded file search\FMX\ThreadedFileSearchFMX.dproj"/>
 		</Target>
 		<Target Name="ThreadedFileSearchFMX:Clean">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj" Targets="Clean"/>
+			<MSBuild Projects="Threaded file search\FMX\ThreadedFileSearchFMX.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="ThreadedFileSearchFMX:Make">
-			<MSBuild Projects="Passing data to the main thread (threaded file search)\FMX\ThreadedFileSearchFMX.dproj" Targets="Make"/>
+			<MSBuild Projects="Threaded file search\FMX\ThreadedFileSearchFMX.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="CountdownEventExample">
 			<MSBuild Projects="TCountdownEvent as WaitFor alternative\CountdownEventExample.dproj"/>
