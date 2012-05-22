@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{FFC6C66E-3DE8-4FB3-893B-14DE9D239B3C}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Attempt1.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Attempt2.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Attempt3.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="Attempt1">
+			<MSBuild Projects="Attempt1.dproj"/>
+		</Target>
+		<Target Name="Attempt1:Clean">
+			<MSBuild Projects="Attempt1.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt1:Make">
+			<MSBuild Projects="Attempt1.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Attempt2">
+			<MSBuild Projects="Attempt2.dproj"/>
+		</Target>
+		<Target Name="Attempt2:Clean">
+			<MSBuild Projects="Attempt2.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt2:Make">
+			<MSBuild Projects="Attempt2.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Attempt3">
+			<MSBuild Projects="Attempt3.dproj"/>
+		</Target>
+		<Target Name="Attempt3:Clean">
+			<MSBuild Projects="Attempt3.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt3:Make">
+			<MSBuild Projects="Attempt3.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Attempt1;Attempt2;Attempt3"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Attempt1:Clean;Attempt2:Clean;Attempt3:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Attempt1:Make;Attempt2:Make;Attempt3:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

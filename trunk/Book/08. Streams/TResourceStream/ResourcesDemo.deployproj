@@ -1,0 +1,84 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+		<ProjectExtensions>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup Condition="'$(Platform)'=='Win64'">
+			<DeployFile Include="OSX32\Release\libMyResources.dylib">
+				<RemoteDir>ResourcesDemo\</RemoteDir>
+				<RemoteName>libMyResources.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='OSX32'">
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ResourcesDemo">
+				<RemoteDir>ResourcesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>ResourcesDemo</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ResourcesDemo.rsm">
+				<RemoteDir>ResourcesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>ResourcesDemo.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ResourcesDemo.info.plist">
+				<RemoteDir>ResourcesDemo.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ResourcesDemo.icns">
+				<RemoteDir>ResourcesDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>ResourcesDemo.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+				<RemoteDir>ResourcesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="OSX32\Release\libMyResources.dylib">
+				<RemoteDir>ResourcesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libMyResources.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='Win32'">
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="Win32\Debug\ResourcesDemo.exe">
+				<RemoteDir>ResourcesDemo\</RemoteDir>
+				<RemoteName>ResourcesDemo.exe</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="Win32\Debug\ResourcesDemo.rsm">
+				<RemoteDir>ResourcesDemo\</RemoteDir>
+				<RemoteName>ResourcesDemo.rsm</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="OSX32\Release\libMyResources.dylib">
+				<RemoteDir>ResourcesDemo\</RemoteDir>
+				<RemoteName>libMyResources.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+	</Project>
