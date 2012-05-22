@@ -1,0 +1,50 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'FMX Form Factory Example'
+  BorderStyle = bsSingle
+  BorderIcons = [biSystemMenu, biMinimize]
+  ClientHeight = 328
+  ClientWidth = 439
+  Transparency = False
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object lyoBase: TLayout
+    Width = 561.000000000000000000
+    Height = 329.000000000000000000
+    object btnCreateForm: TButton
+      Position.Point = '(352,24)'
+      Width = 80.000000000000000000
+      Height = 22.000000000000000000
+      OnClick = btnCreateFormClick
+      TabOrder = 0
+      StaysPressed = False
+      IsPressed = False
+      Text = 'Create Form'
+      Default = True
+    end
+    object lsbAvailableForms: TListBox
+      Position.Point = '(8,24)'
+      Width = 337.000000000000000000
+      Height = 297.000000000000000000
+      OnMouseDown = lsbAvailableFormsMouseDown
+      TabOrder = 1
+    end
+    object lblTitle: TLabel
+      Position.Point = '(12,6)'
+      Width = 41.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 2
+      Text = 'Title'
+    end
+    object lblDescription: TLabel
+      Position.Point = '(100,6)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 3
+      Text = 'Description'
+    end
+  end
+end

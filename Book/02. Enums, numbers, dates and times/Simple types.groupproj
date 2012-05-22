@@ -1,0 +1,132 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{46A56828-79D6-48A1-8A80-02133ACD1D95}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Enumerated types\EnumPlayground.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Sets and their operators\SetOperators.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Bitwise operators and sets\SetsAndBitwiseOps.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Currency vs Double\CurrencyVsDouble.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Inspecting a Double value's internals\DoubleInternals.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="String to float conversions\StrToFloatConvs.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TTimeSpan.TryParse tester\TryParseTester.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Timing with TStopwatch\TimingDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Measurement unit conversions\MeasurementConversions.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="EnumPlayground">
+			<MSBuild Projects="Enumerated types\EnumPlayground.dproj"/>
+		</Target>
+		<Target Name="EnumPlayground:Clean">
+			<MSBuild Projects="Enumerated types\EnumPlayground.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="EnumPlayground:Make">
+			<MSBuild Projects="Enumerated types\EnumPlayground.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SetOperators">
+			<MSBuild Projects="Sets and their operators\SetOperators.dproj"/>
+		</Target>
+		<Target Name="SetOperators:Clean">
+			<MSBuild Projects="Sets and their operators\SetOperators.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SetOperators:Make">
+			<MSBuild Projects="Sets and their operators\SetOperators.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SetsAndBitwiseOps">
+			<MSBuild Projects="Bitwise operators and sets\SetsAndBitwiseOps.dproj"/>
+		</Target>
+		<Target Name="SetsAndBitwiseOps:Clean">
+			<MSBuild Projects="Bitwise operators and sets\SetsAndBitwiseOps.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SetsAndBitwiseOps:Make">
+			<MSBuild Projects="Bitwise operators and sets\SetsAndBitwiseOps.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CurrencyVsDouble">
+			<MSBuild Projects="Currency vs Double\CurrencyVsDouble.dproj"/>
+		</Target>
+		<Target Name="CurrencyVsDouble:Clean">
+			<MSBuild Projects="Currency vs Double\CurrencyVsDouble.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CurrencyVsDouble:Make">
+			<MSBuild Projects="Currency vs Double\CurrencyVsDouble.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="DoubleInternals">
+			<MSBuild Projects="Inspecting a Double value's internals\DoubleInternals.dproj"/>
+		</Target>
+		<Target Name="DoubleInternals:Clean">
+			<MSBuild Projects="Inspecting a Double value's internals\DoubleInternals.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="DoubleInternals:Make">
+			<MSBuild Projects="Inspecting a Double value's internals\DoubleInternals.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="StrToFloatConvs">
+			<MSBuild Projects="String to float conversions\StrToFloatConvs.dproj"/>
+		</Target>
+		<Target Name="StrToFloatConvs:Clean">
+			<MSBuild Projects="String to float conversions\StrToFloatConvs.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="StrToFloatConvs:Make">
+			<MSBuild Projects="String to float conversions\StrToFloatConvs.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="TryParseTester">
+			<MSBuild Projects="TTimeSpan.TryParse tester\TryParseTester.dproj"/>
+		</Target>
+		<Target Name="TryParseTester:Clean">
+			<MSBuild Projects="TTimeSpan.TryParse tester\TryParseTester.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="TryParseTester:Make">
+			<MSBuild Projects="TTimeSpan.TryParse tester\TryParseTester.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="TimingDemo">
+			<MSBuild Projects="Timing with TStopwatch\TimingDemo.dproj"/>
+		</Target>
+		<Target Name="TimingDemo:Clean">
+			<MSBuild Projects="Timing with TStopwatch\TimingDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="TimingDemo:Make">
+			<MSBuild Projects="Timing with TStopwatch\TimingDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MeasurementConversions">
+			<MSBuild Projects="Measurement unit conversions\MeasurementConversions.dproj"/>
+		</Target>
+		<Target Name="MeasurementConversions:Clean">
+			<MSBuild Projects="Measurement unit conversions\MeasurementConversions.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MeasurementConversions:Make">
+			<MSBuild Projects="Measurement unit conversions\MeasurementConversions.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="EnumPlayground;SetOperators;SetsAndBitwiseOps;CurrencyVsDouble;DoubleInternals;StrToFloatConvs;TryParseTester;TimingDemo;MeasurementConversions"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="EnumPlayground:Clean;SetOperators:Clean;SetsAndBitwiseOps:Clean;CurrencyVsDouble:Clean;DoubleInternals:Clean;StrToFloatConvs:Clean;TryParseTester:Clean;TimingDemo:Clean;MeasurementConversions:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="EnumPlayground:Make;SetOperators:Make;SetsAndBitwiseOps:Make;CurrencyVsDouble:Make;DoubleInternals:Make;StrToFloatConvs:Make;TryParseTester:Make;TimingDemo:Make;MeasurementConversions:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>
