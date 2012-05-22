@@ -1,0 +1,13 @@
+object frmRedClient: TfrmRedClient
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'Red Form'
+  ClientHeight = 400
+  ClientWidth = 600
+  Transparency = False
+  Visible = False
+  Fill.Color = claTomato
+  Fill.Kind = bkSolid
+  StyleLookup = 'backgroundstyle'
+end

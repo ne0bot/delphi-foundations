@@ -1,0 +1,80 @@
+object frmEnumTreeView: TfrmEnumTreeView
+  Left = 0
+  Top = 0
+  Caption = 'Anonymous Method Callback Example'
+  ClientHeight = 215
+  ClientWidth = 469
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object TreeView1: TTreeView
+    Position.Point = '(8,8)'
+    Width = 300.000000000000000000
+    Height = 196.000000000000000000
+    TabOrder = 1
+    object TreeViewItem1: TTreeViewItem
+      Width = 298.000000000000000000
+      Height = 19.000000000000000000
+      HitTest = False
+      TabOrder = 0
+      IsChecked = False
+      IsExpanded = False
+      IsSelected = False
+      Text = 'TreeViewItem1'
+      object TreeViewItem2: TTreeViewItem
+        Position.Point = '(5000,5000)'
+        Width = 50.000000000000000000
+        Height = 19.000000000000000000
+        HitTest = False
+        Visible = False
+        TabOrder = 0
+        IsChecked = False
+        IsExpanded = False
+        IsSelected = False
+        Text = 'TreeViewItem2'
+        object TreeViewItem3: TTreeViewItem
+          Position.Point = '(5000,5000)'
+          Width = 50.000000000000000000
+          Height = 19.000000000000000000
+          HitTest = False
+          Visible = False
+          TabOrder = 0
+          IsChecked = False
+          IsExpanded = False
+          IsSelected = False
+          Text = 'TreeViewItem3'
+        end
+      end
+    end
+    object TreeViewItem4: TTreeViewItem
+      Position.Point = '(0,19)'
+      Width = 298.000000000000000000
+      Height = 19.000000000000000000
+      HitTest = False
+      TabOrder = 1
+      IsChecked = False
+      IsExpanded = False
+      IsSelected = False
+      Text = 'TreeViewItem4'
+      object TreeViewItem5: TTreeViewItem
+        Position.Point = '(5000,5000)'
+        Width = 50.000000000000000000
+        Height = 19.000000000000000000
+        HitTest = False
+        Visible = False
+        TabOrder = 0
+        IsChecked = False
+        IsExpanded = False
+        IsSelected = False
+        Text = 'TreeViewItem5'
+      end
+    end
+  end
+  object Button1: TButton
+    Position.Point = '(328,88)'
+    Width = 129.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = Button1Click
+    TabOrder = 10
+    Text = 'Enumerate items'
+  end
+end

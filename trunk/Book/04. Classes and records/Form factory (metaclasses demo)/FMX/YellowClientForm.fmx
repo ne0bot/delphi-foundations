@@ -1,0 +1,13 @@
+object frmYellowClient: TfrmYellowClient
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'Yellow Form'
+  ClientHeight = 400
+  ClientWidth = 600
+  Transparency = False
+  Visible = False
+  Fill.Color = claYellow
+  Fill.Kind = bkSolid
+  StyleLookup = 'backgroundstyle'
+end
