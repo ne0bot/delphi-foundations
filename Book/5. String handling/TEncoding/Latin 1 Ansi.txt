@@ -1,3 +1,0 @@
-Naïveté when handling text is inexcusable.
-
-This is encoded in Windows Latin-1 (alias Windows 1252).
