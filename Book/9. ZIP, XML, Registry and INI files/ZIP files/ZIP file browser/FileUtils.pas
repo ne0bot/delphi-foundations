@@ -11,8 +11,8 @@ function ShellOpen(const FileName: string): Boolean;
 function TryDOSFileDateToDateTime(FileDate: UInt32; out DateTime: TDateTime): Boolean;
 
 const
-  ZipFileExts: array[1..9] of string = ('.zip', '.docx', '.docm', '.pptx', '.pptm',
-    '.xlsx', '.xlsm', '.jar', '.xap');
+  ZipFileExts: array[1..10] of string = ('.zip', '.docx', '.docm', '.pptx', '.pptm',
+    '.xlsx', '.xlsm', '.jar', '.xap', '.epub');
 
 implementation
 
