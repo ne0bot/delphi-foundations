@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{9ABAED88-0CC6-4E4B-BCB6-D8AEAE050FA5}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="MyResources.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="ResourcesDemo.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="MyResources">
+			<MSBuild Projects="MyResources.dproj"/>
+		</Target>
+		<Target Name="MyResources:Clean">
+			<MSBuild Projects="MyResources.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MyResources:Make">
+			<MSBuild Projects="MyResources.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ResourcesDemo">
+			<MSBuild Projects="ResourcesDemo.dproj"/>
+		</Target>
+		<Target Name="ResourcesDemo:Clean">
+			<MSBuild Projects="ResourcesDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ResourcesDemo:Make">
+			<MSBuild Projects="ResourcesDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="MyResources;ResourcesDemo"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="MyResources:Clean;ResourcesDemo:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="MyResources:Make;ResourcesDemo:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

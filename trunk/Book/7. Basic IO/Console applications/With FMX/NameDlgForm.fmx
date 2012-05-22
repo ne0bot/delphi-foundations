@@ -1,0 +1,55 @@
+object frmNameDlg: TfrmNameDlg
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  Caption = 'Form Test'
+  BorderStyle = bsSingle
+  BorderIcons = []
+  ClientHeight = 95
+  ClientWidth = 224
+  Position = poScreenCenter
+  Transparency = False
+  Visible = False
+  ActiveControl = edtName
+  StyleLookup = 'backgroundstyle'
+  object Label1: TLabel
+    Position.Point = '(8,8)'
+    Width = 120.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 0
+    Text = 'Enter your name:'
+  end
+  object edtName: TEdit
+    Position.Point = '(8,32)'
+    Width = 209.000000000000000000
+    Height = 22.000000000000000000
+    OnKeyDown = edtNameKeyDown
+    TabOrder = 1
+    ReadOnly = False
+    OnChangeTracking = edtNameChangeTracking
+    Password = False
+  end
+  object btnOK: TButton
+    Enabled = False
+    Position.Point = '(48,64)'
+    Width = 80.000000000000000000
+    Height = 22.000000000000000000
+    TabOrder = 2
+    StaysPressed = False
+    IsPressed = False
+    ModalResult = 1
+    Text = 'OK'
+    Default = True
+  end
+  object btnCancel: TButton
+    Position.Point = '(136,64)'
+    Width = 80.000000000000000000
+    Height = 22.000000000000000000
+    TabOrder = 3
+    StaysPressed = False
+    IsPressed = False
+    ModalResult = 2
+    Text = 'Cancel'
+    Cancel = True
+  end
+end
