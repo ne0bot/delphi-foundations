@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{76039DB1-4569-404F-B7DA-EC51E76FDE18}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="FMX\StreamLoggingDemoFMX.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="VCL\StreamLoggingDemoVCL.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="StreamLoggingDemoFMX">
+			<MSBuild Projects="FMX\StreamLoggingDemoFMX.dproj"/>
+		</Target>
+		<Target Name="StreamLoggingDemoFMX:Clean">
+			<MSBuild Projects="FMX\StreamLoggingDemoFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="StreamLoggingDemoFMX:Make">
+			<MSBuild Projects="FMX\StreamLoggingDemoFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="StreamLoggingDemoVCL">
+			<MSBuild Projects="VCL\StreamLoggingDemoVCL.dproj"/>
+		</Target>
+		<Target Name="StreamLoggingDemoVCL:Clean">
+			<MSBuild Projects="VCL\StreamLoggingDemoVCL.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="StreamLoggingDemoVCL:Make">
+			<MSBuild Projects="VCL\StreamLoggingDemoVCL.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="StreamLoggingDemoFMX;StreamLoggingDemoVCL"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="StreamLoggingDemoFMX:Clean;StreamLoggingDemoVCL:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="StreamLoggingDemoFMX:Make;StreamLoggingDemoVCL:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

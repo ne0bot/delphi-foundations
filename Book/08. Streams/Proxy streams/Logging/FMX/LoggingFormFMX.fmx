@@ -1,0 +1,406 @@
+object frmLogProxyFMX: TfrmLogProxyFMX
+  Left = 0
+  Top = 0
+  Caption = 'Logging Proxy Stream Demo (FMX)'
+  ClientHeight = 384
+  ClientWidth = 670
+  Margins.Rect = '(6,2,6,0)'
+  Visible = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  StyleBook = StyleBook
+  StyleLookup = 'backgroundstyle'
+  object Layout1: TLayout
+    Align = alBottom
+    Position.Point = '(6,344)'
+    Width = 658.000000000000000000
+    Height = 40.000000000000000000
+    object btnLoadXML: TButton
+      Position.Point = '(216,9)'
+      Width = 105.000000000000000000
+      Height = 22.000000000000000000
+      OnClick = btnLoadXMLClick
+      TabOrder = 0
+      Text = 'Load XML file...'
+    end
+    object Label1: TLabel
+      Position.Point = '(6,12)'
+      Width = 83.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 1
+      Text = 'DOM backend:'
+    end
+    object cboDOMBackend: TComboBox
+      Position.Point = '(88,9)'
+      Width = 121.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 2
+      ItemIndex = -1
+      OnChange = cboDOMBackendChange
+    end
+  end
+  object grpLog: TGroupBox
+    Align = alLeft
+    Position.Point = '(6,2)'
+    Width = 298.000000000000000000
+    Height = 342.000000000000000000
+    Margins.Rect = '(8,18,8,8)'
+    TabOrder = 1
+    Text = 'Log'
+    object grdLog: TGrid
+      Align = alClient
+      Position.Point = '(8,18)'
+      Width = 282.000000000000000000
+      Height = 316.000000000000000000
+      OnResize = GridResize
+      TabOrder = 0
+      RowHeight = 18.000000000000000000
+      ShowVertLines = False
+      ShowHorzLines = False
+      ShowHeader = False
+      ReadOnly = True
+      RowCount = 0
+      OnGetValue = grdLogGetValue
+      object colLog: TColumn
+        Width = 265.000000000000000000
+        Height = 314.000000000000000000
+        TabOrder = 0
+      end
+    end
+  end
+  object Splitter1: TSplitter
+    Align = alLeft
+    Cursor = crHSplit
+    Position.Point = '(304,2)'
+    Width = 5.000000000000000000
+    Height = 342.000000000000000000
+    TabOrder = 2
+    MinSize = 20.000000000000000000
+  end
+  object grpXML: TGroupBox
+    Align = alClient
+    Position.Point = '(309,2)'
+    Width = 355.000000000000000000
+    Height = 342.000000000000000000
+    Margins.Rect = '(8,18,8,8)'
+    TabOrder = 3
+    Text = 'XML'
+    object grdXML: TGrid
+      Align = alClient
+      Position.Point = '(8,18)'
+      Width = 339.000000000000000000
+      Height = 316.000000000000000000
+      OnResize = GridResize
+      TabOrder = 0
+      RowHeight = 18.000000000000000000
+      ShowVertLines = False
+      ShowHorzLines = False
+      ShowHeader = False
+      ReadOnly = True
+      RowCount = 0
+      OnGetValue = grdXMLGetValue
+      object colXML: TColumn
+        Width = 337.000000000000000000
+        Height = 314.000000000000000000
+        TabOrder = 0
+      end
+    end
+  end
+  object dlgOpen: TOpenDialog
+    DefaultExt = 'xml'
+    Filter = 'XML files|*.xml;*.xmp;*.xhtml;*.css'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 64
+    Top = 280
+  end
+  object StyleBook: TStyleBook
+    Resource.Strings = (
+      'object _1: TLayout'
+      '  Align = alClient'
+      '  Position.Point = '#39'(0,33)'#39
+      '  Width = 566.000000000000000000'
+      '  Height = 438.000000000000000000'
+      '  object TLayout'
+      '    StyleName = '#39'Gridstyle'#39
+      '    Position.Point = '#39'(225,154)'#39
+      '    Width = 116.999992370605500000'
+      '    Height = 131.000000000000000000'
+      '    ClipChildren = True'
+      '    object TBrushObject'
+      '      StyleName = '#39'AlternatingRowBackground'#39
+      '      Brush.Color = x202A8ADF'
+      '    end'
+      '    object TBrushObject'
+      '      StyleName = '#39'linefill'#39
+      '      Brush.Color = xFF8E8E8E'
+      '    end'
+      '    object TRectangle'
+      '      StyleName = '#39'background'#39
+      '      Align = alContents'
+      '      Locked = True'
+      '      Width = 116.999992370605500000'
+      '      Height = 131.000000000000000000'
+      '      Margins.Rect = '#39'(1,1,1,1)'#39
+      '      HitTest = False'
+      '      Fill.Color = claWhite'
+      '      Stroke.Color = xFF8E8E8E'
+      '      object THeader'
+      '        StyleName = '#39'header'#39
+      '        Align = alTop'
+      '        Position.Point = '#39'(1,1)'#39
+      '        Width = 114.999992370605500000'
+      '        Height = 21.000000000000000000'
+      '        TabOrder = 0'
+      '        Sides = [sdBottom]'
+      '      end'
+      '      object TLayout'
+      '        StyleName = '#39'content'#39
+      '        Align = alClient'
+      '        Position.Point = '#39'(1,22)'#39
+      '        Width = 98.999992370605470000'
+      '        Height = 92.000000000000000000'
+      '        ClipChildren = True'
+      '        object TRectangle'
+      '          StyleName = '#39'selection'#39
+      '          Width = 50.000000000000000000'
+      '          Height = 50.000000000000000000'
+      '          HitTest = False'
+      '          Fill.Color = x802A8ADF'
+      '          Stroke.Kind = bkNone'
+      '        end'
+      '        object TRectangle'
+      '          StyleName = '#39'focus'#39
+      '          Width = 50.000000000000000000'
+      '          Height = 50.000000000000000000'
+      '          Padding.Rect = '#39'(0,1,0,1)'#39
+      '          HitTest = False'
+      '          Fill.Kind = bkNone'
+      '          Stroke.Kind = bkNone'
+      '        end'
+      '      end'
+      '      object TScrollBar'
+      '        StyleName = '#39'vscrollbar'#39
+      '        Align = alRight'
+      '        Position.Point = '#39'(99.9999923706055,22)'#39
+      '        Width = 16.000000000000000000'
+      '        Height = 92.000000000000000000'
+      '        TabOrder = 1'
+      '        Max = 100.000000000000000000'
+      '        Orientation = orVertical'
+      '        SmallChange = 1.000000000000000000'
+      '      end'
+      '      object TScrollBar'
+      '        StyleName = '#39'hscrollbar'#39
+      '        Align = alBottom'
+      '        Position.Point = '#39'(1,114)'#39
+      '        Width = 114.999992370605500000'
+      '        Height = 16.000000000000000000'
+      '        TabOrder = 2'
+      '        Max = 100.000000000000000000'
+      '        Orientation = orHorizontal'
+      '        SmallChange = 1.000000000000000000'
+      '      end'
+      '      object TSmallScrollBar'
+      '        StyleName = '#39'vsmallscrollbar'#39
+      '        Align = alRight'
+      '        Position.Point = '#39'(99,2)'#39
+      '        Width = 8.000000000000000000'
+      '        Height = 8.000000000000000000'
+      '        Padding.Rect = '#39'(1,1,1,1)'#39
+      '        Visible = False'
+      '        TabOrder = 3'
+      '        Max = 100.000000000000000000'
+      '        Orientation = orVertical'
+      '        SmallChange = 1.000000000000000000'
+      '      end'
+      '      object TSmallScrollBar'
+      '        StyleName = '#39'hsmallscrollbar'#39
+      '        Align = alBottom'
+      '        Position.Point = '#39'(2,113)'#39
+      '        Width = 150.000000000000000000'
+      '        Height = 8.000000000000000000'
+      '        Padding.Rect = '#39'(1,1,1,1)'#39
+      '        Visible = False'
+      '        TabOrder = 4'
+      '        Max = 100.000000000000000000'
+      '        Orientation = orHorizontal'
+      '        SmallChange = 1.000000000000000000'
+      '      end'
+      '    end'
+      '    object TGlowEffect'
+      '      Trigger = '#39'IsFocused=true'#39
+      '      Enabled = False'
+      '      Softness = 0.029999999329447750'
+      '      GlowColor = xFF3D74B3'
+      '      Opacity = 1.000000000000000000'
+      '    end'
+      '  end'
+      '  object TLayout'
+      '    StyleName = '#39'HeaderItemStyle'#39
+      '    Position.Point = '#39'(237,207)'#39
+      '    Width = 91.000000000000000000'
+      '    Height = 24.000000000000000000'
+      '    DesignVisible = False'
+      '    object TRectangle'
+      '      StyleName = '#39'background'#39
+      '      Align = alContents'
+      '      Locked = True'
+      '      Width = 91.000000000000000000'
+      '      Height = 24.000000000000000000'
+      '      HitTest = False'
+      '      Fill.Kind = bkGradient'
+      '      Fill.Gradient.Points = <'
+      '        item'
+      '          Color = x24F4F4F4'
+      '        end'
+      '        item'
+      '          Color = x24EAEAEA'
+      '          Offset = 0.499000012874603300'
+      '        end'
+      '        item'
+      '          Color = x4E868686'
+      '          Offset = 0.500000000000000000'
+      '        end>'
+      '      Stroke.Color = xC84F4F4F'
+      '      object TInnerGlowEffect'
+      '        Trigger = '#39'IsPressed=true'#39
+      '        Enabled = False'
+      '        Softness = 0.400000005960464500'
+      '        GlowColor = xFF4F4848'
+      '        Opacity = 0.899999976158142100'
+      '      end'
+      '    end'
+      '    object TText'
+      '      StyleName = '#39'text'#39
+      '      Align = alClient'
+      '      Position.Point = '#39'(5,2)'#39
+      '      Locked = True'
+      '      Width = 81.000000000000000000'
+      '      Height = 20.000000000000000000'
+      '      Padding.Rect = '#39'(5,2,5,2)'#39
+      '      HitTest = False'
+      '      Text = '#39'button'#39
+      '    end'
+      '  end'
+      '  object TLayout'
+      '    StyleName = '#39'ScrollBarStyle'#39
+      '    Position.Point = '#39'(195,192)'#39
+      '    Width = 176.000000000000000000'
+      '    Height = 53.000000000000000000'
+      '    DesignVisible = False'
+      '    object TRectangle'
+      '      StyleName = '#39'background'#39
+      '      Align = alContents'
+      '      Locked = True'
+      '      Width = 176.000000000000000000'
+      '      Height = 53.000000000000000000'
+      '      HitTest = False'
+      '      Fill.Color = xFF484848'
+      '      Stroke.Kind = bkNone'
+      '    end'
+      '    object TButton'
+      '      StyleName = '#39'leftbutton'#39
+      '      Align = alLeft'
+      '      Position.Point = '#39'(0,18)'#39
+      '      Locked = True'
+      '      Width = 18.000000000000000000'
+      '      Height = 17.000000000000000000'
+      '      StyleLookup = '#39'scrollbarleftbutton'#39
+      '      TabOrder = 1'
+      '      CanFocus = False'
+      '    end'
+      '    object TTrack'
+      '      StyleName = '#39'htrack'#39
+      '      Align = alClient'
+      '      Position.Point = '#39'(18,18)'#39
+      '      Locked = True'
+      '      Width = 140.000000000000000000'
+      '      Height = 17.000000000000000000'
+      '      StyleLookup = '#39'scrollbarhtrackstyle'#39
+      '      TabOrder = 2'
+      '      Max = 1.000000000000000000'
+      '      Orientation = orHorizontal'
+      '      ViewportSize = 0.100000001490116100'
+      '    end'
+      '    object TButton'
+      '      StyleName = '#39'rightbutton'#39
+      '      Align = alRight'
+      '      Position.Point = '#39'(158,18)'#39
+      '      Locked = True'
+      '      Width = 18.000000000000000000'
+      '      Height = 17.000000000000000000'
+      '      StyleLookup = '#39'scrollbarrightbutton'#39
+      '      TabOrder = 3'
+      '      CanFocus = False'
+      '    end'
+      '    object TTrack'
+      '      StyleName = '#39'vtrack'#39
+      '      Align = alClient'
+      '      Position.Point = '#39'(18,18)'#39
+      '      Locked = True'
+      '      Width = 140.000000000000000000'
+      '      Height = 17.000000000000000000'
+      '      StyleLookup = '#39'scrollbarvtrackstyle'#39
+      '      TabOrder = 4'
+      '      Max = 1.000000000000000000'
+      '      Orientation = orHorizontal'
+      '      ViewportSize = 0.100000001490116100'
+      '    end'
+      '    object TButton'
+      '      StyleName = '#39'topbutton'#39
+      '      Align = alTop'
+      '      Locked = True'
+      '      Width = 176.000000000000000000'
+      '      Height = 18.000000000000000000'
+      '      StyleLookup = '#39'scrollbartopbutton'#39
+      '      TabOrder = 5'
+      '      CanFocus = False'
+      '    end'
+      '    object TButton'
+      '      StyleName = '#39'bottombutton'#39
+      '      Align = alBottom'
+      '      Position.Point = '#39'(0,35)'#39
+      '      Locked = True'
+      '      Width = 176.000000000000000000'
+      '      Height = 18.000000000000000000'
+      '      StyleLookup = '#39'scrollbarbottombutton'#39
+      '      TabOrder = 6'
+      '      CanFocus = False'
+      '    end'
+      '  end'
+      '  object TLayout'
+      '    StyleName = '#39'SmallScrollBarStyle'#39
+      '    Position.Point = '#39'(195,192)'#39
+      '    Width = 176.000000000000000000'
+      '    Height = 53.000000000000000000'
+      '    DesignVisible = False'
+      '    object TTrack'
+      '      StyleName = '#39'htrack'#39
+      '      Align = alClient'
+      '      Locked = True'
+      '      Width = 176.000000000000000000'
+      '      Height = 53.000000000000000000'
+      '      StyleLookup = '#39'smallscrollbarhtrackstyle'#39
+      '      TabOrder = 0'
+      '      Max = 1.000000000000000000'
+      '      Orientation = orHorizontal'
+      '      ViewportSize = 0.100000001490116100'
+      '    end'
+      '    object TTrack'
+      '      StyleName = '#39'vtrack'#39
+      '      Align = alClient'
+      '      Locked = True'
+      '      Width = 176.000000000000000000'
+      '      Height = 53.000000000000000000'
+      '      StyleLookup = '#39'smallscrollbarvtrackstyle'#39
+      '      TabOrder = 1'
+      '      Max = 1.000000000000000000'
+      '      Orientation = orHorizontal'
+      '      ViewportSize = 0.100000001490116100'
+      '    end'
+      '  end'
+      'end')
+    Left = 136
+    Top = 280
+  end
+end
