@@ -1,0 +1,62 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'WrapObject Example'
+  ClientHeight = 94
+  ClientWidth = 600
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object lblInfo: TLabel
+    Align = alTop
+    Position.Point = '(6,6)'
+    Width = 588.000000000000000000
+    Height = 15.000000000000000000
+    Padding.Rect = '(6,6,6,0)'
+    TabOrder = 0
+    Text = 
+      'Either type an expression manually or pick one from the dropdown' +
+      ' list before clicking the button to evaluate it:'
+  end
+  object cboExpr: TComboEdit
+    Align = alTop
+    Cursor = crIBeam
+    Position.Point = '(6,27)'
+    Width = 588.000000000000000000
+    Height = 22.000000000000000000
+    Padding.Rect = '(6,6,6,6)'
+    StyleLookup = 'comboeditstyle'
+    TabOrder = 1
+    KeyboardType = vktDefault
+    ItemHeight = 19.000000000000000000
+    ItemIndex = 0
+    Items.Strings = (
+      
+        '"The main form'#39's caption is '#39'" + Application.MainForm.Caption + ' +
+        '"'#39'"'
+      
+        '"You'#39've just clicked a button labelled '#39'" + btnEvalExpr.Text + "' +
+        #39'"'
+      
+        '"The same button is callled '#39'" + Application.MainForm.btnEvalExp' +
+        'r.Name + "'#39'"'
+      
+        #39'The first (and only?) form of the application has '#39' + ToStr(Scr' +
+        'een.Forms[0].ComponentCount) + '#39' controls'#39
+      
+        '"The name of this form'#39's first control is '#39'" + Components[0].Nam' +
+        'e + "'#39', and its text is '#39'" + Components[0].Text + "'#39'"')
+    ListBoxResource = 'combolistboxstyle'
+    Text = 
+      '"The main form'#39's caption is '#39'" + Application.MainForm.Caption + ' +
+      '"'#39'"'
+  end
+  object btnEvalExpr: TButton
+    Position.Point = '(223,60)'
+    Width = 146.000000000000000000
+    Height = 25.000000000000000000
+    OnClick = btnEvalExprClick
+    TabOrder = 2
+    Text = 'Evaluate Expression'
+  end
+end

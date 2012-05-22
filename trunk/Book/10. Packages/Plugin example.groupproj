@@ -1,0 +1,72 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{2B36958F-7434-48B6-9C40-42149D6A04AF}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Shared package\Shared.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Core application\PackagesDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Controls plugin\ControlsPlugin.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Platform info plugin\SysInfoPlugin.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="Shared">
+			<MSBuild Projects="Shared package\Shared.dproj"/>
+		</Target>
+		<Target Name="Shared:Clean">
+			<MSBuild Projects="Shared package\Shared.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Shared:Make">
+			<MSBuild Projects="Shared package\Shared.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="PackagesDemo">
+			<MSBuild Projects="Core application\PackagesDemo.dproj"/>
+		</Target>
+		<Target Name="PackagesDemo:Clean">
+			<MSBuild Projects="Core application\PackagesDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="PackagesDemo:Make">
+			<MSBuild Projects="Core application\PackagesDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ControlsPlugin">
+			<MSBuild Projects="Controls plugin\ControlsPlugin.dproj"/>
+		</Target>
+		<Target Name="ControlsPlugin:Clean">
+			<MSBuild Projects="Controls plugin\ControlsPlugin.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ControlsPlugin:Make">
+			<MSBuild Projects="Controls plugin\ControlsPlugin.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="SysInfoPlugin">
+			<MSBuild Projects="Platform info plugin\SysInfoPlugin.dproj"/>
+		</Target>
+		<Target Name="SysInfoPlugin:Clean">
+			<MSBuild Projects="Platform info plugin\SysInfoPlugin.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="SysInfoPlugin:Make">
+			<MSBuild Projects="Platform info plugin\SysInfoPlugin.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Shared;PackagesDemo;ControlsPlugin;SysInfoPlugin"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Shared:Clean;PackagesDemo:Clean;ControlsPlugin:Clean;SysInfoPlugin:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Shared:Make;PackagesDemo:Make;ControlsPlugin:Make;SysInfoPlugin:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>
