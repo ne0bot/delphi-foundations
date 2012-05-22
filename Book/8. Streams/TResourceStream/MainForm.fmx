@@ -1,0 +1,53 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'TResourceStream Demo'
+  ClientHeight = 368
+  ClientWidth = 910
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object memFormDefinition: TMemo
+    Position.Point = '(8,8)'
+    Width = 281.000000000000000000
+    Height = 321.000000000000000000
+    TabOrder = 1
+    ReadOnly = True
+    KeyboardType = vktDefault
+  end
+  object btnLoadFormDefinition: TButton
+    Position.Point = '(72,336)'
+    Width = 145.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnLoadFormDefinitionClick
+    TabOrder = 10
+    Text = 'Load Form Definition'
+  end
+  object imgLocal: TImageControl
+    Position.Point = '(296,8)'
+    Width = 297.000000000000000000
+    Height = 321.000000000000000000
+    TabOrder = 11
+  end
+  object btnLoadPictureFromExecutable: TButton
+    Position.Point = '(336,336)'
+    Width = 217.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnLoadPictureFromExecutableClick
+    TabOrder = 12
+    Text = 'Load Picture Embedded in Executable'
+  end
+  object btnLoadPictureFromLibrary: TButton
+    Position.Point = '(640,336)'
+    Width = 209.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnLoadPictureFromLibraryClick
+    TabOrder = 13
+    Text = 'Load Picture Embedded in Library'
+  end
+  object imgLibrary: TImageControl
+    Position.Point = '(600,8)'
+    Width = 297.000000000000000000
+    Height = 321.000000000000000000
+    TabOrder = 14
+  end
+end
