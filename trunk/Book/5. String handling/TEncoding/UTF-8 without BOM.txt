@@ -1,5 +1,0 @@
-Наивность при работе с текстом непростительно.
-Αφέλεια κατά το χειρισμό κειμένου είναι ασυγχώρητο.
-Naïveté when handling text is inexcusable.
-
-This is encoded in UTF-8, without a BOM included.
