@@ -1,0 +1,116 @@
+object frmSystemInfo: TfrmSystemInfo
+  Left = 0
+  Top = 0
+  Caption = 'System Info'
+  ClientHeight = 225
+  ClientWidth = 511
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object lyoBase: TLayout
+    Align = alClient
+    Width = 511.000000000000000000
+    Height = 225.000000000000000000
+    Margins.Rect = '(4,0,4,0)'
+    OnResize = lyoBaseResize
+    object Label1: TLabel
+      Position.Point = '(4,6)'
+      Width = 101.000000000000000000
+      Height = 16.000000000000000000
+      Padding.Rect = '(0,6,0,6)'
+      TabOrder = 0
+      Text = 'Operating system:'
+      WordWrap = False
+    end
+    object edtOS: TEdit
+      Tag = 1
+      Position.Point = '(152,3)'
+      Width = 353.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 1
+      DisableFocusEffect = True
+      ReadOnly = True
+      KeyboardType = vktDefault
+      Password = False
+    end
+    object Label3: TLabel
+      Position.Point = '(4,31)'
+      Width = 149.000000000000000000
+      Height = 15.000000000000000000
+      Padding.Rect = '(0,6,0,6)'
+      TabOrder = 2
+      Text = 'Number of processor cores:'
+      WordWrap = False
+    end
+    object edtCPUCoreCount: TEdit
+      Position.Point = '(152,28)'
+      Width = 25.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 3
+      DisableFocusEffect = True
+      ReadOnly = True
+      KeyboardType = vktDefault
+      Password = False
+    end
+    object memPathEnvVar: TMemo
+      Tag = 1
+      Position.Point = '(152,52)'
+      Width = 353.000000000000000000
+      Height = 117.000000000000000000
+      TabOrder = 5
+      DisableFocusEffect = True
+      ReadOnly = True
+      WordWrap = True
+      KeyboardType = vktDefault
+    end
+    object Label2: TLabel
+      Position.Point = '(4,55)'
+      Width = 133.000000000000000000
+      Height = 42.000000000000000000
+      Padding.Rect = '(0,6,0,6)'
+      TabOrder = 4
+      VertTextAlign = taLeading
+      Text = 'Directories in the system PATH variable:'
+    end
+    object Label4: TLabel
+      Position.Point = '(4,175)'
+      Width = 125.000000000000000000
+      Height = 15.000000000000000000
+      Padding.Rect = '(0,6,0,6)'
+      TabOrder = 6
+      Text = 'Host application:'
+      WordWrap = False
+    end
+    object edtHostAppTitle: TEdit
+      Tag = 1
+      Position.Point = '(152,172)'
+      Width = 353.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 7
+      DisableFocusEffect = True
+      ReadOnly = True
+      KeyboardType = vktDefault
+      Password = False
+    end
+    object edtHostAppPath: TEdit
+      Tag = 1
+      Position.Point = '(152,196)'
+      Width = 353.000000000000000000
+      Height = 22.000000000000000000
+      TabOrder = 9
+      DisableFocusEffect = True
+      ReadOnly = True
+      KeyboardType = vktDefault
+      Password = False
+    end
+    object Label5: TLabel
+      Position.Point = '(4,199)'
+      Width = 125.000000000000000000
+      Height = 15.000000000000000000
+      Padding.Rect = '(0,6,0,6)'
+      TabOrder = 8
+      Text = 'Host application path:'
+      WordWrap = False
+    end
+  end
+end

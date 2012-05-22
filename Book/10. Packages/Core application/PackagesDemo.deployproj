@@ -1,0 +1,156 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+		<ProjectExtensions>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup Condition="'$(Platform)'=='Win64'">
+			<DeployFile Include="..\Binaries\OSX32\Release\bplControlsPlugin.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplControlsPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplShared.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplShared.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplSysInfoPlugin.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplSysInfoPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='OSX32'">
+			<DeployFile Condition="'$(Config)'=='Release'" Include="..\Binaries\OSX32\Release\PackagesDemo.info.plist">
+				<RemoteDir>PackagesDemo.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="..\Binaries\OSX32\Debug\CoreApplication">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>CoreApplication</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="$(BDS)\Redist\OSX32\bplfmx161.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>bplfmx161.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="$(BDS)\Redist\OSX32\bplrtl160.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>bplrtl160.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="..\Binaries\OSX32\Release\PackagesDemo">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>PackagesDemo</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="..\Binaries\OSX32\Debug\CoreApplication.info.plist">
+				<RemoteDir>PackagesDemo.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplControlsPlugin.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>bplControlsPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplShared.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>bplShared.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="..\Binaries\OSX32\Debug\CoreApplication.rsm">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>CoreApplication.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="..\Binaries\OSX32\Debug\CoreApplication.icns">
+				<RemoteDir>PackagesDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>CoreApplication.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplSysInfoPlugin.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>bplSysInfoPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="..\Binaries\OSX32\Release\PackagesDemo.rsm">
+				<RemoteDir>PackagesDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>PackagesDemo.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Release'" Include="..\Binaries\OSX32\Release\PackagesDemo.icns">
+				<RemoteDir>PackagesDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>PackagesDemo.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='Win32'">
+			<DeployFile Include="..\Binaries\OSX32\Release\bplControlsPlugin.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplControlsPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplShared.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplShared.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Binaries\OSX32\Release\bplSysInfoPlugin.dylib">
+				<RemoteDir>PackagesDemo\</RemoteDir>
+				<RemoteName>bplSysInfoPlugin.dylib</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+	</Project>

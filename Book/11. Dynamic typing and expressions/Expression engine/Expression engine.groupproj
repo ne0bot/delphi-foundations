@@ -1,0 +1,72 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{C92045AD-20A4-4F33-BAF8-B8AEBB7CE256}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Expression engine basics\ExprEngineBasics.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TBindingExpression basics\ExprEngineClasses.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="WrapObject example\WrapObjectExample.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ExprEngineBasics">
+			<MSBuild Projects="Expression engine basics\ExprEngineBasics.dproj"/>
+		</Target>
+		<Target Name="ExprEngineBasics:Clean">
+			<MSBuild Projects="Expression engine basics\ExprEngineBasics.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ExprEngineBasics:Make">
+			<MSBuild Projects="Expression engine basics\ExprEngineBasics.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ExprEngineClasses">
+			<MSBuild Projects="TBindingExpression basics\ExprEngineClasses.dproj"/>
+		</Target>
+		<Target Name="ExprEngineClasses:Clean">
+			<MSBuild Projects="TBindingExpression basics\ExprEngineClasses.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ExprEngineClasses:Make">
+			<MSBuild Projects="TBindingExpression basics\ExprEngineClasses.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="RegisterMethodExample">
+			<MSBuild Projects="TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj"/>
+		</Target>
+		<Target Name="RegisterMethodExample:Clean">
+			<MSBuild Projects="TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="RegisterMethodExample:Make">
+			<MSBuild Projects="TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="WrapObjectExample">
+			<MSBuild Projects="WrapObject example\WrapObjectExample.dproj"/>
+		</Target>
+		<Target Name="WrapObjectExample:Clean">
+			<MSBuild Projects="WrapObject example\WrapObjectExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="WrapObjectExample:Make">
+			<MSBuild Projects="WrapObject example\WrapObjectExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ExprEngineBasics;ExprEngineClasses;RegisterMethodExample;WrapObjectExample"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ExprEngineBasics:Clean;ExprEngineClasses:Clean;RegisterMethodExample:Clean;WrapObjectExample:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ExprEngineBasics:Make;ExprEngineClasses:Make;RegisterMethodExample:Make;WrapObjectExample:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

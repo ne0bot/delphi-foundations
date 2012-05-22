@@ -1,0 +1,38 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Packages Demo'
+  ClientHeight = 437
+  ClientWidth = 553
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object TabControl: TTabControl
+    Align = alClient
+    Position.Point = '(6,6)'
+    Width = 541.000000000000000000
+    Height = 425.000000000000000000
+    Margins.Rect = '(6,6,6,6)'
+    Padding.Rect = '(6,6,6,6)'
+    TabOrder = 0
+    TabIndex = 0
+    TabHeight = 20.000000000000000000
+    object TabItem1: TTabItem
+      Width = 97.000000000000000000
+      Height = 20.000000000000000000
+      TabOrder = 0
+      Index = 0
+      Text = ' Available Plugins'
+      WordWrap = False
+      object lsbPlugins: TListBox
+        Align = alClient
+        Width = 529.000000000000000000
+        Height = 393.000000000000000000
+        TabOrder = 0
+        DisableFocusEffect = True
+        ShowCheckboxes = True
+        OnChangeCheck = lsbPluginsChangeCheck
+      end
+    end
+  end
+end

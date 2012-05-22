@@ -1,0 +1,19 @@
+object frmMemo: TfrmMemo
+  Left = 0
+  Top = 0
+  Caption = 'Memo Control'
+  ClientHeight = 165
+  ClientWidth = 287
+  Visible = False
+  StyleLookup = 'backgroundstyle'
+  object Memo: TMemo
+    Align = alClient
+    Width = 287.000000000000000000
+    Height = 165.000000000000000000
+    TabOrder = 0
+    DisableFocusEffect = True
+    WordWrap = True
+    Text = 'Hello plugin world'
+    KeyboardType = vktDefault
+  end
+end
