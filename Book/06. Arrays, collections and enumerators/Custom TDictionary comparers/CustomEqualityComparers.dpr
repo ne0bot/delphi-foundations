@@ -52,9 +52,11 @@ type
     constructor Create(const AForename, ASurname: string);
   end;
 
+  { NB: the 'reintroduce' directive prevents the compiler from warning us that we are hiding
+    similarly named virtual methods defined by TObject. }
   TNameRecEqualityComparer = class(TInterfacedObject, IEqualityComparer<TNameRec>)
-    function Equals(const Left, Right: TNameRec): Boolean;
-    function GetHashCode(const Value: TNameRec): Integer;
+    function Equals(const Left, Right: TNameRec): Boolean; reintroduce;
+    function GetHashCode(const Value: TNameRec): Integer; reintroduce;
   end;
 
 constructor TNameRec.Create(const AForename, ASurname: string);
