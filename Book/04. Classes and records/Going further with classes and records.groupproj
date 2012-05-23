@@ -30,6 +30,9 @@
 			<Projects Include="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="Operator overloading\BoundedStringsDemo.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -119,14 +122,23 @@
 		<Target Name="AnonMethodCallback:Make">
 			<MSBuild Projects="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj" Targets="Make"/>
 		</Target>
+		<Target Name="BoundedStringsDemo">
+			<MSBuild Projects="Operator overloading\BoundedStringsDemo.dproj"/>
+		</Target>
+		<Target Name="BoundedStringsDemo:Clean">
+			<MSBuild Projects="Operator overloading\BoundedStringsDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BoundedStringsDemo:Make">
+			<MSBuild Projects="Operator overloading\BoundedStringsDemo.dproj" Targets="Make"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="ClassConAndDesTest;FormFactoryFMX;IntfObserversDemo;TraditionalPetShop;GenericPetShop;GenericMaths;MethodRefAssignments;CapturingVsForLoops;AnonMethodCallback"/>
+			<CallTarget Targets="ClassConAndDesTest;FormFactoryFMX;IntfObserversDemo;TraditionalPetShop;GenericPetShop;GenericMaths;MethodRefAssignments;CapturingVsForLoops;AnonMethodCallback;BoundedStringsDemo"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="ClassConAndDesTest:Clean;FormFactoryFMX:Clean;IntfObserversDemo:Clean;TraditionalPetShop:Clean;GenericPetShop:Clean;GenericMaths:Clean;MethodRefAssignments:Clean;CapturingVsForLoops:Clean;AnonMethodCallback:Clean"/>
+			<CallTarget Targets="ClassConAndDesTest:Clean;FormFactoryFMX:Clean;IntfObserversDemo:Clean;TraditionalPetShop:Clean;GenericPetShop:Clean;GenericMaths:Clean;MethodRefAssignments:Clean;CapturingVsForLoops:Clean;AnonMethodCallback:Clean;BoundedStringsDemo:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="ClassConAndDesTest:Make;FormFactoryFMX:Make;IntfObserversDemo:Make;TraditionalPetShop:Make;GenericPetShop:Make;GenericMaths:Make;MethodRefAssignments:Make;CapturingVsForLoops:Make;AnonMethodCallback:Make"/>
+			<CallTarget Targets="ClassConAndDesTest:Make;FormFactoryFMX:Make;IntfObserversDemo:Make;TraditionalPetShop:Make;GenericPetShop:Make;GenericMaths:Make;MethodRefAssignments:Make;CapturingVsForLoops:Make;AnonMethodCallback:Make;BoundedStringsDemo:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>
