@@ -1,0 +1,216 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+		<ProjectExtensions>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup Condition="'$(Platform)'=='Win64'">
+			<DeployFile Include="..\Latin 1 Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>Latin 1 Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 with BOM.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-8 with BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 BE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-16 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 BE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-32 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 LE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-32 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 LE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-16 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 without BOM.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-8 without BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Greek Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>Greek Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='OSX32'">
+			<DeployFile Include="..\Latin 1 Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>Latin 1 Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\TEncodingUsageFMX.info.plist">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 with BOM.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-8 with BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 BE.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-16 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 BE.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-32 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 LE.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-32 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 LE.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-16 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\TEncodingUsageFMX.icns">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\Resources\</RemoteDir>
+				<RemoteName>TEncodingUsageFMX.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\TEncodingUsageFMX">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>TEncodingUsageFMX</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 without BOM.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>UTF-8 without BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\TEncodingUsageFMX.rsm">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>TEncodingUsageFMX.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Greek Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>Greek Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='Win32'">
+			<DeployFile Include="..\Latin 1 Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>Latin 1 Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 with BOM.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-8 with BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 BE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-16 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 BE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-32 BE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-32 LE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-32 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-16 LE.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-16 LE.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\UTF-8 without BOM.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>UTF-8 without BOM.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="..\Greek Ansi.txt">
+				<RemoteDir>TEncodingUsageFMX\</RemoteDir>
+				<RemoteName>Greek Ansi.txt</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+	</Project>
