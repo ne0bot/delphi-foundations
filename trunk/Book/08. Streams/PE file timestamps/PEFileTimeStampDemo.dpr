@@ -1,6 +1,6 @@
-program BasicTStreamUsage;
+program PEFileTimeStampDemo;
 {
-  Simple demo of seeking and reading from a stream. The task chosen is reading
+  Small demo of seeking and reading from a stream. The task chosen is reading
   from the EXE file's header. See MSDN for information about the structures
   involved (http://msdn.microsoft.com/en-us/library/ms680313.aspx).            }
 
