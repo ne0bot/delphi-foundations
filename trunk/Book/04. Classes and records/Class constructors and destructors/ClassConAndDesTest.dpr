@@ -1,7 +1,7 @@
 program ClassConAndDesTest;
 {
   Simple test of the order in which class constructors and destructors are
-  called in the context of a class hierachy.  
+  called in the context of a class hierarchy.  
 }
 uses
   FMX.Dialogs;
