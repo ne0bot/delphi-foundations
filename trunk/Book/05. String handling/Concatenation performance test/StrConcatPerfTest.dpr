@@ -2,11 +2,9 @@ program StrConcatPerfTest;
 {
   Simple string concatenation speed test that puts the naive method of using the plus
   operator up against TStringBuilder, TStringList and TMemoryStream. The plus operator
-  easily beats the first too, and is a bit quicker than TMemoryStream as well, despite
-  the test code setting all their respective Capacity properties up front to avoid the
-  need for internal memory reallocations in the middle of the loop. On my machine,
-  targeting 64 bit doesn't change things much, though the plus operator is now even
-  quicker and TStringList worse!
+  comes out tops for me on Windows, and either first or second on OS X, despite the
+  the test code setting the objects' respective Capacity properties up front (this 
+  avoids the need for internal memory reallocations in the middle of the loop).
 }
 {$APPTYPE CONSOLE}
 
