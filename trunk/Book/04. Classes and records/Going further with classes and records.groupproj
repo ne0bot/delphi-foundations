@@ -1,0 +1,132 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{55EE9A6B-7CF8-4225-9423-DFEC2CA5717C}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Class constructors and destructors\ClassConAndDesTest.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Form factory (metaclasses demo)\FMX\FormFactoryFMX.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Interfaces and the observer pattern\IntfObserversDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Generic polymorphism\TraditionalPetShop.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Generic polymorphism\GenericPetShop.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Generic maths\GenericMaths.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Anonymous methods\Method reference assignments\MethodRefAssignments.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Anonymous methods\Variable capturing and for loop vars\CapturingVsForLoops.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ClassConAndDesTest">
+			<MSBuild Projects="Class constructors and destructors\ClassConAndDesTest.dproj"/>
+		</Target>
+		<Target Name="ClassConAndDesTest:Clean">
+			<MSBuild Projects="Class constructors and destructors\ClassConAndDesTest.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ClassConAndDesTest:Make">
+			<MSBuild Projects="Class constructors and destructors\ClassConAndDesTest.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="FormFactoryFMX">
+			<MSBuild Projects="Form factory (metaclasses demo)\FMX\FormFactoryFMX.dproj"/>
+		</Target>
+		<Target Name="FormFactoryFMX:Clean">
+			<MSBuild Projects="Form factory (metaclasses demo)\FMX\FormFactoryFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="FormFactoryFMX:Make">
+			<MSBuild Projects="Form factory (metaclasses demo)\FMX\FormFactoryFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="IntfObserversDemo">
+			<MSBuild Projects="Interfaces and the observer pattern\IntfObserversDemo.dproj"/>
+		</Target>
+		<Target Name="IntfObserversDemo:Clean">
+			<MSBuild Projects="Interfaces and the observer pattern\IntfObserversDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="IntfObserversDemo:Make">
+			<MSBuild Projects="Interfaces and the observer pattern\IntfObserversDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="TraditionalPetShop">
+			<MSBuild Projects="Generic polymorphism\TraditionalPetShop.dproj"/>
+		</Target>
+		<Target Name="TraditionalPetShop:Clean">
+			<MSBuild Projects="Generic polymorphism\TraditionalPetShop.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="TraditionalPetShop:Make">
+			<MSBuild Projects="Generic polymorphism\TraditionalPetShop.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="GenericPetShop">
+			<MSBuild Projects="Generic polymorphism\GenericPetShop.dproj"/>
+		</Target>
+		<Target Name="GenericPetShop:Clean">
+			<MSBuild Projects="Generic polymorphism\GenericPetShop.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="GenericPetShop:Make">
+			<MSBuild Projects="Generic polymorphism\GenericPetShop.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="GenericMaths">
+			<MSBuild Projects="Generic maths\GenericMaths.dproj"/>
+		</Target>
+		<Target Name="GenericMaths:Clean">
+			<MSBuild Projects="Generic maths\GenericMaths.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="GenericMaths:Make">
+			<MSBuild Projects="Generic maths\GenericMaths.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MethodRefAssignments">
+			<MSBuild Projects="Anonymous methods\Method reference assignments\MethodRefAssignments.dproj"/>
+		</Target>
+		<Target Name="MethodRefAssignments:Clean">
+			<MSBuild Projects="Anonymous methods\Method reference assignments\MethodRefAssignments.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MethodRefAssignments:Make">
+			<MSBuild Projects="Anonymous methods\Method reference assignments\MethodRefAssignments.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CapturingVsForLoops">
+			<MSBuild Projects="Anonymous methods\Variable capturing and for loop vars\CapturingVsForLoops.dproj"/>
+		</Target>
+		<Target Name="CapturingVsForLoops:Clean">
+			<MSBuild Projects="Anonymous methods\Variable capturing and for loop vars\CapturingVsForLoops.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CapturingVsForLoops:Make">
+			<MSBuild Projects="Anonymous methods\Variable capturing and for loop vars\CapturingVsForLoops.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="AnonMethodCallback">
+			<MSBuild Projects="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj"/>
+		</Target>
+		<Target Name="AnonMethodCallback:Clean">
+			<MSBuild Projects="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="AnonMethodCallback:Make">
+			<MSBuild Projects="Anonymous methods\Use in a custom callback (enumerating a FMX tree view)\AnonMethodCallback.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ClassConAndDesTest;FormFactoryFMX;IntfObserversDemo;TraditionalPetShop;GenericPetShop;GenericMaths;MethodRefAssignments;CapturingVsForLoops;AnonMethodCallback"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ClassConAndDesTest:Clean;FormFactoryFMX:Clean;IntfObserversDemo:Clean;TraditionalPetShop:Clean;GenericPetShop:Clean;GenericMaths:Clean;MethodRefAssignments:Clean;CapturingVsForLoops:Clean;AnonMethodCallback:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ClassConAndDesTest:Make;FormFactoryFMX:Make;IntfObserversDemo:Make;TraditionalPetShop:Make;GenericPetShop:Make;GenericMaths:Make;MethodRefAssignments:Make;CapturingVsForLoops:Make;AnonMethodCallback:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

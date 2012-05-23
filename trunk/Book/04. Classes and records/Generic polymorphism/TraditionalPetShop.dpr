@@ -1,8 +1,7 @@
 program TraditionalPetShop;
 {
-  Creates type safe lists the old way, i.e. manually. To be fair, the ability to inline
-  most of the reintroduced methods means there's no performance penalty compared to the
-  generics approach... but what a lot of extra code!
+  Creates a type safe list the old way, i.e. non-generically. Should be compared with the code for
+  GenericPetShop.
 }
 {$APPTYPE CONSOLE}
 
