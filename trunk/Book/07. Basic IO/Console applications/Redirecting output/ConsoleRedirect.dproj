@@ -4,11 +4,11 @@
 			<MainSource>ConsoleRedirect.dpr</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
-			<TargetedPlatforms>5</TargetedPlatforms>
+			<TargetedPlatforms>1</TargetedPlatforms>
 			<AppType>Console</AppType>
 			<FrameworkType>None</FrameworkType>
 			<ProjectVersion>13.4</ProjectVersion>
-			<Platform Condition="'$(Platform)'==''">OSX32</Platform>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -128,19 +128,19 @@
 				</Delphi.Personality>
 				<Platforms>
 					<Platform value="Win64">False</Platform>
-					<Platform value="OSX32">True</Platform>
+					<Platform value="OSX32">False</Platform>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
 				<Deployment>
-					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="ConsoleRedirect">
-						<Platform Name="OSX32"/>
-					</DeployFile>
 					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="ConsoleRedirect.rsm">
 						<Platform Name="OSX32">
 							<RemoteName>ConsoleRedirect.rsm</RemoteName>
 						</Platform>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+						<Platform Name="OSX32"/>
+					</DeployFile>
+					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="ConsoleRedirect">
 						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployClass Name="ProjectOutput" Required="true">
