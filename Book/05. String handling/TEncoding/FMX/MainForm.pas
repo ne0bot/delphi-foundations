@@ -69,26 +69,23 @@ begin
   rdoGreekAnsiDefault.TagObject := FGreekAnsiEncoding;
   rdoLatin1Default.TagObject := FWinLatin1Encoding;
   rdoBOMlessUTF8Default.TagObject := FDetectableEncodings[deUTF8NoBOM];
-  //load the list of example text files from the source folder
-  FTextFilesPath := ParamStr(0);
-  PathDelimsToFind := 4;
-  for I := Length(FTextFilesPath) - 1 downto 1 do
-    if FTextFilesPath[I] = PathDelim then
+  //find the example text files
+  FTextFilesPath := ExtractFilePath(GetModuleName(0));
+  for I := 4 downto 0 do
+    if FindFirst(FTextFilesPath + '*.txt', faAnyFile and not faDirectory, SearchRec) = 0 then
+      Break
+    else if I = 0 then
     begin
-      Dec(PathDelimsToFind);
-      if PathDelimsToFind = 0 then
-      begin
-        FTextFilesPath := Copy(FTextFilesPath, 1, I);
-        Break;
-      end;
+      MessageDlg('Cannot find example text files', TMsgDlgType.mtError,
+        [TMsgDlgBtn.mbOK], 0);
+      Application.Terminate;
+      Exit;
+    end
+    else
+    begin
+      Delete(FTextFilesPath, Length(FTextFilesPath), 1); //delete the trailing path delimiter
+      FTextFilesPath := ExtractFilePath(FTextFilesPath)
     end;
-  if FindFirst(FTextFilesPath + '*.txt', faAnyFile and not faDirectory, SearchRec) <> 0 then
-  begin
-    MessageDlg('Cannot find example text files', TMsgDlgType.mtError,
-      [TMsgDlgBtn.mbOK], 0);
-    Application.Terminate;
-    Exit;
-  end;
   repeat
     lsbTestFiles.Items.Add(SearchRec.Name);
   until FindNext(SearchRec) <> 0;
