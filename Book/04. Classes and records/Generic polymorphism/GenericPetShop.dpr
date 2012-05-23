@@ -1,9 +1,9 @@
 program GenericPetShop;
 {
-  Generics-using version of TraditionalPetShop, which allows the code to be cut down
-  considerably when it comes to defining the custom list classes (imagine doing further
-  list classes for the other animal types too...). Demonstrates the principle of keeping 
-  the generic 'open' - notice the Feed and MoveTo calls both require type arguments.
+  Generics-using version of TraditionalPetShop, the use of generics allowing the code to be cut down
+  considerably (imagine doing further list classes for the other animal types too...). Also
+  demonstrates the technique of keeping a generic 'open' - notice the Feed and MoveTo calls both
+  require type arguments.
 }
 {$APPTYPE CONSOLE}
 

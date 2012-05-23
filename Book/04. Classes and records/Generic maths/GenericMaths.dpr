@@ -1,9 +1,8 @@
 program GenericMaths;
 {
-  The range of possible generic constraints in XE2 is rather small, not 
-  including things like operator constraints. One workaround for that
-  particular lack is to define helper types to plug in; this example
-  does that using metaclasses, which have the benefit of not requiring
+  The range of possible generic constraints in XE2 is rather small, since it doesn't include
+  things like operator constraints. One workaround for that particular lack is to define helper
+  types to plug in; this example we use metaclasses. These have the benefit of not requiring
   explicit instantiation.
 }
 {$APPTYPE CONSOLE}
