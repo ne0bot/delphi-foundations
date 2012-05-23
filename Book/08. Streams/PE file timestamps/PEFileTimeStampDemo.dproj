@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{2E37B65D-54CD-440D-BCC5-000296B304B9}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
-			<MainSource>BasicTStreamUsage.dpr</MainSource>
+			<MainSource>PEFileTimeStampDemo.dpr</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<AppType>Console</AppType>
@@ -104,7 +104,7 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Source>
-						<Source Name="MainSource">BasicTStreamUsage.dpr</Source>
+						<Source Name="MainSource">PEFileTimeStampDemo.dpr</Source>
 					</Source>
 				</Delphi.Personality>
 				<Platforms>
