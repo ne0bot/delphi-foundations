@@ -1,0 +1,95 @@
+object frmUnicodeNorm: TfrmUnicodeNorm
+  Left = 0
+  Top = 0
+  Caption = 'Unicode Normalisation Tester'
+  BorderStyle = bsSingle
+  BorderIcons = [biSystemMenu, biMinimize]
+  ClientHeight = 156
+  ClientWidth = 499
+  Position = poScreenCenter
+  Visible = False
+  OnCreate = FormCreate
+  StyleLookup = 'backgroundstyle'
+  object Label1: TLabel
+    Position.Point = '(8,11)'
+    Width = 57.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 1
+    Text = 'Enter text:'
+  end
+  object edtText: TEdit
+    Position.Point = '(216,8)'
+    Width = 273.000000000000000000
+    Height = 22.000000000000000000
+    TabOrder = 2
+    KeyboardType = vktDefault
+    OnChangeTracking = edtTextChangeTracking
+    Password = False
+    Text = 'Caf'#233' Mot'#246'rhead'
+  end
+  object Label2: TLabel
+    Position.Point = '(8,56)'
+    Width = 89.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 3
+    Text = 'Precomposed:'
+  end
+  object lblPrecomposed: TLabel
+    Position.Point = '(216,56)'
+    Width = 273.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 4
+  end
+  object Label4: TLabel
+    Position.Point = '(8,80)'
+    Width = 201.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 5
+    Text = 'Decomposed (should look the same):'
+  end
+  object lblDecomposed: TLabel
+    Position.Point = '(216,80)'
+    Width = 273.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 6
+  end
+  object Line1: TLine
+    Position.Point = '(8,40)'
+    Width = 481.000000000000000000
+    Height = 1.000000000000000000
+    Stroke.Color = claGray
+    LineType = ltDiagonal
+    object ShadowEffect1: TShadowEffect
+      Distance = 1.000000000000000000
+      Softness = 0.300000011920929000
+      Opacity = 0.600000023841857900
+      ShadowColor = claBlack
+    end
+  end
+  object Label3: TLabel
+    Position.Point = '(8,104)'
+    Width = 137.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 16
+    Text = 'Precomposed length:'
+  end
+  object lblPrecomposedLen: TLabel
+    Position.Point = '(216,104)'
+    Width = 273.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 17
+  end
+  object Label6: TLabel
+    Position.Point = '(8,128)'
+    Width = 201.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 18
+    Text = 'Decomposed length (may be different):'
+  end
+  object lblDecomposedLen: TLabel
+    Position.Point = '(216,128)'
+    Width = 273.000000000000000000
+    Height = 15.000000000000000000
+    TabOrder = 19
+  end
+end
