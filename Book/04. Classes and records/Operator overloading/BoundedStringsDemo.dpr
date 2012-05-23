@@ -3,8 +3,10 @@ program BoundedStringsDemo;
   For a discussion beyond the book, see my earlier blog post:
   http://delphihaven.wordpress.com/2011/12/06/bounded-strings-using-advanced-records/
 }
+{$APPTYPE CONSOLE}
+
 uses
-  System.SysUtils, 
+  System.SysUtils,
   BoundedStrings in 'BoundedStrings.pas';
 
 var
@@ -35,4 +37,5 @@ begin
     on E: Exception do
       WriteLn(E.ClassName, ': ', E.Message);
   end;
+  ReadLn;
 end.
