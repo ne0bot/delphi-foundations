@@ -82,7 +82,6 @@ var
   Day: TDayOfWeek;
   Rating: TStarRating;
   FunkyValue: TFunkyEnum;
-  OrdValue: Integer;
 begin
   Day := Fri;
   if Day < Tues then
