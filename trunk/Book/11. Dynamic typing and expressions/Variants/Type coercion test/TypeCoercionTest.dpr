@@ -1,4 +1,4 @@
-program BasicVariantsTest;
+program VariantTypeCoercionTest;
 {
   Demo of the variant type's not always obvious type coercion behaviour.
 }

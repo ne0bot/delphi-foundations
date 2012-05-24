@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{CC37A8CB-FDE2-4059-B543-868103D65741}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
-			<MainSource>BasicVariantsTest.dpr</MainSource>
+			<MainSource>VariantTypeCoercionTest.dpr</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform>Win32</Platform>
@@ -41,7 +41,7 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<ItemGroup>
-			<DelphiCompile Include="BasicVariantsTest.dpr">
+			<DelphiCompile Include="VariantTypeCoercionTest.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<BuildConfiguration Include="Release">
@@ -91,7 +91,7 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Source>
-						<Source Name="MainSource">BasicVariantsTest.dpr</Source>
+						<Source Name="MainSource">VariantTypeCoercionTest.dpr</Source>
 					</Source>
 				</Delphi.Personality>
 				<Platforms>
