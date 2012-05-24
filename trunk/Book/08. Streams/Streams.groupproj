@@ -1,0 +1,192 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{03FD5904-181F-4F81-B130-92E70160164D}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="PE file timestamps\PEFileTimeStampDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TResourceStream\MyResources.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TResourceStream\ResourcesDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TBinaryWriter and TBinaryReader\BinaryReaderWriterExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TReader and TWriter\ReaderAndWriterExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Component streaming\Basic demo\BasicCompStreamingDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Component streaming\Fuller visual control demo\ControlStreamingDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Component streaming\Outside of a visual control context\Attempt1.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Component streaming\Outside of a visual control context\Attempt2.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Component streaming\Outside of a visual control context\Attempt3.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Proxy streams\ZLib\FMX\ZLibProxyStreamDemoFMX.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Proxy streams\Logging\FMX\StreamLoggingDemoFMX.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Proxy streams\Buffering\BufferedInputDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Proxy streams\Buffering\BufferedOutputDemo.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="PEFileTimeStampDemo">
+			<MSBuild Projects="PE file timestamps\PEFileTimeStampDemo.dproj"/>
+		</Target>
+		<Target Name="PEFileTimeStampDemo:Clean">
+			<MSBuild Projects="PE file timestamps\PEFileTimeStampDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="PEFileTimeStampDemo:Make">
+			<MSBuild Projects="PE file timestamps\PEFileTimeStampDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MyResources">
+			<MSBuild Projects="TResourceStream\MyResources.dproj"/>
+		</Target>
+		<Target Name="MyResources:Clean">
+			<MSBuild Projects="TResourceStream\MyResources.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MyResources:Make">
+			<MSBuild Projects="TResourceStream\MyResources.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ResourcesDemo">
+			<MSBuild Projects="TResourceStream\ResourcesDemo.dproj"/>
+		</Target>
+		<Target Name="ResourcesDemo:Clean">
+			<MSBuild Projects="TResourceStream\ResourcesDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ResourcesDemo:Make">
+			<MSBuild Projects="TResourceStream\ResourcesDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="BinaryReaderWriterExample">
+			<MSBuild Projects="TBinaryWriter and TBinaryReader\BinaryReaderWriterExample.dproj"/>
+		</Target>
+		<Target Name="BinaryReaderWriterExample:Clean">
+			<MSBuild Projects="TBinaryWriter and TBinaryReader\BinaryReaderWriterExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BinaryReaderWriterExample:Make">
+			<MSBuild Projects="TBinaryWriter and TBinaryReader\BinaryReaderWriterExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ReaderAndWriterExample">
+			<MSBuild Projects="TReader and TWriter\ReaderAndWriterExample.dproj"/>
+		</Target>
+		<Target Name="ReaderAndWriterExample:Clean">
+			<MSBuild Projects="TReader and TWriter\ReaderAndWriterExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ReaderAndWriterExample:Make">
+			<MSBuild Projects="TReader and TWriter\ReaderAndWriterExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="BasicCompStreamingDemo">
+			<MSBuild Projects="Component streaming\Basic demo\BasicCompStreamingDemo.dproj"/>
+		</Target>
+		<Target Name="BasicCompStreamingDemo:Clean">
+			<MSBuild Projects="Component streaming\Basic demo\BasicCompStreamingDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BasicCompStreamingDemo:Make">
+			<MSBuild Projects="Component streaming\Basic demo\BasicCompStreamingDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ControlStreamingDemo">
+			<MSBuild Projects="Component streaming\Fuller visual control demo\ControlStreamingDemo.dproj"/>
+		</Target>
+		<Target Name="ControlStreamingDemo:Clean">
+			<MSBuild Projects="Component streaming\Fuller visual control demo\ControlStreamingDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ControlStreamingDemo:Make">
+			<MSBuild Projects="Component streaming\Fuller visual control demo\ControlStreamingDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Attempt1">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt1.dproj"/>
+		</Target>
+		<Target Name="Attempt1:Clean">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt1.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt1:Make">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt1.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Attempt2">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt2.dproj"/>
+		</Target>
+		<Target Name="Attempt2:Clean">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt2.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt2:Make">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt2.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Attempt3">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt3.dproj"/>
+		</Target>
+		<Target Name="Attempt3:Clean">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt3.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Attempt3:Make">
+			<MSBuild Projects="Component streaming\Outside of a visual control context\Attempt3.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ZLibProxyStreamDemoFMX">
+			<MSBuild Projects="Proxy streams\ZLib\FMX\ZLibProxyStreamDemoFMX.dproj"/>
+		</Target>
+		<Target Name="ZLibProxyStreamDemoFMX:Clean">
+			<MSBuild Projects="Proxy streams\ZLib\FMX\ZLibProxyStreamDemoFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ZLibProxyStreamDemoFMX:Make">
+			<MSBuild Projects="Proxy streams\ZLib\FMX\ZLibProxyStreamDemoFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="StreamLoggingDemoFMX">
+			<MSBuild Projects="Proxy streams\Logging\FMX\StreamLoggingDemoFMX.dproj"/>
+		</Target>
+		<Target Name="StreamLoggingDemoFMX:Clean">
+			<MSBuild Projects="Proxy streams\Logging\FMX\StreamLoggingDemoFMX.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="StreamLoggingDemoFMX:Make">
+			<MSBuild Projects="Proxy streams\Logging\FMX\StreamLoggingDemoFMX.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="BufferedInputDemo">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedInputDemo.dproj"/>
+		</Target>
+		<Target Name="BufferedInputDemo:Clean">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedInputDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BufferedInputDemo:Make">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedInputDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="BufferedOutputDemo">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedOutputDemo.dproj"/>
+		</Target>
+		<Target Name="BufferedOutputDemo:Clean">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedOutputDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BufferedOutputDemo:Make">
+			<MSBuild Projects="Proxy streams\Buffering\BufferedOutputDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="PEFileTimeStampDemo;MyResources;ResourcesDemo;BinaryReaderWriterExample;ReaderAndWriterExample;BasicCompStreamingDemo;ControlStreamingDemo;Attempt1;Attempt2;Attempt3;ZLibProxyStreamDemoFMX;StreamLoggingDemoFMX;BufferedInputDemo;BufferedOutputDemo"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="PEFileTimeStampDemo:Clean;MyResources:Clean;ResourcesDemo:Clean;BinaryReaderWriterExample:Clean;ReaderAndWriterExample:Clean;BasicCompStreamingDemo:Clean;ControlStreamingDemo:Clean;Attempt1:Clean;Attempt2:Clean;Attempt3:Clean;ZLibProxyStreamDemoFMX:Clean;StreamLoggingDemoFMX:Clean;BufferedInputDemo:Clean;BufferedOutputDemo:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="PEFileTimeStampDemo:Make;MyResources:Make;ResourcesDemo:Make;BinaryReaderWriterExample:Make;ReaderAndWriterExample:Make;BasicCompStreamingDemo:Make;ControlStreamingDemo:Make;Attempt1:Make;Attempt2:Make;Attempt3:Make;ZLibProxyStreamDemoFMX:Make;StreamLoggingDemoFMX:Make;BufferedInputDemo:Make;BufferedOutputDemo:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>
