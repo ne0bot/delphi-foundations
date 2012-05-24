@@ -1,0 +1,96 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{796EB402-2DA9-4D14-AD1B-FF1A995C45AB}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Variants\Type coercion test\VariantTypeCoercionTest.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Variants\Custom variant example\CustomVariantExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Expression engine\Expression engine basics\ExprEngineBasics.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Expression engine\TBindingExpression basics\ExprEngineClasses.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Expression engine\TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Expression engine\WrapObject example\WrapObjectExample.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="VariantTypeCoercionTest">
+			<MSBuild Projects="Variants\Type coercion test\VariantTypeCoercionTest.dproj"/>
+		</Target>
+		<Target Name="VariantTypeCoercionTest:Clean">
+			<MSBuild Projects="Variants\Type coercion test\VariantTypeCoercionTest.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="VariantTypeCoercionTest:Make">
+			<MSBuild Projects="Variants\Type coercion test\VariantTypeCoercionTest.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="CustomVariantExample">
+			<MSBuild Projects="Variants\Custom variant example\CustomVariantExample.dproj"/>
+		</Target>
+		<Target Name="CustomVariantExample:Clean">
+			<MSBuild Projects="Variants\Custom variant example\CustomVariantExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="CustomVariantExample:Make">
+			<MSBuild Projects="Variants\Custom variant example\CustomVariantExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ExprEngineBasics">
+			<MSBuild Projects="Expression engine\Expression engine basics\ExprEngineBasics.dproj"/>
+		</Target>
+		<Target Name="ExprEngineBasics:Clean">
+			<MSBuild Projects="Expression engine\Expression engine basics\ExprEngineBasics.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ExprEngineBasics:Make">
+			<MSBuild Projects="Expression engine\Expression engine basics\ExprEngineBasics.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ExprEngineClasses">
+			<MSBuild Projects="Expression engine\TBindingExpression basics\ExprEngineClasses.dproj"/>
+		</Target>
+		<Target Name="ExprEngineClasses:Clean">
+			<MSBuild Projects="Expression engine\TBindingExpression basics\ExprEngineClasses.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ExprEngineClasses:Make">
+			<MSBuild Projects="Expression engine\TBindingExpression basics\ExprEngineClasses.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="RegisterMethodExample">
+			<MSBuild Projects="Expression engine\TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj"/>
+		</Target>
+		<Target Name="RegisterMethodExample:Clean">
+			<MSBuild Projects="Expression engine\TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="RegisterMethodExample:Make">
+			<MSBuild Projects="Expression engine\TBindingMethodsFactory.RegisterMethod example\RegisterMethodExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="WrapObjectExample">
+			<MSBuild Projects="Expression engine\WrapObject example\WrapObjectExample.dproj"/>
+		</Target>
+		<Target Name="WrapObjectExample:Clean">
+			<MSBuild Projects="Expression engine\WrapObject example\WrapObjectExample.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="WrapObjectExample:Make">
+			<MSBuild Projects="Expression engine\WrapObject example\WrapObjectExample.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="VariantTypeCoercionTest;CustomVariantExample;ExprEngineBasics;ExprEngineClasses;RegisterMethodExample;WrapObjectExample"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="VariantTypeCoercionTest:Clean;CustomVariantExample:Clean;ExprEngineBasics:Clean;ExprEngineClasses:Clean;RegisterMethodExample:Clean;WrapObjectExample:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="VariantTypeCoercionTest:Make;CustomVariantExample:Make;ExprEngineBasics:Make;ExprEngineClasses:Make;RegisterMethodExample:Make;WrapObjectExample:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

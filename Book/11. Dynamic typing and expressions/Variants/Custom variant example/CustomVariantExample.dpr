@@ -1,11 +1,14 @@
 program CustomVariantExample;
-
+{
+  There are such things as 'custom variants', which enable a variant to hold data of your choice
+  and/or support property and method calls. This quick demo does the latter - see DebugUtils.pas
+  for more info.
+}
 {$APPTYPE CONSOLE}
 
 {$R *.res}
 
 uses
-  Winapi.Windows,
   System.SysUtils,
   System.Classes,
   System.Variants,

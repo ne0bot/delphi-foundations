@@ -1,6 +1,6 @@
 program ExprEngineClasses;
 {
-  Similar to the first demo, but using the moderately higher level classes instead.
+  Similar to the first expression engine demo, but using the moderately higher level classes instead.
 }
 {$APPTYPE CONSOLE}
 
