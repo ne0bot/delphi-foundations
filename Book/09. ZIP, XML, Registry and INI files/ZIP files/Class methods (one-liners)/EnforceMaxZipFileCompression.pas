@@ -1,5 +1,8 @@
 unit EnforceMaxZipFileCompression;
-
+{
+  By default, TZipFile uses 'normal' compression. We change that to 'best' compression by assigning
+  our own handlers for the 'deflate' compression type.
+}
 interface
 
 implementation

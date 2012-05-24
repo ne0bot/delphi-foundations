@@ -30,12 +30,18 @@ const
 var
   IniFileName: string;
   IniFile: TCustomIniFile;
+  Stream: TFileStream;
   Strings: TStringList;
   S: string;
 begin
   IniFileName := ChangeFileExt(ParamStr(0), '.ini');
-  TFile.WriteAllBytes(IniFileName, TBytes(SourceData));
-  Writeln(SourceData);
+  Stream := TFileStream.Create(IniFileName, fmCreate);
+  try
+    Stream.WriteBuffer(SourceData[1], Length(SourceData));
+  finally
+    Stream.Free;
+  end;
+  WriteLn(SourceData);
   WriteLn;
   Strings := nil;
   IniFile := TMemIniFile.Create(IniFileName, TEncoding.UTF8);

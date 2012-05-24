@@ -1,0 +1,132 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{28A0BC61-F074-4ADA-9E5A-3E6F1BA34B02}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="ZIP files\Class methods (one-liners)\ZipClassMethodsDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="ZIP files\In-memory ZIP file creation\InMemZipDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="ZIP files\ZIP file browser\ZipFileBrowser.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="XML\XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="XML\XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="XML\XPath querying\XPathDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Configuration files (TCustomIniFile and descendants)\Basic behaviour of TCustomIniFile\BasicIniFileBehaviour.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Configuration files (TCustomIniFile and descendants)\TMemIniFile, TRegistryIniFile and TXMLIniFile\IniFileIntfDemo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Configuration files (TCustomIniFile and descendants)\Mac Preferences (TCustomIniFile implementation)\MacPrefsTest.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ZipClassMethodsDemo">
+			<MSBuild Projects="ZIP files\Class methods (one-liners)\ZipClassMethodsDemo.dproj"/>
+		</Target>
+		<Target Name="ZipClassMethodsDemo:Clean">
+			<MSBuild Projects="ZIP files\Class methods (one-liners)\ZipClassMethodsDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ZipClassMethodsDemo:Make">
+			<MSBuild Projects="ZIP files\Class methods (one-liners)\ZipClassMethodsDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="InMemZipDemo">
+			<MSBuild Projects="ZIP files\In-memory ZIP file creation\InMemZipDemo.dproj"/>
+		</Target>
+		<Target Name="InMemZipDemo:Clean">
+			<MSBuild Projects="ZIP files\In-memory ZIP file creation\InMemZipDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="InMemZipDemo:Make">
+			<MSBuild Projects="ZIP files\In-memory ZIP file creation\InMemZipDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="ZipFileBrowser">
+			<MSBuild Projects="ZIP files\ZIP file browser\ZipFileBrowser.dproj"/>
+		</Target>
+		<Target Name="ZipFileBrowser:Clean">
+			<MSBuild Projects="ZIP files\ZIP file browser\ZipFileBrowser.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ZipFileBrowser:Make">
+			<MSBuild Projects="ZIP files\ZIP file browser\ZipFileBrowser.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="XMLBrowserWithIDOMDocument">
+			<MSBuild Projects="XML\XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj"/>
+		</Target>
+		<Target Name="XMLBrowserWithIDOMDocument:Clean">
+			<MSBuild Projects="XML\XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XMLBrowserWithIDOMDocument:Make">
+			<MSBuild Projects="XML\XML browser (IDOMDocument)\XMLBrowserWithIDOMDocument.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument">
+			<MSBuild Projects="XML\XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument:Clean">
+			<MSBuild Projects="XML\XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XMLBrowserWithIXMLDocument:Make">
+			<MSBuild Projects="XML\XML browser (IXMLDocument)\XMLBrowserWithIXMLDocument.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="XPathDemo">
+			<MSBuild Projects="XML\XPath querying\XPathDemo.dproj"/>
+		</Target>
+		<Target Name="XPathDemo:Clean">
+			<MSBuild Projects="XML\XPath querying\XPathDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="XPathDemo:Make">
+			<MSBuild Projects="XML\XPath querying\XPathDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="BasicIniFileBehaviour">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Basic behaviour of TCustomIniFile\BasicIniFileBehaviour.dproj"/>
+		</Target>
+		<Target Name="BasicIniFileBehaviour:Clean">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Basic behaviour of TCustomIniFile\BasicIniFileBehaviour.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="BasicIniFileBehaviour:Make">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Basic behaviour of TCustomIniFile\BasicIniFileBehaviour.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="IniFileIntfDemo">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\TMemIniFile, TRegistryIniFile and TXMLIniFile\IniFileIntfDemo.dproj"/>
+		</Target>
+		<Target Name="IniFileIntfDemo:Clean">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\TMemIniFile, TRegistryIniFile and TXMLIniFile\IniFileIntfDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="IniFileIntfDemo:Make">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\TMemIniFile, TRegistryIniFile and TXMLIniFile\IniFileIntfDemo.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="MacPrefsTest">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Mac Preferences (TCustomIniFile implementation)\MacPrefsTest.dproj"/>
+		</Target>
+		<Target Name="MacPrefsTest:Clean">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Mac Preferences (TCustomIniFile implementation)\MacPrefsTest.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MacPrefsTest:Make">
+			<MSBuild Projects="Configuration files (TCustomIniFile and descendants)\Mac Preferences (TCustomIniFile implementation)\MacPrefsTest.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ZipClassMethodsDemo;InMemZipDemo;ZipFileBrowser;XMLBrowserWithIDOMDocument;XMLBrowserWithIXMLDocument;XPathDemo;BasicIniFileBehaviour;IniFileIntfDemo;MacPrefsTest"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ZipClassMethodsDemo:Clean;InMemZipDemo:Clean;ZipFileBrowser:Clean;XMLBrowserWithIDOMDocument:Clean;XMLBrowserWithIXMLDocument:Clean;XPathDemo:Clean;BasicIniFileBehaviour:Clean;IniFileIntfDemo:Clean;MacPrefsTest:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ZipClassMethodsDemo:Make;InMemZipDemo:Make;ZipFileBrowser:Make;XMLBrowserWithIDOMDocument:Make;XMLBrowserWithIXMLDocument:Make;XPathDemo:Make;BasicIniFileBehaviour:Make;IniFileIntfDemo:Make;MacPrefsTest:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>
