@@ -12,7 +12,7 @@ uses
 
 type
   TfrmMain = class(TForm)
-    lyoBase: TLayout;
+    lyoLeft: TLayout;
     btnCreateForm: TButton;
     lsbAvailableForms: TListBox;
     lblTitle: TLabel;
@@ -30,13 +30,32 @@ implementation
 
 {$R *.fmx}
 
+type
+  TFormListItem = class(TListBoxItem)
+  public
+    FormClass: TClientFormClass;
+  end;
+
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   FormClass: TClientFormClass;
+  Item: TFormListItem;
+  DescLabel: TLabel;
+  DescLabelX: Single;
 begin
+  DescLabelX := lblDescription.Position.X - lsbAvailableForms.Position.X;
   for FormClass in RegisteredClientForms do
-    lsbAvailableForms.Items.AddObject(FormClass.Title + #9 +
-      FormClass.Description, TObject(FormClass));
+  begin
+    Item := TFormListItem.Create(Self);
+    Item.FormClass := FormClass;
+    Item.Text := FormClass.Title;
+    DescLabel := TLabel.Create(Item);
+    DescLabel.Align := TAlignLayout.alClient;
+    DescLabel.Padding.Left := DescLabelX;
+    DescLabel.Parent := Item;
+    DescLabel.Text := FormClass.Description;
+    Item.Parent := lsbAvailableForms;
+  end;
   lsbAvailableForms.ItemIndex := 0;
 end;
 
@@ -50,17 +69,15 @@ end;
 procedure TfrmMain.btnCreateFormClick(Sender: TObject);
 var
   NewForm: TForm;
-  SelIndex: Integer;
+  SelItem: TFormListItem;
 begin
-  SelIndex := lsbAvailableForms.ItemIndex;
-  if SelIndex < 0 then
+  SelItem := (lsbAvailableForms.Selected as TFormListItem);
+  if SelItem = nil then
   begin
     Beep;
     Exit;
   end;
-  { *Don't* cast to TClientForm, since we put in a metaclass instance, not a
-    class instance. }
-  NewForm := TClientFormClass(lsbAvailableForms.Items.Objects[SelIndex]).Create(Self);
+  NewForm := SelItem.FormClass.Create(Self);
   NewForm.Show;
 end;
 
