@@ -6,8 +6,8 @@
 			<MainSource>PackagesDemo.dpr</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Release</Config>
-			<Platform Condition="'$(Platform)'==''">OSX32</Platform>
-			<TargetedPlatforms>7</TargetedPlatforms>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
 			<AppType>Application</AppType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -170,16 +170,21 @@
 					</Excluded_Packages>
 				</Delphi.Personality>
 				<Deployment>
+					<DeployFile Class="ProjectOSXInfoPList" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo.info.plist">
+						<Platform Name="OSX32">
+							<RemoteName>Info.plist</RemoteName>
+						</Platform>
+					</DeployFile>
 					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="..\Binaries\OSX32\Debug\CoreApplication">
 						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployFile Class="DependencyPackage" Configuration="Release" LocalName="$(BDS)\Redist\OSX32\bplfmx161.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="ProjectOutput" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo">
+					<DeployFile Class="DependencyPackage" Configuration="Release" LocalName="$(BDS)\Redist\OSX32\bplrtl160.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="DependencyPackage" Configuration="Release" LocalName="$(BDS)\Redist\OSX32\bplrtl160.dylib">
+					<DeployFile Class="ProjectOutput" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo">
 						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployFile Class="ProjectOSXInfoPList" Configuration="Debug" LocalName="..\Binaries\OSX32\Debug\CoreApplication.info.plist">
@@ -203,9 +208,6 @@
 							<Enabled>false</Enabled>
 						</Platform>
 					</DeployFile>
-					<DeployFile Class="ProjectOSXResource" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo.icns">
-						<Platform Name="OSX32"/>
-					</DeployFile>
 					<DeployFile Class="File" LocalName="..\Binaries\OSX32\Release\bplShared.dylib">
 						<Platform Name="Win64">
 							<RemoteName>bplShared.dylib</RemoteName>
@@ -226,11 +228,6 @@
 					<DeployFile Class="ProjectOSXResource" Configuration="Debug" LocalName="..\Binaries\OSX32\Debug\CoreApplication.icns">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="ProjectOSXInfoPList" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo.info.plist">
-						<Platform Name="OSX32">
-							<RemoteName>Info.plist</RemoteName>
-						</Platform>
-					</DeployFile>
 					<DeployFile Class="File" LocalName="..\Binaries\OSX32\Release\bplSysInfoPlugin.dylib">
 						<Platform Name="Win64">
 							<RemoteName>bplSysInfoPlugin.dylib</RemoteName>
@@ -250,6 +247,9 @@
 							<RemoteDir>Contents\MacOS\</RemoteDir>
 							<RemoteName>PackagesDemo.rsm</RemoteName>
 						</Platform>
+					</DeployFile>
+					<DeployFile Class="ProjectOSXResource" Configuration="Release" LocalName="..\Binaries\OSX32\Release\PackagesDemo.icns">
+						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployClass Name="ProjectOutput" Required="true">
 						<Platform Name="OSX32">
@@ -336,8 +336,8 @@
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Win32"/>
 				</Deployment>
 				<Platforms>
-					<Platform value="Win64">True</Platform>
-					<Platform value="OSX32">True</Platform>
+					<Platform value="Win64">False</Platform>
+					<Platform value="OSX32">False</Platform>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
 			</BorlandProject>
