@@ -83,7 +83,7 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="PathsForm.pas">
-				<Form>frmPathDemo</Form>
+				<Form>frmPathsDemo</Form>
 				<FormType>dfm</FormType>
 			</DCCReference>
 			<BuildConfiguration Include="Release">
