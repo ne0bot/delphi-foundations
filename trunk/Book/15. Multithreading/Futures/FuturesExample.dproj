@@ -6,8 +6,8 @@
 			<MainSource>FuturesExample.dpr</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
-			<Platform Condition="'$(Platform)'==''">OSX32</Platform>
-			<TargetedPlatforms>5</TargetedPlatforms>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
 			<AppType>Application</AppType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -172,14 +172,14 @@
 					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="OSX32\Debug\FuturesExample">
 						<Platform Name="OSX32"/>
 					</DeployFile>
+					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+						<Platform Name="OSX32"/>
+					</DeployFile>
 					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="OSX32\Debug\FuturesExample.rsm">
 						<Platform Name="OSX32">
 							<RemoteDir>Contents\MacOS\</RemoteDir>
 							<RemoteName>FuturesExample.rsm</RemoteName>
 						</Platform>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
-						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployFile Class="ProjectOSXInfoPList" Configuration="Debug" LocalName="OSX32\Debug\FuturesExample.info.plist">
 						<Platform Name="OSX32">
@@ -275,7 +275,7 @@
 				</Deployment>
 				<Platforms>
 					<Platform value="Win64">False</Platform>
-					<Platform value="OSX32">True</Platform>
+					<Platform value="OSX32">False</Platform>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
 			</BorlandProject>
