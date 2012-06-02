@@ -95,7 +95,7 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="MainForm.pas">
-				<Form>Form1</Form>
+				<Form>frmNSAlert</Form>
 				<FormType>fmx</FormType>
 			</DCCReference>
 			<DCCReference Include="CCR.NSAlertHelper.pas"/>

@@ -1,21 +1,26 @@
-object Form1: TForm1
+object frmNSAlert: TfrmNSAlert
   Left = 0
   Top = 0
-  BiDiMode = bdLeftToRight
-  Caption = 'Form1'
-  ClientHeight = 252
-  ClientWidth = 387
-  Transparency = False
+  Caption = 'NSAlert Example'
+  ClientHeight = 54
+  ClientWidth = 206
+  Position = poScreenCenter
   Visible = False
   StyleLookup = 'backgroundstyle'
-  object Button1: TButton
-    Position.Point = '(160,112)'
+  object btnDialogStyle: TButton
+    Position.Point = '(16,16)'
     Width = 80.000000000000000000
     Height = 22.000000000000000000
-    OnClick = Button1Click
+    OnClick = btnDialogStyleClick
     TabOrder = 0
-    StaysPressed = False
-    IsPressed = False
-    Text = 'Show Alert'
+    Text = 'Dialog Style'
+  end
+  object btnSheetStyle: TButton
+    Position.Point = '(112,16)'
+    Width = 80.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnSheetStyleClick
+    TabOrder = 10
+    Text = 'Sheet Style'
   end
 end

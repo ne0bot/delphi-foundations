@@ -7,13 +7,15 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Layouts, FMX.Memo;
 
 type
-  TForm1 = class(TForm)
-    Button1: TButton;
-    procedure Button1Click(Sender: TObject);
+  TfrmNSAlert = class(TForm)
+    btnDialogStyle: TButton;
+    btnSheetStyle: TButton;
+    procedure btnSheetStyleClick(Sender: TObject);
+    procedure btnDialogStyleClick(Sender: TObject);
   end;
 
 var
-  Form1: TForm1;
+  frmNSAlert: TfrmNSAlert;
 
 implementation
 
@@ -21,7 +23,29 @@ uses Macapi.CocoaTypes, Macapi.Foundation, Macapi.AppKit, CCR.NSAlertHelper;
 
 {$R *.fmx}
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TfrmNSAlert.btnDialogStyleClick(Sender: TObject);
+var
+  Alert: NSAlert;
+begin
+  Alert := TNSAlert.Create;
+  try
+    Alert.addButtonWithTitle(NSSTR('OK'));
+    Alert.addButtonWithTitle(NSSTR('Cancel'));
+    Alert.setMessageText(NSSTR('Delete every file on your computer?'));
+    Alert.setInformativeText(NSSTR('Deleted files cannot be restored.'));
+    Alert.setAlertStyle(NSWarningAlertStyle);
+    case Alert.runModal of
+      NSAlertFirstButtonReturn: Caption := 'You pressed OK';
+      NSAlertSecondButtonReturn: Caption := 'You pressed Cancel';
+    else
+      Caption := 'Er, something went wrong here...';
+    end;
+  finally
+    Alert.release;
+  end;
+end;
+
+procedure TfrmNSAlert.btnSheetStyleClick(Sender: TObject);
 var
   Alert: NSAlert;
 begin
