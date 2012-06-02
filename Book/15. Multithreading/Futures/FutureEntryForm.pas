@@ -162,8 +162,8 @@ begin
   AddIfNotAlready('http://www.idontthink.so');
   AddIfNotAlready('http://www.embarcadero.com/delphi');
   AddIfNotAlready('http://www.guardian.co.uk');
-  AddIfNotAlready('http://news.bbc.co.uk/sport1/hi/football/default.stm');
-  AddIfNotAlready('http://news.bbc.co.uk/sport1/hi/soccer/default.stm');
+  AddIfNotAlready('http://www1.skysports.com/football/');
+  AddIfNotAlready('http://www1.skysports.com/soccer/');
 end;
 
 procedure TfrmPrimeNumberTest.btnAddURLClick(Sender: TObject);
