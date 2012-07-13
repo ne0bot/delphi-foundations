@@ -111,7 +111,7 @@ end;
 
 procedure TfrmPDFViewer.FreeDocRef;
 begin
-  if FDocRef <> nil then Exit;
+  if FDocRef = nil then Exit;
   CGPDFDocumentRelease(FDocRef);
   FDocRef := nil;
 end;
