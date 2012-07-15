@@ -5,8 +5,8 @@ unit CCR.CocoaToolbar;
   This demo has a sibling relationship to the NSAlert one, which is worked
   though in the book. If you have downloaded this code independently, the book
   in question is Delphi XE2 Foundations by me (Chris Rolliston). The book is
-  available now on Amazon in both printed and Kindle eBook versions; for more
-  info, see http://delphifoundations.com
+  available now on Amazon in both printed and Kindle eBook versions - see
+  http://delphifoundations.com for more information.
 }
 interface
 
@@ -86,7 +86,7 @@ type
   end;
 
   { ... and this is the implementation. Note the interface representing the
-    Objective-C class is *not* formally implemented by the Delph one, being
+    Objective-C class is *not* formally implemented by the Delphi one, being
     indicated instead by the return value of GetObjectiveCClass. }
   TNSToolbarDelegate = class(TOCLocal, NSToolbarDelegate)
   private
@@ -243,6 +243,8 @@ begin
   FAttachedForm := AForm;
 end;
 
+{ This function (along with others) makes use of the fact NSString is 'toll-free
+  bridged' with CFStringRef. }
 function TNSToolbarHelper.CreateNSArrayOfItemIDs(ADefaultOnly: Boolean): NSArray;
 var
   Counter: Integer;
@@ -308,6 +310,11 @@ begin
     end;
 end;
 
+{ You may notice the 'toolbar' parameter here and in other methods is typed to
+  Pointer rather than NSToolbar. This is because any given NSxxx parameter can
+  be typed to Pointer instead, in which case the Delphi to Objective-C bridge
+  won't bother wrapping it. When the parameter isn't used by the method body,
+  this makes the call slightly more efficient. }
 function TNSToolbarDelegate.toolbar(toolbar: Pointer;
   itemForItemIdentifier: CFStringRef; willBeInsertedIntoToolbar: Boolean): NSToolbarItem;
 var
