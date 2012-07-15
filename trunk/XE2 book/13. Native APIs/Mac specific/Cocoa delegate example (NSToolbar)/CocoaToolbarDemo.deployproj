@@ -1,0 +1,111 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+		<ProjectExtensions>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup Condition="'$(Platform)'=='Win64'">
+			<DeployFile Include="Open.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Open.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="Copy.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Copy.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="Info.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Info.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='OSX32'">
+			<DeployFile Include="Open.png">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>Open.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\CocoaToolbarDemo">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>CocoaToolbarDemo</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Include="Copy.png">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>Copy.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\CocoaToolbarDemo.info.plist">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\</RemoteDir>
+				<RemoteName>Info.plist</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\CocoaToolbarDemo.icns">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>CocoaToolbarDemo.icns</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\CocoaToolbarDemo.rsm">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>CocoaToolbarDemo.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="Info.png">
+				<RemoteDir>CocoaToolbarDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>Info.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+		<ItemGroup Condition="'$(Platform)'=='Win32'">
+			<DeployFile Include="Open.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Open.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="Copy.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Copy.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+			<DeployFile Include="Info.png">
+				<RemoteDir>CocoaToolbarDemo\</RemoteDir>
+				<RemoteName>Info.png</RemoteName>
+				<Operation>0</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
+			</DeployFile>
+		</ItemGroup>
+	</Project>

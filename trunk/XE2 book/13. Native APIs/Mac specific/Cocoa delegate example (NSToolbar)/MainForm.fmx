@@ -1,0 +1,49 @@
+object frmNSToolbarDemo: TfrmNSToolbarDemo
+  Left = 0
+  Top = 0
+  Caption = 'FireMonkey NSToolbar Demo'
+  ClientHeight = 400
+  ClientWidth = 600
+  Visible = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  StyleLookup = 'backgroundstyle'
+  object memEditor: TMemo
+    Align = alClient
+    Width = 600.000000000000000000
+    Height = 400.000000000000000000
+    TabOrder = 0
+    UseSmallScrollBars = True
+    DisableFocusEffect = True
+    Font.Size = 13.000000000000000000
+    KeyboardType = vktDefault
+  end
+  object dlgOpen: TOpenDialog
+    DefaultExt = 'txt'
+    Filter = 'Text files (*.txt)|*.txt'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Title = 'Open Text File'
+    Left = 168
+    Top = 152
+  end
+  object MainMenu1: TMainMenu
+    Left = 240
+    Top = 152
+    object MenuItem1: TMenuItem
+      Width = 50.000000000000000000
+      Height = 50.000000000000000000
+      TabOrder = 0
+      ShortCut = 0
+      Text = 'File'
+      object itmFileOpen: TMenuItem
+        Locked = True
+        Width = 50.000000000000000000
+        Height = 50.000000000000000000
+        OnClick = itmFileOpenClick
+        TabOrder = 0
+        ShortCut = 0
+        Text = 'Open'
+      end
+    end
+  end
+end
