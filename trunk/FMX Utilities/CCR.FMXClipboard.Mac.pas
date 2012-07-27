@@ -22,6 +22,7 @@ unit CCR.FMXClipboard.Mac;
 }
 interface
 
+{$IFDEF MACOS}
 uses
   Macapi.CoreFoundation, Macapi.Foundation, System.SysUtils, System.Classes,
   System.Generics.Collections, FMX.Types, CCR.FMXClipboard;
@@ -47,9 +48,11 @@ type
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
     function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
+{$ENDIF}
 
 implementation
 
+{$IFDEF MACOS}
 uses
   Macapi.ObjCRuntime, Macapi.ObjectiveC, Macapi.CocoaTypes, Macapi.AppKit;
 
@@ -276,5 +279,6 @@ begin
   Result := TClipboardFormat(CFStringCreateWithCharacters(nil, PChar(AName), Length(AName)));
   FRegisteredFormats.Add(AName, Result);
 end;
+{$ENDIF}
 
 end.

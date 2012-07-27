@@ -55,7 +55,7 @@ type
     procedure DoSetAsText(const Value: string); virtual; abstract;
     //one of the following MUST be overridden and NOT call the inherited impl
     function DoToBytes(AFormat: TClipboardFormat): TBytes; virtual;
-    procedure DoToStream(AFormat: TClipboardFormat; AStream: TStream); virtual;
+    function DoToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; virtual;
   protected
     procedure AssignTo(Dest: TPersistent); override;
   public
@@ -72,7 +72,7 @@ type
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; overload; virtual; abstract;
     function RegisterFormat(const AName: string): TClipboardFormat; virtual; abstract;
     function ToBytes(AFormat: TClipboardFormat): TBytes;
-    procedure ToStream(AFormat: TClipboardFormat; AStream: TStream);
+    function ToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; //returns no. of bytes written
     function ToString: string; override;
     property AsText: string read GetAsText write SetAsText;
   end;
@@ -246,12 +246,13 @@ begin
   end;
 end;
 
-procedure TClipboard.DoToStream(AFormat: TClipboardFormat; AStream: TStream);
+function TClipboard.DoToStream(AFormat: TClipboardFormat; AStream: TStream): Integer;
 var
   Bytes: TBytes;
 begin
   Bytes := DoToBytes(AFormat);
-  if Bytes <> nil then AStream.WriteBuffer(Bytes[0], Length(Bytes));
+  Result := Length(Bytes);
+  if Result > 0 then AStream.WriteBuffer(Bytes[0], Result);
 end;
 
 function TClipboard.ToBytes(AFormat: TClipboardFormat): TBytes;
@@ -264,11 +265,11 @@ begin
   end;
 end;
 
-procedure TClipboard.ToStream(AFormat: TClipboardFormat; AStream: TStream);
+function TClipboard.ToStream(AFormat: TClipboardFormat; AStream: TStream): Integer;
 begin
   Open;
   try
-    DoToStream(AFormat, AStream);
+    Result := DoToStream(AFormat, AStream);
   finally
     Close;
   end;

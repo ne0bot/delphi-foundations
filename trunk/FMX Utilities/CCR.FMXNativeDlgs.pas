@@ -93,7 +93,7 @@ begin
     mtInformation: Flags := Flags or MB_ICONINFORMATION;
     mtConfirmation: Flags := Flags or MB_ICONQUESTION;
   end;
-  Result := MessageBox(0, PChar(Msg), PChar(GetDlgTypeCaption(DlgType)), Flags or MB_APPLMODAL);
+  Result := MessageBox(0, PChar(Msg), PChar(GetDlgTypeCaption(DlgType)), Flags or MB_TASKMODAL);
 end;
 {$ENDIF}
 
@@ -200,7 +200,10 @@ begin
     mtError: Result := SMsgDlgError;
     mtInformation: Result := SMsgDlgInformation;
     mtConfirmation: Result := SMsgDlgConfirm;
-  else Result := Application.Title;
+  else
+    Result := Application.Title;
+    if Result = '' then
+      Result := ChangeFileExt(ExtractFileName(GetModuleName(0)), '');
   end;
 end;
 
