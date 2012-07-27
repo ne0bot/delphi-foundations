@@ -22,6 +22,7 @@ unit CCR.FMXClipboard.Win;
 }
 interface
 
+{$IFDEF MSWINDOWS}
 uses
   Winapi.Windows, System.SysUtils, System.Classes, FMX.Types, CCR.FMXClipboard;
 
@@ -45,9 +46,11 @@ type
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
     function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
+{$ENDIF}
 
 implementation
 
+{$IFDEF MSWINDOWS}
 uses
   Winapi.ShellApi;
 
@@ -235,5 +238,6 @@ begin
     GlobalUnlock(Handle);
   end;
 end;
+{$ENDIF}
 
 end.
