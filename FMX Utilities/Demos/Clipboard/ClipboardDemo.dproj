@@ -72,6 +72,9 @@
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<Manifest_File>None</Manifest_File>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0</VerInfo_Keys>
+			<VerInfo_Locale>2057</VerInfo_Locale>
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
@@ -79,6 +82,8 @@
 			<DCC_RemoteDebug>true</DCC_RemoteDebug>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
 			<DCC_RemoteDebug>false</DCC_RemoteDebug>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -146,18 +151,16 @@
 					<Source>
 						<Source Name="MainSource">ClipboardDemo.dpr</Source>
 					</Source>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</Delphi.Personality>
 				<Deployment>
-					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo.rsm">
-						<Platform Name="OSX32">
-							<RemoteDir>Contents\MacOS\</RemoteDir>
-							<RemoteName>ClipboardDemo.rsm</RemoteName>
-						</Platform>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+					<DeployFile Class="ProjectOSXResource" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo.icns">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="ProjectOSXResource" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo.icns">
+					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployFile Class="ProjectOSXInfoPList" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo.info.plist">
@@ -167,6 +170,12 @@
 					</DeployFile>
 					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo">
 						<Platform Name="OSX32"/>
+					</DeployFile>
+					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="OSX32\Debug\ClipboardDemo.rsm">
+						<Platform Name="OSX32">
+							<RemoteDir>Contents\MacOS\</RemoteDir>
+							<RemoteName>ClipboardDemo.rsm</RemoteName>
+						</Platform>
 					</DeployFile>
 					<DeployClass Name="ProjectOutput" Required="true">
 						<Platform Name="OSX32">

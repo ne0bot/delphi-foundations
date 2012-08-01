@@ -20,6 +20,7 @@ type
     btnClearImage: TButton;
     btnClearText: TButton;
     btnClose: TButton;
+    btnCopyImageAndText: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnCopyImageClick(Sender: TObject);
     procedure btnPasteImageClick(Sender: TObject);
@@ -30,6 +31,7 @@ type
     procedure btnCloseClick(Sender: TObject);
     procedure btnCopyCustomClick(Sender: TObject);
     procedure btnPasteCustomClick(Sender: TObject);
+    procedure btnCopyImageAndTextClick(Sender: TObject);
   private
     FCustomFormat: TClipboardFormat;
     procedure ApplicationIdle(Sender: TObject; var Done: Boolean);
@@ -100,6 +102,18 @@ begin
   end;
   Clipboard.Assign(FCustomFormat, Bytes);
   MessageDlg('Copied data in custom format to clipboard', mtInformation, [mbOK]);
+end;
+
+procedure TfrmClipboardDemo.btnCopyImageAndTextClick(Sender: TObject);
+begin
+  Clipboard.Open;
+  try
+    Clipboard.AsText := Memo1.Text;
+    Clipboard.Assign(ImageControl1.Bitmap);
+  finally
+    Clipboard.Close;
+  end;
+  MessageDlg('Copied image and text to clipboard', mtInformation, [mbOK]);
 end;
 
 procedure TfrmClipboardDemo.btnCopyImageClick(Sender: TObject);
