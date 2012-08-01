@@ -3,15 +3,15 @@ object frmClipboardDemo: TfrmClipboardDemo
   Top = 0
   Caption = 'FMX TClipboard Demo'
   ClientHeight = 421
-  ClientWidth = 584
+  ClientWidth = 600
   Visible = False
   OnCreate = FormCreate
   StyleLookup = 'backgroundstyle'
   object ImageControl1: TImageControl
     Position.Point = '(8,8)'
-    Width = 281.000000000000000000
+    Width = 289.000000000000000000
     Height = 345.000000000000000000
-    TabOrder = 1
+    TabOrder = 0
     Bitmap.PNG = {
       89504E470D0A1A0A0000000D49484452000000F000000140080600000082E8F1
       53000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
@@ -5287,83 +5287,91 @@ object frmClipboardDemo: TfrmClipboardDemo
   end
   object btnCopyImage: TButton
     Position.Point = '(8,360)'
-    Width = 89.000000000000000000
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnCopyImageClick
-    TabOrder = 10
+    TabOrder = 1
     Text = 'Copy Image'
   end
   object btnPasteImage: TButton
-    Position.Point = '(104,360)'
-    Width = 88.000000000000000000
+    Position.Point = '(106,360)'
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnPasteImageClick
-    TabOrder = 11
+    TabOrder = 2
     Text = 'Paste Image'
   end
   object Memo1: TMemo
-    Position.Point = '(296,8)'
-    Width = 281.000000000000000000
+    Position.Point = '(304,8)'
+    Width = 289.000000000000000000
     Height = 345.000000000000000000
-    TabOrder = 12
+    TabOrder = 3
     Lines.Strings = (
       'Blah blah blah...')
     KeyboardType = vktDefault
   end
   object btnCopyText: TButton
-    Position.Point = '(296,360)'
-    Width = 88.000000000000000000
+    Position.Point = '(303,360)'
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnCopyTextClick
-    TabOrder = 13
+    TabOrder = 4
     Text = 'Copy Text'
   end
   object btnPasteText: TButton
-    Position.Point = '(392,360)'
-    Width = 89.000000000000000000
+    Position.Point = '(402,360)'
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnPasteTextClick
-    TabOrder = 14
+    TabOrder = 5
     Text = 'Paste Text'
   end
   object btnPasteCustom: TButton
-    Position.Point = '(320,392)'
+    Position.Point = '(344,392)'
     Width = 169.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnPasteCustomClick
-    TabOrder = 15
+    TabOrder = 6
     Text = 'Paste Custom Clipboard Data'
   end
   object btnCopyCustom: TButton
-    Position.Point = '(8,392)'
-    Width = 305.000000000000000000
+    Position.Point = '(144,392)'
+    Width = 193.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnCopyCustomClick
-    TabOrder = 16
-    Text = 'Copy Both Image and Text as a Custom Clipboard Format'
+    TabOrder = 7
+    Text = 'Copy as Custom Clipboard Format'
   end
   object btnClearImage: TButton
-    Position.Point = '(200,360)'
-    Width = 89.000000000000000000
+    Position.Point = '(204,360)'
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnClearImageClick
-    TabOrder = 17
+    TabOrder = 8
     Text = 'Clear Image'
   end
   object btnClearText: TButton
-    Position.Point = '(488,360)'
-    Width = 89.000000000000000000
+    Position.Point = '(501,360)'
+    Width = 92.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnClearTextClick
-    TabOrder = 18
+    TabOrder = 9
     Text = 'Clear Text'
   end
   object btnClose: TButton
-    Position.Point = '(496,392)'
-    Width = 81.000000000000000000
+    Position.Point = '(520,392)'
+    Width = 73.000000000000000000
     Height = 22.000000000000000000
     OnClick = btnCloseClick
-    TabOrder = 19
+    TabOrder = 10
     Text = 'Close'
+  end
+  object btnCopyImageAndText: TButton
+    Position.Point = '(8,392)'
+    Width = 129.000000000000000000
+    Height = 22.000000000000000000
+    OnClick = btnCopyImageAndTextClick
+    TabOrder = 20
+    Text = 'Copy Image and Text'
   end
 end
