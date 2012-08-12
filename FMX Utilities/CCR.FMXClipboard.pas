@@ -43,7 +43,8 @@ type
     function GetAsText: string;
     procedure SetAsText(const Value: string);
   strict protected
-    constructor CreateInternal(out cfText, cfBitmap, cfTIFF: TClipboardFormat); virtual;
+    constructor CreateForAnything; //just calls the inherited Create, which is hidden otherwise
+    constructor CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat); virtual;
     procedure DoAssignBitmap(ABitmap: TBitmap); virtual; abstract;
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ABytes: TBytes); virtual;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); virtual;
@@ -70,7 +71,7 @@ type
     procedure Clear;
     function HasFormat(AFormat: TClipboardFormat): Boolean; overload; virtual;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; overload; virtual; abstract;
-    function RegisterFormat(const AName: string): TClipboardFormat; virtual; abstract;
+    class function RegisterFormat(const AName: string): TClipboardFormat; virtual; abstract;
     function ToBytes(AFormat: TClipboardFormat): TBytes;
     function ToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; //returns no. of bytes written
     function ToString: string; override;
@@ -152,7 +153,7 @@ const
 
 class constructor TClipboard.InitializeClass;
 begin
-  FInstance := ConcreteClass.CreateInternal(FcfText, FcfBitmap, FcfTIFF);
+  FInstance := ConcreteClass.CreateForSingleton(FcfText, FcfBitmap, FcfTIFF);
 end;
 
 class destructor TClipboard.FinalizeClass;
@@ -165,9 +166,14 @@ begin
   raise ENoConstructException.CreateResFmt(@SNoConstruct, [ClassName]);
 end;
 
-constructor TClipboard.CreateInternal;
+constructor TClipboard.CreateForAnything;
 begin
   inherited Create;
+end;
+
+constructor TClipboard.CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
+begin
+  CreateForAnything;
 end;
 
 procedure TClipboard.Open;

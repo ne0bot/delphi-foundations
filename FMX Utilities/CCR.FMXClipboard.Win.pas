@@ -31,7 +31,7 @@ type
   strict private
     FOwnerWnd: HWND;
   strict protected
-    constructor CreateInternal(out cfText, cfBitmap, cfTIFF: TClipboardFormat); override;
+    constructor CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat); override;
     procedure DoAssignBitmap(ABitmap: TBitmap); override;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
@@ -44,7 +44,7 @@ type
   public
     function HasFormat(AFormat: TClipboardFormat): Boolean; override;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
-    function RegisterFormat(const AName: string): TClipboardFormat; override;
+    class function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
 {$ENDIF}
 
@@ -60,7 +60,7 @@ function GetPriorityClipboardFormat(const paFormatPriorityList;
 var
   WndClass: TWndClassEx = (cbSize: SizeOf(WndClass); lpszClassName: 'FMXClipboard');
 
-constructor TWinClipboard.CreateInternal(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
+constructor TWinClipboard.CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
 begin
   inherited;
   cfText := CF_TEXT;
@@ -72,7 +72,7 @@ begin
   FOwnerWnd := CreateWindow(WndClass.lpszClassName, 'FMXClipboard', 0, 0, 0, 0, 0, HWND_MESSAGE, 0, 0, nil);
 end;
 
-function TWinClipboard.RegisterFormat(const AName: string): TClipboardFormat;
+class function TWinClipboard.RegisterFormat(const AName: string): TClipboardFormat;
 begin
   Result := RegisterClipboardFormat(PChar(AName));
 end;
