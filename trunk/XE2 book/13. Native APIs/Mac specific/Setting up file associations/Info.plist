@@ -1,0 +1,95 @@
+<!-- NB: the fact this file appears in the Project Manager is just for convenience (to get basic
+     syntax highlighting, add .plist under Tools|Options, Editor Options -> Source Options, XML).
+     More importantly, this file also appears under Project|Deployment for 'All Configurations -
+     OS X Platform'. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- File associations. -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+        <!-- Allow dragging and dropping plain text and XML files onto the application's Dock icon;
+             this setting also adds us to the Open With menu for those file types. -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.plain-text</string>
+                <string>public.source-code</string>
+                <string>public.xml</string>
+			</array>
+		</dict>
+        <!-- Associate a custom file type (details of the type itself are declared below).
+             LSHandlerRank is set to Owner so that our application will be used when such a
+             file is double clicked in Finder. -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.example.textfileviewer.tfvdoc</string>
+			</array>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+		    <!-- Icon file for the type - should be put in the Contents/Resources sub-directory
+                 of the bundle). -->
+			<key>CFBundleTypeIconFile</key>
+			<string>tfvdoc.icns</string>
+		</dict>
+	</array>
+    <!-- Custom file types (just the one is declared here). -->
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+		    <!-- The 'UDI' of the type we are declaring. -->
+			<key>UTTypeIdentifier</key>
+			<string>com.example.textfileviewer.tfvdoc</string>
+		    <!-- Set the parent type - use public.data if doesn't have one. -->
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+		    <!-- Human-readable description of the type. -->
+			<key>UTTypeDescription</key>
+			<string>TextFileViewer document</string>
+		    <!-- Icon file for the type. Due to an OS X bug, this key gets ignored,
+                 requiring the use of the 'legacy' CFBundleTypeIconFile key above. -->
+			<key>UTTypeIconFile</key>
+			<string>tfvdoc.icns</string>
+		    <!-- Declare the file extension (.tfvdoc in our case). -->
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>tfvdoc</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<!-- Normal stuff not to do with setting up file associations. -->
+	<key>CFBundleName</key>
+	<string>Text File Viewer</string>
+	<key>CFBundleDisplayName</key>
+	<string>Text File Viewer</string>
+	<key>CFBundleIdentifier</key>
+	<string>TextFileViewer</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<string>YES</string>
+	<key>CFBundleExecutable</key>
+	<string>TextFileViewer</string>
+	<key>CFBundleIconFile</key>
+	<string>TextFileViewer.icns</string>
+    <!-- This last one the XE2 IDE doesn't include by default for some reason,
+         probably because it gets it confused with CFBundleVersion... -->
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+</dict>
+</plist>
