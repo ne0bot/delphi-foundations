@@ -1,0 +1,124 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Text File Viewer'
+  ClientHeight = 328
+  ClientWidth = 633
+  Margins.Rect = '(4,4,4,4)'
+  Visible = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  StyleLookup = 'backgroundstyle'
+  object lblFileName: TLabel
+    Align = alBottom
+    Position.Point = '(6,309)'
+    Width = 623.000000000000000000
+    Height = 15.000000000000000000
+    Padding.Rect = '(2,3,0,0)'
+    TabOrder = 0
+    Text = 
+      'To use, deploy the application to your Mac, then drop plain text' +
+      ' files onto its Dock icon or double click .tfvdoc files in Finde' +
+      'r'
+  end
+  object lsbFiles: TListBox
+    Align = alLeft
+    Position.Point = '(4,4)'
+    Width = 173.000000000000000000
+    Height = 302.000000000000000000
+    TabOrder = 1
+    UseSmallScrollBars = True
+    DisableFocusEffect = True
+    OnChange = lsbFilesChange
+  end
+  object Splitter1: TSplitter
+    Align = alLeft
+    Cursor = crHSplit
+    Position.Point = '(177,4)'
+    Width = 5.000000000000000000
+    Height = 302.000000000000000000
+    TabOrder = 2
+    MinSize = 20.000000000000000000
+  end
+  object memDisplay: TMemo
+    Align = alClient
+    Position.Point = '(182,4)'
+    Width = 447.000000000000000000
+    Height = 302.000000000000000000
+    TabOrder = 3
+    UseSmallScrollBars = True
+    DisableFocusEffect = True
+    ReadOnly = True
+    Font.Family = 'Monaco'
+    KeyboardType = vktDefault
+  end
+  object MainMenu1: TMainMenu
+    Left = 280
+    Top = 168
+    object itmFile: TMenuItem
+      Width = 50.000000000000000000
+      Height = 50.000000000000000000
+      TabOrder = 0
+      ShortCut = 0
+      Text = 'File'
+      object itmOpen: TMenuItem
+        Locked = True
+        Width = 50.000000000000000000
+        Height = 50.000000000000000000
+        OnClick = itmOpenClick
+        TabOrder = 0
+        ShortCut = 0
+        Text = 'Open...'
+      end
+      object itmExport: TMenuItem
+        Enabled = False
+        Locked = True
+        Width = 50.000000000000000000
+        Height = 50.000000000000000000
+        OnClick = itmExportClick
+        TabOrder = 1
+        ShortCut = 0
+        Text = 'Export to .tvfdoc file...'
+      end
+    end
+  end
+  object dlgSave: TSaveDialog
+    DefaultExt = 'tfvdoc'
+    Filter = 'TextFileViewer document (*.tfvdoc)|*.tfvdoc'
+    Title = 'Save As .tfvdoc'
+    Left = 424
+    Top = 168
+  end
+  object dlgOpen: TOpenDialog
+    DefaultExt = 'txt'
+    Filter = 'Text files (*.txt, *.tvfdoc)|*.txt;*.tvfdoc'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 352
+    Top = 168
+  end
+  object CloseButtonTemplate: TEllipse
+    Position.Point = '(320,88)'
+    Width = 17.000000000000000000
+    Height = 17.000000000000000000
+    Padding.Rect = '(2,2,2,2)'
+    Opacity = 0.600000023841857900
+    Visible = False
+    Stroke.Color = claDimgray
+    object txtClose: TText
+      Align = alClient
+      Width = 17.000000000000000000
+      Height = 17.000000000000000000
+      HitTest = False
+      Font.Size = 9.000000000000000000
+      Text = 'X'
+    end
+    object FloatAnimation1: TFloatAnimation
+      Duration = 0.100000001490116100
+      Trigger = 'IsMouseOver=true'
+      TriggerInverse = 'IsMouseOver=false'
+      StartValue = 0.600000023841857900
+      StopValue = 1.000000000000000000
+      PropertyName = 'Opacity'
+    end
+  end
+end
