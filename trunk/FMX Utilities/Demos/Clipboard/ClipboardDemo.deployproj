@@ -5,9 +5,9 @@
 		</ProjectExtensions>
 		<ItemGroup Condition="'$(Platform)'=='Win64'"/>
 		<ItemGroup Condition="'$(Platform)'=='OSX32'">
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ClipboardDemo.rsm">
-				<RemoteDir>ClipboardDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>ClipboardDemo.rsm</RemoteName>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ClipboardDemo.icns">
+				<RemoteDir>ClipboardDemo.app\Contents\Resources\</RemoteDir>
+				<RemoteName>ClipboardDemo.icns</RemoteName>
 				<Operation>1</Operation>
 				<LocalCommand/>
 				<RemoteCommand/>
@@ -15,13 +15,6 @@
 			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
 				<RemoteDir>ClipboardDemo.app\Contents\MacOS\</RemoteDir>
 				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-			</DeployFile>
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ClipboardDemo.icns">
-				<RemoteDir>ClipboardDemo.app\Contents\Resources\</RemoteDir>
-				<RemoteName>ClipboardDemo.icns</RemoteName>
 				<Operation>1</Operation>
 				<LocalCommand/>
 				<RemoteCommand/>
@@ -40,6 +33,13 @@
 				<LocalCommand/>
 				<RemoteCommand/>
 				<Required>True</Required>
+			</DeployFile>
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\ClipboardDemo.rsm">
+				<RemoteDir>ClipboardDemo.app\Contents\MacOS\</RemoteDir>
+				<RemoteName>ClipboardDemo.rsm</RemoteName>
+				<Operation>1</Operation>
+				<LocalCommand/>
+				<RemoteCommand/>
 			</DeployFile>
 		</ItemGroup>
 		<ItemGroup Condition="'$(Platform)'=='Win32'"/>
