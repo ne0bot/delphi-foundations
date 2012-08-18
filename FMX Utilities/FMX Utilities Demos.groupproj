@@ -9,6 +9,9 @@
 			<Projects Include="Demos\Mac Preferences\MacPrefsDemo.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="Demos\Mac PDF writing\MacPDFWriterDemo.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
 		<Target Name="MacPrefsDemo:Make">
 			<MSBuild Projects="Demos\Mac Preferences\MacPrefsDemo.dproj" Targets="Make"/>
 		</Target>
+		<Target Name="MacPDFWriterDemo">
+			<MSBuild Projects="Demos\Mac PDF writing\MacPDFWriterDemo.dproj"/>
+		</Target>
+		<Target Name="MacPDFWriterDemo:Clean">
+			<MSBuild Projects="Demos\Mac PDF writing\MacPDFWriterDemo.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="MacPDFWriterDemo:Make">
+			<MSBuild Projects="Demos\Mac PDF writing\MacPDFWriterDemo.dproj" Targets="Make"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="ClipboardDemo;MacPrefsDemo"/>
+			<CallTarget Targets="ClipboardDemo;MacPrefsDemo;MacPDFWriterDemo"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="ClipboardDemo:Clean;MacPrefsDemo:Clean"/>
+			<CallTarget Targets="ClipboardDemo:Clean;MacPrefsDemo:Clean;MacPDFWriterDemo:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="ClipboardDemo:Make;MacPrefsDemo:Make"/>
+			<CallTarget Targets="ClipboardDemo:Make;MacPrefsDemo:Make;MacPDFWriterDemo:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

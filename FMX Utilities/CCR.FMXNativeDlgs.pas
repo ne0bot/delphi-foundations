@@ -146,7 +146,7 @@ begin
   case DlgType of
     mtError: Flags := kCFUserNotificationStopAlertLevel;
     mtWarning: Flags := kCFUserNotificationCautionAlertLevel;
-    mtInformation: Flags := kCFUserNotificationNoteAlertLevel;
+    mtInformation, mtConfirmation: Flags := kCFUserNotificationNoteAlertLevel;
   else Flags := kCFUserNotificationPlainAlertLevel;
   end;
   S := GetDlgTypeCaption(DlgType);
