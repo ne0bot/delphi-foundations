@@ -34,12 +34,13 @@ type
     rctBottomMargin: TRectangle;
     splBottomMargin: TSplitter;
     memContent: TMemo;
-    StyleBook1: TStyleBook;
+    StyleBookWithTSplitterFix: TStyleBook;
     GlowEffect1: TGlowEffect;
+    txtAuthor: TText;
+    GlowEffect2: TGlowEffect;
     procedure btnCreatePDFClick(Sender: TObject);
     procedure memContentApplyStyleLookup(Sender: TObject);
   strict private
-    FMemoContent: TControl;
     FSavedDoContentPaintWithCache: TOnPaintEvent;
     procedure DoContentPaintWithCacheFix(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
   end;
@@ -70,7 +71,7 @@ begin
   Writer := TPDFFileWriter.Create(ExpandFileName('~/Documents/Test.pdf'));
   try
     //assign some metadata
-    Writer.Author := 'Chris Rolliston';
+    Writer.Author := txtAuthor.Text;
     Writer.Creator := ExtractFileName(GetModuleName(0)); //name of the application
     Writer.Keywords.Add('test');
     Writer.Keywords.Add('demo');
@@ -82,11 +83,9 @@ begin
     //set the page size
     Writer.Width := lyoCoverPage.Width;
     Writer.Height := lyoCoverPage.Height;
-    //start the actual writing
+    //start the actual writing, output the cover page, and start a new page for the memo text
     Writer.BeginDoc;
-    //write the cover page
-    lyoCoverPage.PaintTo(Writer.Canvas, RectF(0, 0, lyoCoverPage.Width, lyoCoverPage.Height));
-    //start a new page for the text
+    lyoCoverPage.PaintTo(Writer.Canvas, lyoCoverPage.ClipRect);
     Writer.NewPage;
     //get the text bounds
     R := TMemoAccess(memContent).ContentRect;
@@ -112,9 +111,9 @@ begin
   //remove the memo's border
   Resource := memContent.FindStyleResource('background');
   if Resource is TRectangle then TRectangle(Resource).StrokeDash := TStrokeDash.sdDash;
-  //http://qc.embarcadero.com/wc/qcmain.aspx?d=105661
+  //work around XE2 visual bug (http://qc.embarcadero.com/wc/qcmain.aspx?d=105661)
   Resource := memContent.FindStyleResource('content');
-  if (FireMonkeyVersion < 17) and (Resource is TControl) then
+  if (Resource is TControl) and (FireMonkeyVersion < 17) then
   begin
     FSavedDoContentPaintWithCache := TControl(Resource).OnPaint;
     TControl(Resource).OnPaint := DoContentPaintWithCacheFix;
