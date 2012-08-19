@@ -117,26 +117,31 @@ var
   DefKeyCallbacks: CFDictionaryKeyCallBacks;
   DefValueCallbacks: CFDictionaryValueCallBacks;
 
-procedure CFReleaseAndNil(const Proc: Pointer; var Ref); overload;
+procedure CoreReleaseAndNil(const Proc: Pointer; var Ref);
 type
-  TCFReleaseProc = procedure (Ref: Pointer); cdecl;
+  TCoreReleaseProc = procedure (Ref: Pointer); cdecl;
 var
   Temp: Pointer;
 begin
   if Pointer(Ref) = nil then Exit; //CFRelease and friends crash on receipt of a nil reference
   Temp := Pointer(Ref);
   Pointer(Ref) := nil;
-  TCFReleaseProc(Proc)(Temp);
+  TCoreReleaseProc(Proc)(Temp);
 end;
 
-procedure CFReleaseAndNil(var Ref); overload; inline;
+procedure CFReleaseAndNil(var Ref); inline;
 begin
-  CFReleaseAndNil(@CFRelease, Ref);
+  CoreReleaseAndNil(@CFRelease, Ref);
 end;
 
 procedure CGContextReleaseAndNil(var Ref: CGContextRef); inline;
 begin
-  CFReleaseAndNil(@CGContextRelease, Ref);
+  CoreReleaseAndNil(@CGContextRelease, Ref);
+end;
+
+procedure CGDataConsumerReleaseAndNil(var Ref: CGDataConsumerRef); inline;
+begin
+  CoreReleaseAndNil(@CGDataConsumerRelease, Ref);
 end;
 
 function CFStringCreate(const S: string): CFStringRef; inline;
@@ -170,7 +175,7 @@ end;
 
 destructor TPDFWriter.Destroy;
 begin
-  if FPageDictionary <> nil then CFRelease(FPageDictionary);
+  CFReleaseAndNil(FPageDictionary);
   FKeywords.Free;
   FDummyForm.Free;
   inherited;
@@ -347,8 +352,8 @@ begin
   Path := CFStringCreateWithCharacters(nil, PChar(FileName), Length(FileName));
   URL := CFURLCreateWithFileSystemPath(nil, Path, kCFURLPOSIXPathStyle, False);
   Result := CGPDFContextCreateWithURL(URL, @AMediaBox, AAuxInfo);
-  CFRelease(URL);
-  CFRelease(Path);
+  CFReleaseAndNil(URL);
+  CFReleaseAndNil(Path);
 end;
 
 { TInMemoryPDFWriter }
@@ -366,7 +371,7 @@ end;
 
 destructor TInMemoryPDFWriter.Destroy;
 begin
-  if FDataConsumer <> nil then CGDataConsumerRelease(FDataConsumer);
+  CGDataConsumerReleaseAndNil(FDataConsumer);
   FData.Free;
   inherited;
 end;

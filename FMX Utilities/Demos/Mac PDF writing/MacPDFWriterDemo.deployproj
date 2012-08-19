@@ -5,13 +5,12 @@
 		</ProjectExtensions>
 		<ItemGroup Condition="'$(Platform)'=='Win64'"/>
 		<ItemGroup Condition="'$(Platform)'=='OSX32'">
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPDFWriterDemo">
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPDFWriterDemo.rsm">
 				<RemoteDir>MacPDFWriterDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>MacPDFWriterDemo</RemoteName>
+				<RemoteName>MacPDFWriterDemo.rsm</RemoteName>
 				<Operation>1</Operation>
 				<LocalCommand/>
 				<RemoteCommand/>
-				<Required>True</Required>
 			</DeployFile>
 			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPDFWriterDemo.info.plist">
 				<RemoteDir>MacPDFWriterDemo.app\Contents\</RemoteDir>
@@ -34,12 +33,13 @@
 				<LocalCommand/>
 				<RemoteCommand/>
 			</DeployFile>
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPDFWriterDemo.rsm">
+			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPDFWriterDemo">
 				<RemoteDir>MacPDFWriterDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>MacPDFWriterDemo.rsm</RemoteName>
+				<RemoteName>MacPDFWriterDemo</RemoteName>
 				<Operation>1</Operation>
 				<LocalCommand/>
 				<RemoteCommand/>
+				<Required>True</Required>
 			</DeployFile>
 		</ItemGroup>
 		<ItemGroup Condition="'$(Platform)'=='Win32'"/>

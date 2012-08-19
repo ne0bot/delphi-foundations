@@ -6,7 +6,7 @@ object frmPDFWriter: TfrmPDFWriter
   ClientHeight = 510
   ClientWidth = 600
   Visible = False
-  StyleBook = StyleBook1
+  StyleBook = StyleBookWithTSplitterFix
   StyleLookup = 'backgroundstyle'
   object TabControl1: TTabControl
     Align = alClient
@@ -22336,15 +22336,30 @@ object frmPDFWriter: TfrmPDFWriter
             4E44AE426082}
         end
         object txtTitle: TText
-          Position.Point = '(64,8)'
-          Width = 457.000000000000000000
+          Position.Point = '(184,8)'
+          Width = 393.000000000000000000
           Height = 105.000000000000000000
-          Fill.Color = xFF222B2B
+          Fill.Color = xFF1E3535
           Font.Family = 'Arial'
           Font.Size = 36.000000000000000000
           Font.Style = [fsBold]
-          Text = 'A Treatise on Slightly Wonky Photography'
+          Text = 'An Essay on Slightly Wonky Photography'
           object GlowEffect1: TGlowEffect
+            Softness = 0.400000005960464500
+            GlowColor = claWhite
+            Opacity = 0.899999976158142100
+          end
+        end
+        object txtAuthor: TText
+          Position.Point = '(184,112)'
+          Width = 393.000000000000000000
+          Height = 41.000000000000000000
+          Fill.Color = xFF1E3535
+          Font.Family = 'Arial'
+          Font.Size = 26.000000000000000000
+          Font.Style = [fsBold]
+          Text = 'Chris Rolliston'
+          object GlowEffect2: TGlowEffect
             Softness = 0.400000005960464500
             GlowColor = claWhite
             Opacity = 0.899999976158142100
@@ -22468,7 +22483,7 @@ object frmPDFWriter: TfrmPDFWriter
     TabOrder = 1
     Text = 'Create PDF File'
   end
-  object StyleBook1: TStyleBook
+  object StyleBookWithTSplitterFix: TStyleBook
     Resource.Strings = (
       'object _1: TLayout'
       '  Align = alClient'
@@ -22501,7 +22516,7 @@ object frmPDFWriter: TfrmPDFWriter
       '    end'
       '  end'
       'end')
-    Left = 40
-    Top = 464
+    Left = 112
+    Top = 456
   end
 end
