@@ -1,5 +1,11 @@
 unit Containers;
+{
+  Defines a simple descendant of TSelection that adds a AllowMovingAndResizing
+  property and the ability to be moved with the keyboard.
 
+  Since it is a custom control, it requires explicit registration via
+  RegisterFmxClasses in order for ReadComponent to work with it.
+}
 interface
 
 uses
@@ -7,15 +13,6 @@ uses
   FMX.Types, FMX.Controls, FMX.Objects;
 
 type
-  ///	<summary>
-  ///	  Simple descendant of TSelection that overloads the HideSelection
-  ///	  property to not only control whether selection handles are shown, but
-  ///	  whether the user can drag the control around.
-  ///	</summary>
-  ///	<remarks>
-  ///	  Since it is a custom control, it will require explicit registration via
-  ///	  RegisterFmxClasses for ReadComponent to work with it.
-  ///	</remarks>
   TContainer = class(TSelection)
   strict private
     FAllowMovingAndResizing: Boolean;
@@ -26,7 +23,7 @@ type
     procedure KeyDown(var Key: Word; var KeyChar: Char; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single); override;
+    procedure MouseMove(Shift: TShiftState; X: Single; Y: Single); override;
     procedure SetClientSize(const AClientWidth, AClientHeight: Single);
   published
     //new streamable prop
@@ -80,15 +77,9 @@ begin
   end;
 end;
 
-procedure TContainer.MouseDown(Button: TMouseButton; Shift: TShiftState;
-  X, Y: Single);
+procedure TContainer.MouseMove(Shift: TShiftState; X, Y: Single);
 begin
-  inherited;
-  if not AllowMovingAndResizing then
-  begin
-    FMove := False;
-    FLeftTop := False; FLeftBottom := False; FRightTop := False; FRightBottom := False;
-  end;
+  if AllowMovingAndResizing then inherited;
 end;
 
 procedure TContainer.SetAllowMovingAndResizing(AValue: Boolean);
