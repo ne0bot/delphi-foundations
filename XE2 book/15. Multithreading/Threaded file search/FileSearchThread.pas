@@ -92,34 +92,35 @@ procedure TFileSearchThread.SearchDir(const Path: string);
 const
   SAnyMask = {$IFDEF MSWINDOWS}'*.*'{$ELSE}'*'{$ENDIF};
 var
-  SearchRec: TSearchRec;
+  Info: TSearchRec;
 begin
   if Terminated then Exit;
   SetCurrentDirectory(ExcludeTrailingPathDelimiter(Path));
   //find files in the immediate directory...
-  if FindFirst(Path + FSearchFileSpec, faAnyFile and not faDirectory, SearchRec) = 0 then
+  if FindFirst(Path + FSearchFileSpec, faAnyFile and not faDirectory, Info) = 0 then
   try
     repeat
-      FCurrentBatch.Add(Path + SearchRec.Name);
+      FCurrentBatch.Add(Path + Info.Name);
       if FStopwatch.ElapsedMilliseconds > FBatchPeriodInMSecs then
       begin
         PostBatch;
         FStopwatch.Reset;
         FStopwatch.Start;
       end;
-    until Terminated or (FindNext(SearchRec) <> 0);
+    until Terminated or (FindNext(Info) <> 0);
   finally
-    FindClose(SearchRec);
+    FindClose(Info);
   end;
   //find sub-directories and recurse
-  if FindFirst(Path + SAnyMask, faDirectory, SearchRec) = 0 then
+  if FindFirst(Path + SAnyMask, faDirectory, Info) = 0 then
   try
     repeat
-      if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') and (SearchRec.Attr and faSymLink = 0) then
-        SearchDir(Path + SearchRec.Name + PathDelim);
-    until Terminated or (FindNext(SearchRec) <> 0);
+      if (Info.Attr and faDirectory <> 0) and (Info.Name <> '.') and
+         (Info.Name <> '..') and (Info.Attr and faSymLink = 0) then
+        SearchDir(Path + Info.Name + PathDelim);
+    until Terminated or (FindNext(Info) <> 0);
   finally
-    FindClose(SearchRec);
+    FindClose(Info);
   end;
 end;
 
