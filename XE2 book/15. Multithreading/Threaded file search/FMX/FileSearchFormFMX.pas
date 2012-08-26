@@ -53,7 +53,7 @@ implementation
 {$IFDEF MSWINDOWS}
 uses Winapi.Windows, Winapi.ShellApi; //for SW_SHOWNORMAL and ShellExecute respectively
 {$ELSE}
-uses Posix.Stdlib;                    //for _system
+uses Posix.Stdlib, System.StrUtils;   //for _system and ReplaceStr respectively
 {$ENDIF}
 
 {$R *.fmx}
