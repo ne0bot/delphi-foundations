@@ -115,7 +115,7 @@ begin
   if FindFirst(Path + SAnyMask, faDirectory, SearchRec) = 0 then
   try
     repeat
-      if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
+      if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') and (SearchRec.Attr and faSymLink = 0) then
         SearchDir(Path + SearchRec.Name + PathDelim);
     until Terminated or (FindNext(SearchRec) <> 0);
   finally
