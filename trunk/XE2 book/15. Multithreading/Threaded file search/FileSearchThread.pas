@@ -89,6 +89,8 @@ begin
 end;
 
 procedure TFileSearchThread.SearchDir(const Path: string);
+const
+  SAnyMask = {$IFDEF MSWINDOWS}'*.*'{$ELSE}'*'{$ENDIF};
 var
   SearchRec: TSearchRec;
 begin
@@ -110,7 +112,7 @@ begin
     FindClose(SearchRec);
   end;
   //find sub-directories and recurse
-  if FindFirst(Path + '*.*', faDirectory, SearchRec) = 0 then
+  if FindFirst(Path + SAnyMask, faDirectory, SearchRec) = 0 then
   try
     repeat
       if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
