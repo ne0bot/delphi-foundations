@@ -15,7 +15,7 @@ var
   Semaphore: TSynchroObject;
   S: string;
 begin
-  //critical section
+  { Critical section }
   CriticalSection := TCriticalSection.Create;
   try
     CriticalSection.Acquire;
@@ -34,7 +34,7 @@ begin
     CriticalSection.Free;
   end;
   Writeln('TCriticalSection version ran fine', sLineBreak);
-  //monitor
+  { Monitor }
   Lock := TObject.Create;
   try
     TMonitor.Enter(Lock);
@@ -53,7 +53,8 @@ begin
     Lock.Free;
   end;
   WriteLn('TMonitor version ran fine', sLineBreak);
-  //semaphore - user chooses which semaphore class to use
+  { Semaphore - user chooses which semaphore class to use }
+  Semaphore := nil; //avoid compiler warning
   repeat
     Write('Test the ''lightweight'' semaphore class? [Y/N]');
     ReadLn(S);
@@ -61,7 +62,8 @@ begin
     case S[1] of
       'Y', 'y': Semaphore := TLightweightSemaphore.Create(1);
       'N', 'n': Semaphore := TSemaphore.Create(nil, 1, MaxInt, '');
-    else Continue;
+    else
+      Continue;
     end;
   until True;
   try
