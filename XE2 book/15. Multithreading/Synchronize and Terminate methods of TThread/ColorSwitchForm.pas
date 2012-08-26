@@ -3,7 +3,7 @@ unit ColorSwitchForm;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.UIConsts,
   FMX.Types, FMX.Objects, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Layouts, FMX.Memo;
 
 type
@@ -94,7 +94,7 @@ end;
 
 procedure TfrmColorSwitcher.Memo1ApplyStyleLookup(Sender: TObject);
 begin
-  ((Sender as TFmxObject).FindStyleResource('background') as TRectangle).Opacity := 0.5;
+  ((Sender as TFmxObject).FindStyleResource('background') as TControl).Opacity := 0.5;
 end;
 
 end.
