@@ -4,14 +4,15 @@ object frmPDFWriter: TfrmPDFWriter
   Caption = 'FMX/OS X PDF Creation Demo'
   BorderStyle = bsSingle
   ClientHeight = 510
-  ClientWidth = 600
+  ClientWidth = 602
   Visible = False
+  OnCreate = FormCreate
   StyleBook = StyleBookWithTSplitterFix
   StyleLookup = 'backgroundstyle'
   object TabControl1: TTabControl
     Align = alClient
     Position.Point = '(4,4)'
-    Width = 592.000000000000000000
+    Width = 594.000000000000000000
     Height = 466.000000000000000000
     Padding.Rect = '(4,4,4,40)'
     TabOrder = 0
@@ -28,12 +29,12 @@ object frmPDFWriter: TfrmPDFWriter
       object lyoCoverPage: TLayout
         Align = alClient
         Position.Point = '(4,4)'
-        Width = 584.000000000000000000
+        Width = 586.000000000000000000
         Height = 438.000000000000000000
         Padding.Rect = '(4,4,4,4)'
         object Image1: TImage
           Align = alClient
-          Width = 584.000000000000000000
+          Width = 586.000000000000000000
           Height = 438.000000000000000000
           Bitmap.PNG = {
             89504E470D0A1A0A0000000D4948445200000280000001E0080600000035D1DC
@@ -22379,7 +22380,7 @@ object frmPDFWriter: TfrmPDFWriter
       object lyoPage2: TRectangle
         Align = alClient
         Position.Point = '(4,4)'
-        Width = 584.000000000000000000
+        Width = 586.000000000000000000
         Height = 438.000000000000000000
         Padding.Rect = '(4,4,4,4)'
         Fill.Color = claWhite
@@ -22404,7 +22405,7 @@ object frmPDFWriter: TfrmPDFWriter
         end
         object rctTopMargin: TRectangle
           Align = alTop
-          Width = 584.000000000000000000
+          Width = 586.000000000000000000
           Height = 17.000000000000000000
           Fill.Color = claWhite
           Stroke.Kind = bkNone
@@ -22413,7 +22414,7 @@ object frmPDFWriter: TfrmPDFWriter
           Align = alTop
           Cursor = crVSplit
           Position.Point = '(0,17)'
-          Width = 584.000000000000000000
+          Width = 586.000000000000000000
           Height = 3.000000000000000000
           TabOrder = 3
           MinSize = 1.000000000000000000
@@ -22422,7 +22423,7 @@ object frmPDFWriter: TfrmPDFWriter
         object splRightMargin: TSplitter
           Align = alRight
           Cursor = crHSplit
-          Position.Point = '(564,20)'
+          Position.Point = '(566,20)'
           Width = 3.000000000000000000
           Height = 398.000000000000000000
           TabOrder = 4
@@ -22431,7 +22432,7 @@ object frmPDFWriter: TfrmPDFWriter
         end
         object rctRightMargin: TRectangle
           Align = alRight
-          Position.Point = '(567,20)'
+          Position.Point = '(569,20)'
           Width = 17.000000000000000000
           Height = 398.000000000000000000
           Fill.Color = claWhite
@@ -22440,7 +22441,7 @@ object frmPDFWriter: TfrmPDFWriter
         object rctBottomMargin: TRectangle
           Align = alBottom
           Position.Point = '(0,421)'
-          Width = 584.000000000000000000
+          Width = 586.000000000000000000
           Height = 17.000000000000000000
           Fill.Color = claWhite
           Stroke.Kind = bkNone
@@ -22449,7 +22450,7 @@ object frmPDFWriter: TfrmPDFWriter
           Align = alBottom
           Cursor = crVSplit
           Position.Point = '(0,418)'
-          Width = 584.000000000000000000
+          Width = 586.000000000000000000
           Height = 3.000000000000000000
           TabOrder = 7
           MinSize = 1.000000000000000000
@@ -22458,7 +22459,7 @@ object frmPDFWriter: TfrmPDFWriter
         object memContent: TMemo
           Align = alClient
           Position.Point = '(20,20)'
-          Width = 544.000000000000000000
+          Width = 546.000000000000000000
           Height = 398.000000000000000000
           OnApplyStyleLookup = memContentApplyStyleLookup
           TabOrder = 8

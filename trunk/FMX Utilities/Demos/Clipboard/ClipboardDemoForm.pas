@@ -44,6 +44,11 @@ implementation
 
 {$R *.fmx}
 
+procedure ShowInfo(const Msg: string); inline;
+begin
+  MessageDlg(Msg, TMsgDlgType.mtInformation,[TMsgDlgBtn.mbOK], 0);
+end;
+
 procedure TfrmClipboardDemo.FormCreate(Sender: TObject);
 begin
   FCustomFormat := Clipboard.RegisterFormat('My custom clipboard format');
@@ -101,7 +106,7 @@ begin
     Stream.Free;
   end;
   Clipboard.Assign(FCustomFormat, Bytes);
-  MessageDlg('Copied data in custom format to clipboard', mtInformation, [mbOK]);
+  ShowInfo('Copied data in custom format to clipboard');
 end;
 
 procedure TfrmClipboardDemo.btnCopyImageAndTextClick(Sender: TObject);
@@ -113,19 +118,19 @@ begin
   finally
     Clipboard.Close;
   end;
-  MessageDlg('Copied image and text to clipboard', mtInformation, [mbOK]);
+  ShowInfo('Copied image and text to clipboard');
 end;
 
 procedure TfrmClipboardDemo.btnCopyImageClick(Sender: TObject);
 begin
   Clipboard.Assign(ImageControl1.Bitmap);
-  MessageDlg('Copied image to clipboard', mtInformation, [mbOK]);
+  ShowInfo('Copied image to clipboard');
 end;
 
 procedure TfrmClipboardDemo.btnCopyTextClick(Sender: TObject);
 begin
   Clipboard.AsText := Memo1.Text;
-  MessageDlg('Copied text to clipboard', mtInformation, [mbOK]);
+  ShowInfo('Copied text to clipboard');
 end;
 
 procedure TfrmClipboardDemo.btnPasteCustomClick(Sender: TObject);

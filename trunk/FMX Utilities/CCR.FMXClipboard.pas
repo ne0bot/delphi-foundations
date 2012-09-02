@@ -123,6 +123,7 @@ begin
 end;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
+{$IF FireMonkeyVersion < 17}
 var
   Filter: TBitmapCodec;
 begin
@@ -140,6 +141,11 @@ begin
   end;
   Result := False;
 end;
+{$ELSE}
+begin
+  Result := TBitmapCodecManager.LoadFromFile(FileName, Bitmap);
+end;
+{$IFEND}
 
 const
   ConcreteClass: TClipboardClass =

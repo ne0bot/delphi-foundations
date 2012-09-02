@@ -17,15 +17,16 @@
 
 unit CCR.FMXNativeDlgs;
 {
-  ShowMessage/ShowMessageFmt/MessageDlg substitutes that delegate to the native API
-  on both Windows and OS X. Note that this unit's MessageDlg implementation only
-  supports the subset of the standard MessageDlg's functionality that is supported
-  by the Windows API's MessageBox function.
+  ShowMessage/ShowMessageFmt/MessageDlg substitutes that delegate to the native API on
+  both Windows and OS X. +++ XE3 now does this by default, so this unit is only
+  applicable for XE2. +++ Further, this unit's MessageDlg implementation only supports
+  the subset of the standard MessageDlg's functionality that is supported by the Windows
+  API's MessageBox function.
 }
 interface
 
 uses
-  System.SysUtils, System.UITypes, FMX.Consts, FMX.Forms;
+  System.SysUtils, System.UITypes, FMX.Consts, FMX.Types, FMX.Forms;
 
 const
   mtWarning = TMsgDlgType.mtWarning;
@@ -55,15 +56,17 @@ const
   mbAbortRetryIgnore = [TMsgDlgBtn.mbAbort, TMsgDlgBtn.mbRetry, TMsgDlgBtn.mbIgnore];
   mbAbortIgnore = [TMsgDlgBtn.mbAbort, TMsgDlgBtn.mbIgnore];
 
+{$IF FireMonkeyVersion < 17}
 procedure ShowMessage(const Msg: string); inline;
 procedure ShowMessageFmt(const Msg: string; const Params: array of const);
 function MessageDlg(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons;
   HelpCtx: Longint = 0): TModalResult;
-
-function GetDlgTypeCaption(DlgType: TMsgDlgType): string;
+{$IFEND}
+function GetDlgTypeCaption(DlgType: TMsgDlgType): string;{$IF FireMonkeyVersion >= 17}deprecated;{$IFEND}
 
 implementation
 
+{$IF FireMonkeyVersion < 17}
 {$IFDEF MSWINDOWS}
 uses
   Winapi.Windows;
@@ -193,20 +196,6 @@ begin
   MessageDlg(Msg, mtCustom, [mbOK], 0);
 end;
 
-function GetDlgTypeCaption(DlgType: TMsgDlgType): string;
-begin
-  case DlgType of
-    mtWarning: Result := SMsgDlgWarning;
-    mtError: Result := SMsgDlgError;
-    mtInformation: Result := SMsgDlgInformation;
-    mtConfirmation: Result := SMsgDlgConfirm;
-  else
-    Result := Application.Title;
-    if Result = '' then
-      Result := ChangeFileExt(ExtractFileName(GetModuleName(0)), '');
-  end;
-end;
-
 type
   THelper = class
     class procedure ShowException(Sender: TObject; ExceptObject: Exception);
@@ -233,7 +222,24 @@ begin
   if (Msg <> '') and (Msg[Length(Msg)] > '.') then Msg := Msg + '.';
   MessageDlg(Msg, mtError, [mbOK]);
 end;
+{$IFEND}
 
+function GetDlgTypeCaption(DlgType: TMsgDlgType): string;
+begin
+  case DlgType of
+    mtWarning: Result := SMsgDlgWarning;
+    mtError: Result := SMsgDlgError;
+    mtInformation: Result := SMsgDlgInformation;
+    mtConfirmation: Result := SMsgDlgConfirm;
+  else
+    Result := Application.Title;
+    if Result = '' then
+      Result := ChangeFileExt(ExtractFileName(GetModuleName(0)), '');
+  end;
+end;
+
+{$IF FireMonkeyVersion < 17}
 initialization
   Application.OnException := THelper.ShowException;
+{$IFEND}
 end.
