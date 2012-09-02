@@ -17,7 +17,7 @@ unit CCR.MacPDFWriter;
 interface
 
 uses
-  System.Types, System.SysUtils, System.Classes, FMX.Types, FMX.Forms,
+  System.Types, System.SysUtils, System.Classes, System.Rtti, FMX.Types, FMX.Forms,
   Macapi.CoreFoundation, Macapi.CocoaTypes, Macapi.CoreGraphics;
 
 type
@@ -30,7 +30,6 @@ type
     FAllowCopying, FAllowPrinting: Boolean;
     FAuthor, FCreator, FOwnerPassword, FSubject, FTitle, FUserPassword: string;
     FCanvas: TCanvas;
-    FDummyForm: TForm;
     FContextRef: CGContextRef;
     FKeywords: TStrings;
     FMediaBox: CGRect;
@@ -164,12 +163,41 @@ end;
 
 { TPDFWriter }
 
+type
+  TCanvasAccess = class(TCanvas);
+
+{$IFDEF VER230} //backfill a few bits for XE2
+  TCanvasManager = record
+    class var RttiContext: TRttiContext;
+    class var RttiField: TRttiField;
+    class function DefaultCanvas: TCanvasClass; static; inline;
+  end;
+
+  TCanvasHelper = class helper for TCanvas
+    function BeginScene(AClipRects: PClipRects = nil; AContextHandle: THandle = 0): Boolean;
+  end;
+
+class function TCanvasManager.DefaultCanvas: TCanvasClass;
+begin
+  Result := DefaultCanvasClass;
+end;
+
+function TCanvasHelper.BeginScene(AClipRects: PClipRects; AContextHandle: THandle): Boolean;
+begin
+  if TCanvasManager.RttiField = nil then
+    TCanvasManager.RttiField := TCanvasManager.RttiContext.GetType(ClassType).GetField('FContext');
+  TCanvasManager.RttiField.SetValue(Self, TValue.From(CGContextRef(AContextHandle)));
+  Result := inherited BeginScene(AClipRects);
+end;
+{$ENDIF}
+
 constructor TPDFWriter.Create;
 begin
   inherited Create;
   FAllowCopying := True;
   FAllowPrinting := True;
-  FDummyForm := TForm.CreateNew(nil);
+  FCanvas := TCanvasManager.DefaultCanvas.Create;
+  TCanvasAccess(FCanvas).Initialize;
   FKeywords := TStringList.Create;
 end;
 
@@ -177,7 +205,7 @@ destructor TPDFWriter.Destroy;
 begin
   CFReleaseAndNil(FPageDictionary);
   FKeywords.Free;
-  FDummyForm.Free;
+  FCanvas.Free;
   inherited;
 end;
 
@@ -194,7 +222,7 @@ end;
 
 procedure TPDFWriter.CheckStatus(ShouldBeWriting: Boolean);
 begin
-  if (FCanvas <> nil) <> ShouldBeWriting then
+  if (FContextRef <> nil) <> ShouldBeWriting then
     if ShouldBeWriting then
       raise EPDFWriterError.CreateRes(@SBeginDocNotYetCalled)
     else
@@ -250,9 +278,8 @@ begin
   finally
     CFReleaseAndNil(AuxInfo);
   end;
-  //create the FMX canvas to draw to
-  FDummyForm.ContextHandle := THandle(FContextRef);
-  FCanvas := DefaultCanvasClass.CreateFromWindow(FDummyForm.Handle, Trunc(Width), Trunc(Height));
+  //initialize the canvas
+  FCanvas.ResizeBuffer(Trunc(Width), Trunc(Height));
   DoNewPage;
 end;
 
@@ -261,7 +288,6 @@ begin
   CheckStatus(True);
   FCanvas.EndScene;
   CGPDFContextEndPage(FContextRef);
-  FreeAndNil(FCanvas);
   CGContextReleaseAndNil(FContextRef);
 end;
 
@@ -279,7 +305,7 @@ begin
     CFReleaseAndNil(MediaBoxData);
   end;
   CGPDFContextBeginPage(FContextRef, FPageDictionary);
-  FCanvas.BeginScene;
+  FCanvas.BeginScene(nil, THandle(FContextRef));
 end;
 
 procedure TPDFWriter.NewPage;

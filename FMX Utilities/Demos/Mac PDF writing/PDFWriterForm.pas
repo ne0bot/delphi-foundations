@@ -40,9 +40,12 @@ type
     GlowEffect2: TGlowEffect;
     procedure btnCreatePDFClick(Sender: TObject);
     procedure memContentApplyStyleLookup(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   strict private
+    {$IFDEF VER230}
     FSavedDoContentPaintWithCache: TOnPaintEvent;
     procedure DoContentPaintWithCacheFix(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
+    {$ENDIF}
   end;
 
 var
@@ -52,7 +55,9 @@ implementation
 
 {$R *.fmx}
 
-uses Posix.Stdlib, System.StrUtils, CCR.FMXNativeDlgs, CCR.MacPDFWriter;
+uses
+  Posix.Stdlib, System.StrUtils,
+  {$IFDEF VER230}CCR.FMXNativeDlgs{$ELSE}FMX.Text{$ENDIF}, CCR.MacPDFWriter;
 
 type
   TMemoAccess = class(TMemo);
@@ -65,6 +70,9 @@ end;
 
 procedure TfrmPDFWriter.btnCreatePDFClick(Sender: TObject);
 var
+  {$IFNDEF VER230}
+  Layout: TTextLayout;
+  {$ENDIF}
   R: TRectF;
   Writer: TPDFFileWriter;
 begin
@@ -91,10 +99,25 @@ begin
     R := TMemoAccess(memContent).ContentRect;
     R.Offset(memContent.Position.X, memContent.Position.Y);
     //actually output the text
+    {$IFDEF VER230} //XE2
     Writer.Canvas.Fill.Assign(memContent.FontFill);
     Writer.Canvas.Font.Assign(memContent.Font);
     Writer.Canvas.FillText(R, memContent.Text, True, memContent.Opacity, [],
       memContent.TextAlign, TTextAlign.taLeading);
+    {$ELSE}         //XE3+
+    Layout := TTextLayoutManager.TextLayoutByCanvas(Writer.Canvas.ClassType).Create(Writer.Canvas);
+    try
+      Layout.BeginUpdate;
+      Layout.TopLeft := R.TopLeft;
+      Layout.MaxSize := PointF(R.Right - R.Left, R.Bottom - R.Top);
+      Layout.Text := memContent.Text;
+      Layout.WordWrap := memContent.WordWrap;
+      Layout.EndUpdate;
+      Layout.RenderLayout(Writer.Canvas);
+    finally
+      Layout.Free;
+    end;
+    {$ENDIF}
     //finish up
     Writer.EndDoc;
     if MessageDlg('Finished writing PDF file. Open now?', TMsgDlgType.mtConfirmation, mbYesNo, 0) = mrYes then
@@ -102,6 +125,14 @@ begin
   finally
     Writer.Free;
   end;
+end;
+
+procedure TfrmPDFWriter.FormCreate(Sender: TObject);
+begin
+  {$IFDEF VER240}
+  TabControl1.TabIndex := 1;
+  TabControl1.TabIndex := 0;
+  {$ENDIF}
 end;
 
 procedure TfrmPDFWriter.memContentApplyStyleLookup(Sender: TObject);
@@ -112,18 +143,22 @@ begin
   Resource := memContent.FindStyleResource('background');
   if Resource is TRectangle then TRectangle(Resource).StrokeDash := TStrokeDash.sdDash;
   //work around XE2 visual bug (http://qc.embarcadero.com/wc/qcmain.aspx?d=105661)
+  {$IFDEF VER230}
   Resource := memContent.FindStyleResource('content');
-  if (Resource is TControl) and (FireMonkeyVersion < 17) then
+  if (Resource is TControl) then
   begin
     FSavedDoContentPaintWithCache := TControl(Resource).OnPaint;
     TControl(Resource).OnPaint := DoContentPaintWithCacheFix;
   end;
+  {$ENDIF}
 end;
 
+{$IFDEF VER230}
 procedure TfrmPDFWriter.DoContentPaintWithCacheFix(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
 begin
-  Canvas.Fill.Color := claWhite;
+  Canvas.Fill.Color := TAlphaColors.White;
   FSavedDoContentPaintWithCache(Sender, Canvas, ARect);
 end;
+{$ENDIF}
 
 end.
