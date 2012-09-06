@@ -7,7 +7,7 @@ interface
 
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.IniFiles,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, CCR.FMXNativeDlgs;
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit;
 
 type
   TfrmMacPrefsDemo = class(TForm)
@@ -55,39 +55,15 @@ var
 
 implementation
 
-{$IFDEF MSWINDOWS}
-uses WinApi.Windows, WinApi.ShellApi;
-{$ENDIF}
-{$IFDEF MACOS}
-uses Posix.StdLib, System.StrUtils, CCR.MacPrefsIniFile;
-{$ENDIF}
+uses
+  CCR.MacPrefsIniFile, ShellUtils;
 
 {$R *.fmx}
 
-procedure ShellOpen(const FileName: string);
-begin
-{$IFDEF MSWINDOWS}
-  ShellExecute(0, nil, PChar(FileName), nil, nil, SW_SHOWNORMAL)
-{$ELSE}
-  _system(PAnsiChar(UTF8String('open "' +
-    ReplaceStr(ReplaceStr(FileName, '\', '\\'), '"', '\"') + '"')));
-{$ENDIF};
-end;
-
 procedure TfrmMacPrefsDemo.FormCreate(Sender: TObject);
-{$IFDEF MACOS}
 begin
-  FIniFile := TMacPreferencesIniFile.Create;
+  FIniFile := CreateUserPreferencesIniFile(TWinLocation.IniFile);
 end;
-{$ELSE}
-var
-  Dir: string;
-begin
-  Dir := IncludeTrailingPathDelimiter(GetHomePath) + 'Preferences Demo'; //e.g. C:\Users\CCR\AppData\Roaming\Preferences Demo
-  ForceDirectories(Dir);
-  FIniFile := TMemIniFile.Create(Dir + PathDelim + 'Settings.ini', TEncoding.UTF8);
-end;
-{$ENDIF}
 
 procedure TfrmMacPrefsDemo.FormDestroy(Sender: TObject);
 begin
@@ -145,7 +121,7 @@ begin
     ShellOpen(FIniFile.FileName)
   else
     MessageDlg('Preferences file does not exist yet - try clicking "Flush Changes to Disk" first.',
-      mtError, [mbOK]);
+      TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
 end;
 
 procedure TfrmMacPrefsDemo.btnReadAsBoolClick(Sender: TObject);
