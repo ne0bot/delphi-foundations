@@ -1,46 +1,53 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-		<Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
-		<ProjectExtensions>
-			<ProjectFileVersion>12</ProjectFileVersion>
-		</ProjectExtensions>
-		<ItemGroup Condition="'$(Platform)'=='Win64'"/>
-		<ItemGroup Condition="'$(Platform)'=='OSX32'">
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPrefsDemo.info.plist">
-				<RemoteDir>MacPrefsDemo.app\Contents\</RemoteDir>
-				<RemoteName>Info.plist</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-			</DeployFile>
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPrefsDemo">
-				<RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>MacPrefsDemo</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-				<Required>True</Required>
-			</DeployFile>
-			<DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
-				<RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>libcgunwind.1.0.dylib</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-			</DeployFile>
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPrefsDemo.icns">
-				<RemoteDir>MacPrefsDemo.app\Contents\Resources\</RemoteDir>
-				<RemoteName>MacPrefsDemo.icns</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-			</DeployFile>
-			<DeployFile Condition="'$(Config)'=='Debug'" Include="OSX32\Debug\MacPrefsDemo.rsm">
-				<RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
-				<RemoteName>MacPrefsDemo.rsm</RemoteName>
-				<Operation>1</Operation>
-				<LocalCommand/>
-				<RemoteCommand/>
-			</DeployFile>
-		</ItemGroup>
-		<ItemGroup Condition="'$(Platform)'=='Win32'"/>
-	</Project>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+    <ProjectExtensions>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <ItemGroup Condition="'$(Platform)'=='OSX32'">
+        <DeployFile Include="OSX32\Debug\MacPrefsDemo.info.plist" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>MacPrefsDemo.app\Contents\</RemoteDir>
+            <RemoteName>Info.plist</RemoteName>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+        </DeployFile>
+        <DeployFile Include="OSX32\Debug\MacPrefsDemo.entitlements" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>MacPrefsDemo.app\</RemoteDir>
+            <RemoteName>Entitlements.plist</RemoteName>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+        </DeployFile>
+        <DeployFile Include="OSX32\Debug\MacPrefsDemo" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>MacPrefsDemo</RemoteName>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+            <RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>libcgunwind.1.0.dylib</RemoteName>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+        </DeployFile>
+        <DeployFile Include="OSX32\Debug\MacPrefsDemo.icns" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>MacPrefsDemo.app\Contents\Resources\</RemoteDir>
+            <RemoteName>MacPrefsDemo.icns</RemoteName>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+        </DeployFile>
+        <DeployFile Include="OSX32\Debug\MacPrefsDemo.rsm" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>MacPrefsDemo.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>MacPrefsDemo.rsm</RemoteName>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Win32'"/>
+</Project>

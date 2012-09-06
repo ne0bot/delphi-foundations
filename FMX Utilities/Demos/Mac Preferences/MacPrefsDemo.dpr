@@ -2,9 +2,9 @@ program MacPrefsDemo;
 
 uses
   FMX.Forms,
-  CCR.FMXNativeDlgs in '..\..\CCR.FMXNativeDlgs.pas',
   CCR.MacPrefsIniFile in '..\..\CCR.MacPrefsIniFile.pas',
-  MacPrefsDemoForm in 'MacPrefsDemoForm.pas' {frmMacPrefsDemo};
+  MacPrefsDemoForm in 'MacPrefsDemoForm.pas' {frmMacPrefsDemo},
+  ShellUtils in 'ShellUtils.pas';
 
 {$R *.res}
 
