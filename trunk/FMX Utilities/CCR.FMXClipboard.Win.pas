@@ -24,7 +24,8 @@ interface
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.Windows, System.SysUtils, System.Classes, FMX.Types, CCR.FMXClipboard;
+  Winapi.Windows, System.Types, System.SysUtils, System.Classes, FMX.Types,
+  {$IFNDEF VER230}FMX.PixelFormats,{$ENDIF} CCR.FMXClipboard;
 
 type
   TWinClipboard = class(TClipboard)
@@ -121,6 +122,11 @@ var
   BitsSize: Integer;
   MemObj: HGLOBAL;
   Ptr: PBitmapInfoHeader;
+  {$IF DECLARED(TPixelFormat)}
+  R: TRectF;
+  Rec: TBitmapData;
+  TempBitmap: TBitmap;
+  {$ENDIF}
 begin
   BitsSize := ABitmap.Width * ABitmap.Height * 4;
   MemObj := GlobalAlloc(GMEM_MOVEABLE and GMEM_DDESHARE, SizeOf(TBitmapInfoHeader) + BitsSize);
@@ -144,7 +150,28 @@ begin
   //copy over the image bits
   Inc(Ptr);
   if BitsSize <> 0 then
+  {$IF NOT DECLARED(TempBitmap)}
     Move(ABitmap.StartLine^, Ptr^, BitsSize);
+  {$ELSE}
+  begin
+    TempBitmap := ABitmap;
+    try
+      if ABitmap.PixelFormat <> TPixelFormat.pfA8R8G8B8 then
+      begin
+        R := RectF(0, 0, ABitmap.Width, ABitmap.Height);
+        TempBitmap := TBitmap.Create(ABitmap.Width, ABitmap.Height);
+        TempBitmap.Canvas.BeginScene;
+        TempBitmap.Canvas.DrawBitmap(ABitmap, R, R, 1);
+        TempBitmap.Canvas.EndScene;
+      end;
+      TempBitmap.Map(TMapAccess.maRead, Rec);
+      Move(Rec.Data^, Ptr^, BitsSize);
+      TempBitmap.Unmap(Rec);
+    finally
+      if TempBitmap <> ABitmap then TempBitmap.Free;
+    end;
+  end;
+  {$IFEND}
   GlobalUnlock(MemObj);
   //assign the completed DIB memory object to the clipboard
   if SetClipboardData(CF_DIB, MemObj) = 0 then
