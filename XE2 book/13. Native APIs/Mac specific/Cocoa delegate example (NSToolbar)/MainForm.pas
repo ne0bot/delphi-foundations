@@ -86,8 +86,8 @@ begin
     begin
       MessageDlg('FireMonkey NSToolbar Demo', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
     end;
-  //configure the toolbar appropriately, and attach it to the form - requires XE3 hotfix 1!!!
-  {$IF CompilerVersion >= 24}
+  //configure the toolbar appropriately, and attach it to the form
+  {$IF CompilerVersion >= 24} //requires XE3 hotfix 1!!!
   FHelper.Toolbar.setAllowsUserCustomization(True);
   FHelper.Toolbar.setAutosavesConfiguration(True);
   {$IFEND}
