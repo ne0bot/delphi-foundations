@@ -141,12 +141,12 @@ end;
 
 function CFStringCreate(const S: string): CFStringRef; inline;
 begin
-  Result := CFStringCreateWithCharacters(nil, PWideChar(S), Length(S));
+  Result := CFStringCreateWithCharacters(nil, PChar(S), Length(S));
 end;
 
 function CFStringCreateNoCopy(const S: string): CFStringRef; inline;
 begin
-  Result := CFStringCreateWithCharactersNoCopy(nil, PWideChar(S), Length(S),
+  Result := CFStringCreateWithCharactersNoCopy(nil, PChar(S), Length(S),
     kCFAllocatorNull);
 end;
 
@@ -158,7 +158,7 @@ begin
   Range.location := 0;
   Range.length := CFStringGetLength(CFStr);
   SetLength(Result, Range.length);
-  CFStringGetCharacters(CFStr, Range, PWideChar(Result));
+  CFStringGetCharacters(CFStr, Range, PChar(Result));
 end;
 
 { TMacPreferencesIniFile }
