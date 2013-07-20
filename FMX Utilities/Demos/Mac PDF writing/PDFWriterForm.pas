@@ -5,7 +5,7 @@ unit PDFWriterForm;
   PDF canvas; page 2, in contrast, writes some text explicitly. Note that since
   TPDFFileWriter's purpose is to expose an OS X API, the demo doesn't run on Windows!
 
-  Chris Rolliston, August 2012
+  Chris Rolliston, August 2012; updated July 2013 for XE4
   http://delphifoundations.com/
 }
 interface
@@ -13,7 +13,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Objects, FMX.Layouts,
-  FMX.Memo, FMX.TabControl, FMX.Effects;
+  FMX.Memo, FMX.TabControl, FMX.Effects, FMX.StdCtrls; //!!!manually delete FMX.StdCtrls to compile in XE3
 
 type
   TfrmPDFWriter = class(TForm)
@@ -56,8 +56,14 @@ implementation
 {$R *.fmx}
 
 uses
-  Posix.Stdlib, System.StrUtils,
-  {$IFDEF VER230}CCR.FMXNativeDlgs{$ELSE}FMX.Text{$ENDIF}, CCR.MacPDFWriter;
+  Posix.Stdlib, System.StrUtils, CCR.MacPDFWriter,
+  {$IF FireMonkeyVersion = 16}
+  CCR.FMXNativeDlgs
+  {$ELSEIF FireMonkeyVersion = 17}
+  FMX.Text
+  {$ELSE}
+  FMX.TextLayout
+  {$IFEND};
 
 type
   TMemoAccess = class(TMemo);
@@ -70,9 +76,9 @@ end;
 
 procedure TfrmPDFWriter.btnCreatePDFClick(Sender: TObject);
 var
-  {$IFNDEF VER230}
+  {$IF FireMonkeyVersion >= 17}
   Layout: TTextLayout;
-  {$ENDIF}
+  {$IFEND}
   R: TRectF;
   Writer: TPDFFileWriter;
 begin
