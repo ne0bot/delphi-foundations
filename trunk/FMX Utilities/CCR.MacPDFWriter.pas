@@ -166,15 +166,19 @@ end;
 type
   TCanvasAccess = class(TCanvas);
 
-{$IFDEF VER230} //backfill a few bits for XE2
+{$IF FireMonkeyVersion < 18} //backfill a few bits for XE2 and XE3
+  TCanvasHelper = class helper for TCanvas
+    {$IF FireMonkeyVersion = 16}
+    function BeginScene(AClipRects: PClipRects = nil; AContextHandle: THandle = 0): Boolean;
+    {$IFEND}
+    procedure SetSize(const AWidth, AHeight: Integer);
+  end;
+
+{$IF FireMonkeyVersion = 16}
   TCanvasManager = record
     class var RttiContext: TRttiContext;
     class var RttiField: TRttiField;
     class function DefaultCanvas: TCanvasClass; static; inline;
-  end;
-
-  TCanvasHelper = class helper for TCanvas
-    function BeginScene(AClipRects: PClipRects = nil; AContextHandle: THandle = 0): Boolean;
   end;
 
 class function TCanvasManager.DefaultCanvas: TCanvasClass;
@@ -189,7 +193,13 @@ begin
   TCanvasManager.RttiField.SetValue(Self, TValue.From(CGContextRef(AContextHandle)));
   Result := inherited BeginScene(AClipRects);
 end;
-{$ENDIF}
+{$IFEND}
+
+procedure TCanvas.SetSize(const AWidth, AHeight: Integer);
+begin
+  ResizeBuffer(AWidth, AHeight);
+end;
+{$IFEND}
 
 constructor TPDFWriter.Create;
 begin
@@ -279,7 +289,7 @@ begin
     CFReleaseAndNil(AuxInfo);
   end;
   //initialize the canvas
-  FCanvas.ResizeBuffer(Trunc(Width), Trunc(Height));
+  FCanvas.SetSize(Trunc(Width), Trunc(Height));
   DoNewPage;
 end;
 
