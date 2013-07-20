@@ -97,6 +97,9 @@ uses
   {$IFDEF MSWINDOWS}
   CCR.FMXClipboard.Win,
   {$ENDIF}
+  {$IF FireMonkeyVersion >= 18}
+  FMX.Surfaces,
+  {$ENDIF}
   System.Math, System.RTLConsts;
 
 resourcestring
@@ -123,7 +126,7 @@ begin
 end;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
-{$IF FireMonkeyVersion < 17}
+{$IF FireMonkeyVersion = 16}     //XE2
 var
   Filter: TBitmapCodec;
 begin
@@ -141,9 +144,21 @@ begin
   end;
   Result := False;
 end;
-{$ELSE}
+{$ELSEIF FireMonkeyVersion = 17} //XE3
 begin
   Result := TBitmapCodecManager.LoadFromFile(FileName, Bitmap);
+end;
+{$ELSE}
+var
+  Surface: TBitmapSurface;
+begin
+  Surface := TBitmapSurface.Create;
+  try
+    Result := TBitmapCodecManager.LoadFromFile(FileName, Surface);
+    if Result then Bitmap.Assign(Surface);
+  finally
+    Surface.Free;
+  end;
 end;
 {$IFEND}
 
