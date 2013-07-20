@@ -1,13 +1,14 @@
 unit MacPrefsDemoForm;
 {
   Simple demo of my TMacPreferencesIniFile class. Uses TMemIniFile instead when
-  targeting Windows.
+  targeting Windows. NB - you will have to manually delete the entry for
+  FMX.StdCtrls on line 11 below to compile in XE3.
 }
 interface
 
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.IniFiles,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit;
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, FMX.StdCtrls;
 
 type
   TfrmMacPrefsDemo = class(TForm)
