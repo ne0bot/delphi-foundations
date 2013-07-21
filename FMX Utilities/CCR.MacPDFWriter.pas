@@ -168,13 +168,13 @@ type
 
 {$IF FireMonkeyVersion < 18} //backfill a few bits for XE2 and XE3
   TCanvasHelper = class helper for TCanvas
-    {$IF FireMonkeyVersion = 16}
+    {$IF FireMonkeyVersion < 17}
     function BeginScene(AClipRects: PClipRects = nil; AContextHandle: THandle = 0): Boolean;
     {$IFEND}
     procedure SetSize(const AWidth, AHeight: Integer);
   end;
 
-{$IF FireMonkeyVersion = 16}
+{$IF FireMonkeyVersion < 17}
   TCanvasManager = record
     class var RttiContext: TRttiContext;
     class var RttiField: TRttiField;
