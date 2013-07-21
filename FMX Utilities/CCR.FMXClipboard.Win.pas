@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012 Chris Rolliston. All Rights Reserved.         }
+{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -43,6 +43,8 @@ type
     procedure DoSetAsText(const Value: string); override;
     function DoToBytes(AFormat: TClipboardFormat): TBytes; override;
   public
+    function GetFormats: TArray<TClipboardFormat>; override;
+    class function GetFormatName(AFormat: TClipboardFormat): string; override;
     function HasFormat(AFormat: TClipboardFormat): Boolean; override;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
     class function RegisterFormat(const AName: string): TClipboardFormat; override;
@@ -53,7 +55,7 @@ implementation
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.ShellApi;
+  Winapi.ShellApi, System.RTLConsts;
 
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
@@ -230,6 +232,55 @@ end;
 procedure TWinClipboard.DoOpen;
 begin
   OpenClipboard(FOwnerWnd);
+end;
+
+function TWinClipboard.GetFormats: TArray<TClipboardFormat>;
+var
+  Count: Integer;
+  Format: UINT;
+begin
+  Count := 0;
+  Format := 0;
+  Open;
+  try
+    repeat
+      Format := EnumClipboardFormats(Format);
+      if Format = 0 then Break;
+      if Length(Result) = Count then SetLength(Result, Count + 8);
+      Result[Count] := Format;
+      Inc(Count);
+    until False;
+  finally
+    Close;
+  end;
+  SetLength(Result, Count);
+end;
+
+class function TWinClipboard.GetFormatName(AFormat: TClipboardFormat): string;
+var
+  Buffer: array[Byte] of Char;
+begin
+  case AFormat of
+    CF_TEXT: Result := 'Text';
+    CF_BITMAP: Result := 'Bitmap';
+    CF_METAFILEPICT: Result := 'WMF';
+    CF_SYLK: Result := 'SYLK';
+    CF_DIF: Result := 'DIF';
+    CF_TIFF: Result := 'TIFF';
+    CF_OEMTEXT: Result := 'OEM Text';
+    CF_DIB: Result := 'DIB';
+    CF_PALETTE: Result := 'Palette';
+    CF_PENDATA: Result := 'Pen Data';
+    CF_RIFF: Result := 'RIFF';
+    CF_WAVE: Result := 'Wave';
+    CF_UNICODETEXT: Result := 'Unicode Text';
+    CF_ENHMETAFILE: Result := 'EMF';
+    CF_HDROP: Result := 'HDROP';
+    CF_LOCALE: Result := 'Locale';
+  else
+    SetString(Result, Buffer, GetClipboardFormatName(AFormat, Buffer, Length(Buffer)));
+    if Result = '' then raise EArgumentException.CreateRes(@sArgumentInvalid);
+  end;
 end;
 
 function TWinClipboard.HasFormat(AFormat: TClipboardFormat): Boolean;
