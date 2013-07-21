@@ -44,7 +44,7 @@ type
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ASource: TBytes); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
     procedure DoClear; override;
-    procedure DoOpen; override;
+    function DoOpen: Boolean; override;
     procedure DoClose; override;
     function DoGetAsText: string; override;
     procedure DoSetAsText(const Value: string); override;
@@ -277,8 +277,9 @@ begin
   Result := CFStringGetValue((GetPasteboard.stringForType(NSPasteboardTypeString) as ILocalObject).GetObjectID);
 end;
 
-procedure TMacClipboard.DoOpen;
+function TMacClipboard.DoOpen: Boolean;
 begin
+  Result := True;
 end;
 
 function TMacClipboard.GetPasteboard: NSPasteboard;
