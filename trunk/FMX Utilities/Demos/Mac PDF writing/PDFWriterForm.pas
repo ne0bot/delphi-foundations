@@ -57,9 +57,9 @@ implementation
 
 uses
   Posix.Stdlib, System.StrUtils, CCR.MacPDFWriter,
-  {$IF FireMonkeyVersion = 16}
+  {$IF FireMonkeyVersion < 17}
   CCR.FMXNativeDlgs
-  {$ELSEIF FireMonkeyVersion = 17}
+  {$ELSEIF FireMonkeyVersion < 18}
   FMX.Text
   {$ELSE}
   FMX.TextLayout
