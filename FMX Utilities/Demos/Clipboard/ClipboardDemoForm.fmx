@@ -4,9 +4,6 @@ object frmClipboardDemo: TfrmClipboardDemo
   Caption = 'FMX TClipboard Demo'
   ClientHeight = 421
   ClientWidth = 600
-  FormFactor.Width = 1600
-  FormFactor.Height = 744
-  FormFactor.Devices = [dkDesktop]
   OnCreate = FormCreate
   object ImageControl1: TImageControl
     Bitmap.PNG = {
@@ -4345,109 +4342,107 @@ object frmClipboardDemo: TfrmClipboardDemo
       733E79D6BB897CA42BF2F876CB659DCAFC4AC4C0D86B8B843F4823E4D01C8CFD
       6D0F7A1EC74F925EE87C6BC81D031DC75483655A04220BD08C0C0F0C253A5A65
       A641F703745A97FF07C5AC07D81318EFB80000000049454E44AE426082}
-    DisableFocusEffect = False
     Height = 345.000000000000000000
     Position.X = 8.000000000000000000
     Position.Y = 8.000000000000000000
+    TabOrder = 0
     Width = 289.000000000000000000
   end
   object btnCopyImage: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 8.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 1
     Text = 'Copy Image'
     Width = 92.000000000000000000
     OnClick = btnCopyImageClick
   end
   object btnPasteImage: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 106.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 2
     Text = 'Paste Image'
     Width = 92.000000000000000000
     OnClick = btnPasteImageClick
   end
   object Memo1: TMemo
-    Touch.InteractiveGestures = [igPan]
     Height = 345.000000000000000000
     Position.X = 304.000000000000000000
     Position.Y = 8.000000000000000000
+    TabOrder = 3
     Width = 289.000000000000000000
-    DisableFocusEffect = False
-    KeyboardType = vktDefault
     Lines.Strings = (
       'Blah blah blah...')
   end
   object btnCopyText: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 303.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 4
     Text = 'Copy Text'
     Width = 92.000000000000000000
     OnClick = btnCopyTextClick
   end
   object btnPasteText: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 402.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 5
     Text = 'Paste Text'
     Width = 92.000000000000000000
     OnClick = btnPasteTextClick
   end
   object btnPasteCustom: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 344.000000000000000000
     Position.Y = 392.000000000000000000
+    TabOrder = 6
     Text = 'Paste Custom Clipboard Data'
     Width = 169.000000000000000000
     OnClick = btnPasteCustomClick
   end
   object btnCopyCustom: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 144.000000000000000000
     Position.Y = 392.000000000000000000
+    TabOrder = 7
     Text = 'Copy as Custom Clipboard Format'
     Width = 193.000000000000000000
     OnClick = btnCopyCustomClick
   end
   object btnClearImage: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 204.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 8
     Text = 'Clear Image'
     Width = 92.000000000000000000
     OnClick = btnClearImageClick
   end
   object btnClearText: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 501.000000000000000000
     Position.Y = 360.000000000000000000
+    TabOrder = 9
     Text = 'Clear Text'
     Width = 92.000000000000000000
     OnClick = btnClearTextClick
   end
-  object btnClose: TButton
-    DisableFocusEffect = False
+  object btnList: TButton
     Height = 22.000000000000000000
     Position.X = 520.000000000000000000
     Position.Y = 392.000000000000000000
-    Text = 'Close'
+    TabOrder = 10
+    Text = 'List'
     Width = 73.000000000000000000
-    OnClick = btnCloseClick
+    OnClick = btnListClick
   end
   object btnCopyImageAndText: TButton
-    DisableFocusEffect = False
     Height = 22.000000000000000000
     Position.X = 8.000000000000000000
     Position.Y = 392.000000000000000000
+    TabOrder = 11
     Text = 'Copy Image and Text'
     Width = 129.000000000000000000
     OnClick = btnCopyImageAndTextClick
