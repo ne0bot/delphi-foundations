@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Layouts, FMX.Memo,
-  CCR.FMXClipboard, CCR.FMXNativeDlgs;
+  CCR.FMXClipboard, CCR.FMXNativeDlgs, FMX.StdCtrls;
 
 type
   TfrmClipboardDemo = class(TForm)
@@ -19,7 +19,7 @@ type
     btnCopyCustom: TButton;
     btnClearImage: TButton;
     btnClearText: TButton;
-    btnClose: TButton;
+    btnList: TButton;
     btnCopyImageAndText: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnCopyImageClick(Sender: TObject);
@@ -28,7 +28,7 @@ type
     procedure btnPasteTextClick(Sender: TObject);
     procedure btnClearTextClick(Sender: TObject);
     procedure btnClearImageClick(Sender: TObject);
-    procedure btnCloseClick(Sender: TObject);
+    procedure btnListClick(Sender: TObject);
     procedure btnCopyCustomClick(Sender: TObject);
     procedure btnPasteCustomClick(Sender: TObject);
     procedure btnCopyImageAndTextClick(Sender: TObject);
@@ -51,7 +51,10 @@ end;
 
 procedure TfrmClipboardDemo.FormCreate(Sender: TObject);
 begin
-  FCustomFormat := Clipboard.RegisterFormat('My custom clipboard format');
+  { If you don't use a UTI format on OS X (something.something), it's OK, but
+    the OS will make one up for you and expose it in parallel to your original
+    identifier. }
+  FCustomFormat := Clipboard.RegisterFormat('com.fmxclipboard.demo');
   Application.OnIdle := ApplicationIdle;
 end;
 
@@ -73,9 +76,18 @@ begin
   Memo1.Text := '';
 end;
 
-procedure TfrmClipboardDemo.btnCloseClick(Sender: TObject);
+procedure TfrmClipboardDemo.btnListClick(Sender: TObject);
+var
+  Format: TClipboardFormat;
+  S: string;
 begin
-  Close;
+  for Format in Clipboard.GetFormats do
+    S := S + sLineBreak + Clipboard.GetFormatName(Format);
+  if S = '' then
+    S := 'Nothing is currently on the clipboard.'
+  else
+    S := 'The following formats are on the clipboard:' + S;
+  MessageDlg(S, TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0)
 end;
 
 procedure TfrmClipboardDemo.btnCopyCustomClick(Sender: TObject);
