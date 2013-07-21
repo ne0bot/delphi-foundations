@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012 Chris Rolliston. All Rights Reserved.         }
+{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -69,8 +69,10 @@ type
     procedure Assign(AFormat: TClipboardFormat; const AData: TBytes); reintroduce; overload;
     procedure Assign(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); reintroduce; overload;
     procedure Clear;
+    function GetFormats: TArray<TClipboardFormat>; virtual; abstract;
     function HasFormat(AFormat: TClipboardFormat): Boolean; overload; virtual;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; overload; virtual; abstract;
+    class function GetFormatName(AFormat: TClipboardFormat): string; virtual; abstract;
     class function RegisterFormat(const AName: string): TClipboardFormat; virtual; abstract;
     function ToBytes(AFormat: TClipboardFormat): TBytes;
     function ToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; //returns no. of bytes written

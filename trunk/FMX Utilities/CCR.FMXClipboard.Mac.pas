@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012 Chris Rolliston. All Rights Reserved.         }
+{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -52,7 +52,9 @@ type
   public
     constructor CreateForPasteboard(const APasteBoard: NSPasteboard);
     destructor Destroy; override;
+    function GetFormats: TArray<TClipboardFormat>; override;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
+    class function GetFormatName(AFormat: TClipboardFormat): string; override;
     class function RegisterFormat(const AName: string): TClipboardFormat; override;
     property Pasteboard: NSPasteboard read GetPasteboard;
   end;
@@ -205,7 +207,8 @@ var
 begin
   Pasteboard := GetPasteboard;
   //try pasting the file contents first (TextEdit does this)
-  Objs := Pasteboard.readObjectsForClasses(TNSArray.Wrap(TNSArray.OCClass.arrayWithObject(objc_getClass('NSURL'))), nil);
+  Objs := Pasteboard.readObjectsForClasses(TNSArray.Wrap(
+    TNSArray.OCClass.arrayWithObject(objc_getClass('NSURL'))), nil);
   if (Objs <> nil) and (Objs.count > 0) then
   begin
     URL := TNSURL.Wrap(Objs.objectAtIndex(0));
@@ -284,6 +287,24 @@ begin
     Result := TNSPasteboard.Wrap(TNSPasteboard.OCClass.generalPasteboard)
   else
     Result := FCustomPasteboard;
+end;
+
+function TMacClipboard.GetFormats: TArray<TClipboardFormat>;
+var
+  I: Integer;
+  Types: NSArray;
+begin
+  Types := GetPasteboard.types;
+  SetLength(Result, Types.count);
+  for I := 0 to High(Result) do
+    Result[I] := RegisterFormat(CFStringGetValue(Types.objectAtIndex(I)));
+end;
+
+class function TMacClipboard.GetFormatName(AFormat: TClipboardFormat): string;
+begin
+  if AFormat = 0 then
+    raise EArgumentException.CreateRes(@sArgumentInvalid);
+  Result := CFStringGetValue(CFStringRef(AFormat));
 end;
 
 function TMacClipboard.HasFormat(const AFormats: array of TClipboardFormat;
