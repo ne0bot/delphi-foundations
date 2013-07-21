@@ -49,7 +49,7 @@ type
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ABytes: TBytes); virtual;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); virtual;
     procedure DoGetBitmap(ABitmap: TBitmap); virtual; abstract;
-    procedure DoOpen; virtual; abstract;
+    function DoOpen: Boolean; virtual; abstract;
     procedure DoClose; virtual; abstract;
     procedure DoClear; virtual; abstract;
     function DoGetAsText: string; virtual; abstract;
@@ -105,6 +105,7 @@ uses
   System.Math, System.RTLConsts;
 
 resourcestring
+  SCannotOpenClipboard = 'Cannot open clipboard: %s';
   SUnbalancedClose = 'Unbalanced Clipboard.Close call';
 
 function Clipboard: TClipboard;
@@ -128,7 +129,7 @@ begin
 end;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
-{$IF FireMonkeyVersion = 16}     //XE2
+{$IF FireMonkeyVersion < 17}     //XE2
 var
   Filter: TBitmapCodec;
 begin
@@ -146,7 +147,7 @@ begin
   end;
   Result := False;
 end;
-{$ELSEIF FireMonkeyVersion = 17} //XE3
+{$ELSEIF FireMonkeyVersion < 18} //XE3
 begin
   Result := TBitmapCodecManager.LoadFromFile(FileName, Bitmap);
 end;
@@ -203,7 +204,8 @@ procedure TClipboard.Open;
 begin
   if FOpenCount = 0 then
   begin
-    DoOpen;
+    if not DoOpen then
+      raise EClipboardException.CreateResFmt(@SCannotOpenClipboard, [SysErrorMessage(GetLastError)]);
     FEmptied := False;
   end;
   Inc(FOpenCount);

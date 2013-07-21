@@ -17,15 +17,21 @@
 
 unit CCR.FMXClipboard.Win;
 {
-  Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of this unit
-  to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas to FMX.Platform.pas.
+  Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of
+  this unit to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas
+  to FMX.Platform.pas.
+
+  History
+  - July 2013: fixed bitmap pitch issue + switched to reading and writing v5 DIBs.
+  - August 2012: initial release.
 }
 interface
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.Windows, System.Types, System.SysUtils, System.Classes, FMX.Types,
-  {$IFNDEF VER230}FMX.PixelFormats,{$ENDIF} CCR.FMXClipboard;
+  Winapi.Windows, System.Types, System.SysUtils, System.Classes, System.UITypes,
+  FMX.Types, {$IF FireMonkeyVersion >= 17}FMX.PixelFormats,{$IFEND}
+  CCR.FMXClipboard;
 
 type
   TWinClipboard = class(TClipboard)
@@ -37,7 +43,7 @@ type
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
     procedure DoClear; override;
-    procedure DoOpen; override;
+    function DoOpen: Boolean; override;
     procedure DoClose; override;
     function DoGetAsText: string; override;
     procedure DoSetAsText(const Value: string); override;
@@ -49,13 +55,46 @@ type
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
     class function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
+
+resourcestring
+  SCannotMapBitmap = 'Map method of TBitmap failed';
 {$ENDIF}
 
 implementation
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.ShellApi, System.RTLConsts;
+  Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts;
+
+{$IF FireMonkeyVersion < 17}
+type
+  TPixelFormat = (pfUnknown, pfA8R8G8B8);
+
+  TBitmapData = record
+    Data: Pointer;
+    Pitch: Integer;
+    PixelFormat: TPixelFormat;
+  end;
+
+  TMapAccess = (maRead, maWrite, maReadWrite);
+
+  TBitmapHelper = class helper for TBitmap
+    function Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
+    procedure Unmap(var Data: TBitmapData);
+  end;
+
+function TBitmapHelper.Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
+begin
+  Data.Data := StartLine;
+  Data.Pitch := Width * 4;
+  Data.PixelFormat := TPixelFormat.pfA8R8B8B8;
+  Result := True;
+end;
+
+procedure TBitmapHelper.Unmap(var Data: TBitmapData);
+begin
+end;
+{$IFEND}
 
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
@@ -85,7 +124,7 @@ var
   FileName: array[0..MAX_PATH] of Char;
   Header: TBitmapFileHeader;
   DataHandle: HGLOBAL;
-  BitmapInfoPtr: PBitmapInfoHeader;
+  BitmapInfoPtr: PBitmapV5Header;
   Stream: TMemoryStream;
 begin
   //is there a file name on the clipboard that points to a graphic?
@@ -96,7 +135,7 @@ begin
     if TryLoadBitmapFromFile(ABitmap, FileName) then Exit;
   end;
   //test for actual image data next
-  DataHandle := GetClipboardData(CF_DIB);
+  DataHandle := GetClipboardData(CF_DIBV5);
   if DataHandle = 0 then BitmapInfoPtr := nil else BitmapInfoPtr := GlobalLock(DataHandle);
   if BitmapInfoPtr = nil then
   begin
@@ -108,7 +147,7 @@ begin
     FillChar(Header, SizeOf(Header), 0);
     Header.bfType := $4D42;
     Header.bfSize := SizeOf(Header) + GlobalSize(DataHandle);
-    Header.bfOffBits := SizeOf(Header) + BitmapInfoPtr.biSize;
+    Header.bfOffBits := SizeOf(Header) + BitmapInfoPtr.bV5Size;
     Stream.WriteBuffer(Header, SizeOf(Header));
     Stream.WriteBuffer(BitmapInfoPtr^, Header.bfSize - SizeOf(Header));
     Stream.Position := 0;
@@ -119,67 +158,62 @@ begin
   end;
 end;
 
-procedure TWinClipboard.DoAssignBitmap(ABitmap: TBitmap);
+procedure DoAddBitmapDataToClipboard(SourceBits: TBitmapData);
 var
-  BitsSize: Integer;
+  DestPtr: PBitmapV5Header;
+  DestPitch, Y: Integer;
+  SourceLine: PAlphaColorRec;
   MemObj: HGLOBAL;
-  Ptr: PBitmapInfoHeader;
-  {$IF DECLARED(TPixelFormat)}
-  R: TRectF;
-  Rec: TBitmapData;
-  TempBitmap: TBitmap;
-  {$ENDIF}
 begin
-  BitsSize := ABitmap.Width * ABitmap.Height * 4;
-  MemObj := GlobalAlloc(GMEM_MOVEABLE and GMEM_DDESHARE, SizeOf(TBitmapInfoHeader) + BitsSize);
+  DestPitch := SourceBits.Width * 4;
+  MemObj := GlobalAlloc(GMEM_MOVEABLE and GMEM_DDESHARE,
+    SizeOf(TBitmapV5Header) + DestPitch * SourceBits.Height);
   if MemObj = 0 then RaiseLastOSError;
-  Ptr := GlobalLock(MemObj);
-  if Ptr = nil then
+  DestPtr := GlobalLock(MemObj);
+  if DestPtr = nil then
   begin
     GlobalFree(MemObj);
     RaiseLastOSError;
   end;
-  //fill out the info header
-  FillChar(Ptr^, SizeOf(Ptr^), 0);
-  Ptr.biSize := SizeOf(TBitmapInfoHeader);
-  Ptr.biPlanes := 1;
-  Ptr.biBitCount := 32;
-  Ptr.biCompression := BI_RGB;
-  Ptr.biWidth := ABitmap.Width;
-  if Ptr.biWidth <= 0 then Ptr.biWidth := 1;
-  Ptr.biHeight := -ABitmap.Height;
-  if Ptr.biHeight >= 0 then Ptr.biHeight := -1;
-  //copy over the image bits
-  Inc(Ptr);
-  if BitsSize <> 0 then
-  {$IF NOT DECLARED(TempBitmap)}
-    Move(ABitmap.StartLine^, Ptr^, BitsSize);
-  {$ELSE}
+  ZeroMemory(DestPtr, SizeOf(TBitmapV5Header));
+  DestPtr.bV5Size := SizeOf(TBitmapV5Header);
+  DestPtr.bV5Planes := 1;
+  DestPtr.bV5Width := Max(1, SourceBits.Width);
+  DestPtr.bV5Height := -Max(1, SourceBits.Height); //top-down DIB
+  DestPtr.bV5SizeImage := DestPitch * SourceBits.Height;
+  SourceLine := SourceBits.Data;
+  DestPtr.bV5Compression := BI_BITFIELDS;
+  DestPtr.bV5BitCount := 32;
+  DestPtr.bV5RedMask   := $00FF0000;
+  DestPtr.bV5GreenMask := $0000FF00;
+  DestPtr.bV5BlueMask  := $000000FF;
+  DestPtr.bV5AlphaMask := $FF000000;
+  Inc(DestPtr);
+  for Y := 0 to SourceBits.Height - 1 do
   begin
-    TempBitmap := ABitmap;
-    try
-      if ABitmap.PixelFormat <> TPixelFormat.pfA8R8G8B8 then
-      begin
-        R := RectF(0, 0, ABitmap.Width, ABitmap.Height);
-        TempBitmap := TBitmap.Create(ABitmap.Width, ABitmap.Height);
-        TempBitmap.Canvas.BeginScene;
-        TempBitmap.Canvas.DrawBitmap(ABitmap, R, R, 1);
-        TempBitmap.Canvas.EndScene;
-      end;
-      TempBitmap.Map(TMapAccess.maRead, Rec);
-      Move(Rec.Data^, Ptr^, BitsSize);
-      TempBitmap.Unmap(Rec);
-    finally
-      if TempBitmap <> ABitmap then TempBitmap.Free;
-    end;
+    Move(SourceLine^, DestPtr^, DestPitch);
+    Inc(PByte(SourceLine), SourceBits.Pitch);
+    Inc(PByte(DestPtr), DestPitch);
   end;
-  {$IFEND}
   GlobalUnlock(MemObj);
   //assign the completed DIB memory object to the clipboard
-  if SetClipboardData(CF_DIB, MemObj) = 0 then
+  if SetClipboardData(CF_DIBV5, MemObj) = 0 then
   begin
     GlobalFree(MemObj);
     RaiseLastOSError;
+  end;
+end;
+
+procedure TWinClipboard.DoAssignBitmap(ABitmap: TBitmap);
+var
+  SourceBits: TBitmapData;
+begin
+  if not ABitmap.Map(TMapAccess.maRead, SourceBits) then
+    raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
+  try
+    DoAddBitmapDataToClipboard(SourceBits);
+  finally
+    ABitmap.Unmap(SourceBits);
   end;
 end;
 
@@ -229,9 +263,9 @@ begin
   end;
 end;
 
-procedure TWinClipboard.DoOpen;
+function TWinClipboard.DoOpen: Boolean;
 begin
-  OpenClipboard(FOwnerWnd);
+  Result := OpenClipboard(FOwnerWnd);
 end;
 
 function TWinClipboard.GetFormats: TArray<TClipboardFormat>;
@@ -272,11 +306,17 @@ begin
     CF_PALETTE: Result := 'Palette';
     CF_PENDATA: Result := 'Pen Data';
     CF_RIFF: Result := 'RIFF';
-    CF_WAVE: Result := 'Wave';
+    CF_WAVE: Result := 'Wave Audio';
     CF_UNICODETEXT: Result := 'Unicode Text';
     CF_ENHMETAFILE: Result := 'EMF';
-    CF_HDROP: Result := 'HDROP';
-    CF_LOCALE: Result := 'Locale';
+    CF_HDROP: Result := 'File List (HDROP)';
+    CF_LOCALE: Result := 'Locale Identifier';
+    CF_DIBV5: Result := 'DIB v5';
+    CF_OWNERDISPLAY: Result := 'Owner-Drawn Display';
+    CF_DSPTEXT: Result := 'Display Text';
+    CF_DSPBITMAP: Result := 'Display Bitmap';
+    CF_DSPMETAFILEPICT: Result := 'Display WMF';
+    CF_DSPENHMETAFILE: Result := 'Display EMF';
   else
     SetString(Result, Buffer, GetClipboardFormatName(AFormat, Buffer, Length(Buffer)));
     if Result = '' then raise EArgumentException.CreateRes(@sArgumentInvalid);
@@ -290,10 +330,12 @@ end;
 
 function TWinClipboard.HasFormat(const AFormats: array of TClipboardFormat;
   out Matched: TClipboardFormat): Boolean;
+var
+  Item: Integer;
 begin
-  Matched := TClipboardFormat(GetPriorityClipboardFormat(AFormats[0], Length(AFormats)));
-  if Integer(Matched) = -1 then Matched := 0;
-  Result := (Matched <> 0);
+  Item := GetPriorityClipboardFormat(AFormats[0], Length(AFormats));
+  Result := (Item > 0);
+  if Result then Matched := TClipboardFormat(Item) else Matched := 0;
 end;
 
 procedure TWinClipboard.DoSetAsText(const Value: string);
