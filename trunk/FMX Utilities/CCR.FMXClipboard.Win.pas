@@ -22,7 +22,9 @@ unit CCR.FMXClipboard.Win;
   to FMX.Platform.pas.
 
   History
-  - July 2013: fixed bitmap pitch issue + switched to reading and writing v5 DIBs.
+  - July 2013: fixed bitmap pitch issue; switched to reading and writing v5 DIBs; if
+    source bitmap has transparency, the DIB written is non-transparent, however a PNG
+    is written too in such a case (MS Word reads and writes PNGs to the clipboard).
   - August 2012: initial release.
 }
 interface
@@ -30,15 +32,14 @@ interface
 {$IFDEF MSWINDOWS}
 uses
   Winapi.Windows, System.Types, System.SysUtils, System.Classes, System.UITypes,
-  FMX.Types, {$IF FireMonkeyVersion >= 17}FMX.PixelFormats,{$IFEND}
-  CCR.FMXClipboard;
+  FMX.Types, CCR.FMXClipboard;
 
 type
   TWinClipboard = class(TClipboard)
   strict private
     FOwnerWnd: HWND;
   strict protected
-    constructor CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat); override;
+    constructor CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
     procedure DoAssignBitmap(ABitmap: TBitmap); override;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
@@ -64,9 +65,10 @@ implementation
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts;
+  Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
+  {$IFDEF XE3ORLATER}, FMX.PixelFormats,{$ENDIF};
 
-{$IF FireMonkeyVersion < 17}
+{$IFDEF XE2}
 type
   TPixelFormat = (pfUnknown, pfA8R8G8B8);
 
@@ -94,7 +96,7 @@ end;
 procedure TBitmapHelper.Unmap(var Data: TBitmapData);
 begin
 end;
-{$IFEND}
+{$ENDIF}
 
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
@@ -102,11 +104,12 @@ function GetPriorityClipboardFormat(const paFormatPriorityList;
 var
   WndClass: TWndClassEx = (cbSize: SizeOf(WndClass); lpszClassName: 'FMXClipboard');
 
-constructor TWinClipboard.CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
+constructor TWinClipboard.CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
 begin
   inherited;
   cfText := CF_TEXT;
   cfBitmap := CF_BITMAP;
+  cfPNG := RegisterFormat('PNG');
   cfTIFF := CF_TIFF;
   WndClass.lpfnWndProc := @DefWindowProc;
   WndClass.hInstance := HInstance;
@@ -134,9 +137,26 @@ begin
     DragQueryFile(DataHandle, 0, FileName, Length(FileName));
     if TryLoadBitmapFromFile(ABitmap, FileName) then Exit;
   end;
-  //test for actual image data next
+  //test for PNG image...
+  BitmapInfoPtr := nil;
+  DataHandle := GetClipboardData(cfPNG);
+  if DataHandle <> 0 then BitmapInfoPtr := GlobalLock(DataHandle);
+  if BitmapInfoPtr <> nil then
+  begin
+    Stream := TMemoryStream.Create;
+    try
+      Stream.WriteBuffer(BitmapInfoPtr^, GlobalSize(DataHandle));
+      Stream.Position := 0;
+      ABitmap.LoadFromStream(Stream);
+      Exit;
+    finally
+      GlobalUnlock(DataHandle);
+      Stream.Free;
+    end;
+  end;
+  //test for DIB...
   DataHandle := GetClipboardData(CF_DIBV5);
-  if DataHandle = 0 then BitmapInfoPtr := nil else BitmapInfoPtr := GlobalLock(DataHandle);
+  if DataHandle <> 0 then BitmapInfoPtr := GlobalLock(DataHandle);
   if BitmapInfoPtr = nil then
   begin
     ABitmap.SetSize(0, 0);
@@ -161,8 +181,8 @@ end;
 procedure DoAddBitmapDataToClipboard(SourceBits: TBitmapData);
 var
   DestPtr: PBitmapV5Header;
-  DestPitch, Y: Integer;
-  SourceLine: PAlphaColorRec;
+  DestPitch, X, Y: Integer;
+  SourceLine: PAlphaColorRecArray;
   MemObj: HGLOBAL;
 begin
   DestPitch := SourceBits.Width * 4;
@@ -191,6 +211,8 @@ begin
   Inc(DestPtr);
   for Y := 0 to SourceBits.Height - 1 do
   begin
+    for X := 0 to SourceBits.Width - 1 do
+      PAlphaColorArray(DestPtr)[X] := MakeColor(SourceLine[X].R, SourceLine[X].G, SourceLine[X].B);
     Move(SourceLine^, DestPtr^, DestPitch);
     Inc(PByte(SourceLine), SourceBits.Pitch);
     Inc(PByte(DestPtr), DestPitch);
@@ -206,14 +228,61 @@ end;
 
 procedure TWinClipboard.DoAssignBitmap(ABitmap: TBitmap);
 var
+  HasTransparency: Boolean;
+  Pixels: PAlphaColorRecArray;
+  R: TRectF;
   SourceBits: TBitmapData;
+  SourceForDIB: TBitmap;
+  Stream: TMemoryStream;
+  X, Y: Integer;
 begin
   if not ABitmap.Map(TMapAccess.maRead, SourceBits) then
     raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
   try
-    DoAddBitmapDataToClipboard(SourceBits);
+    HasTransparency := False;
+    for Y := 0 to ABitmap.Height - 1 do
+    begin
+      Pixels := SourceBits.GetScanline(Y);
+      for X := 0 to ABitmap.Width - 1 do
+        if Pixels[X].A <> $FF then
+        begin
+          HasTransparency := True;
+          Break;
+        end;
+    end;
   finally
     ABitmap.Unmap(SourceBits);
+  end;
+  SourceForDIB := ABitmap;
+  try
+    if HasTransparency then
+    begin
+      Stream := TMemoryStream.Create;
+      try
+        ABitmap.SaveToStream(Stream);
+        DoAssignBuffer(cfPNG, Stream.Memory^, Stream.Size);
+      finally
+        Stream.Free;
+      end;
+      SourceForDIB := TBitmap.Create(ABitmap.Width, ABitmap.Height);
+      SourceForDIB.Canvas.BeginScene;
+      try
+        SourceForDIB.Canvas.Clear(TAlphaColors.White);
+        R := RectF(0, 0, ABitmap.Width, ABitmap.Height);
+        SourceForDIB.Canvas.DrawBitmap(ABitmap, R, R, 1);
+      finally
+        SourceForDIB.Canvas.EndScene;
+      end;
+    end;
+    if not SourceForDIB.Map(TMapAccess.maRead, SourceBits) then
+      raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
+    try
+      DoAddBitmapDataToClipboard(SourceBits);
+    finally
+      SourceForDIB.Unmap(SourceBits);
+    end;
+  finally
+    if SourceForDIB <> ABitmap then SourceForDIB.Free;
   end;
 end;
 
@@ -325,7 +394,8 @@ end;
 
 function TWinClipboard.HasFormat(AFormat: TClipboardFormat): Boolean;
 begin
-  Result := IsClipboardFormatAvailable(AFormat);
+  Result := IsClipboardFormatAvailable(AFormat) or
+    ((AFormat = cfBitmap) and IsClipboardFormatAvailable(cfPNG)); //special case given trad equivalence of CF_BITMAP with TBitmap
 end;
 
 function TWinClipboard.HasFormat(const AFormats: array of TClipboardFormat;
