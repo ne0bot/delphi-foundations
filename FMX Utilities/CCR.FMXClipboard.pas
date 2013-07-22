@@ -22,17 +22,6 @@ unit CCR.FMXClipboard;
 }
 interface
 
-{$IFDEF VER230}
-  {$DEFINE XE2}
-{$ENDIF}
-{$IFDEF VER240}
-  {$DEFINE XE3}
-  {$DEFINE XE3ORLATER}
-{$ENDIF}
-{$IF NOT DEFINED(XE2) AND NOT DEFINED(XE3)}
-  {$DEFINE XE4ORLATER}
-{$IFEND}
-
 uses
   System.SysUtils, System.Classes, FMX.Types;
 
@@ -111,9 +100,9 @@ uses
   {$IFDEF MSWINDOWS}
   CCR.FMXClipboard.Win,
   {$ENDIF}
-  {$IFDEF XE4ORLATER}
+  {$IF FireMonkeyVersion >= 18}
   FMX.Surfaces,
-  {$ENDIF}
+  {$IFEND}
   System.Math, System.RTLConsts;
 
 resourcestring
@@ -146,7 +135,7 @@ begin
 end;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
-{$IFDEF XE2}
+{$IF FireMonkeyVersion < 17}
 var
   Filter: TBitmapCodec;
 begin
@@ -164,13 +153,11 @@ begin
   end;
   Result := False;
 end;
-{$ENDIF}
-{$IFDEF XE3}
+{$ELSEIF FireMonkeyVersion < 18}
 begin
   Result := TBitmapCodecManager.LoadFromFile(FileName, Bitmap);
 end;
-{$ENDIF}
-{$IFDEF XE4ORLATER}
+{$ELSE}
 var
   Surface: TBitmapSurface;
 begin
@@ -182,7 +169,7 @@ begin
     Surface.Free;
   end;
 end;
-{$ENDIF}
+{$IFEND}
 
 const
   ConcreteClass: TClipboardClass =
