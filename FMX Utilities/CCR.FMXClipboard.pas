@@ -22,6 +22,17 @@ unit CCR.FMXClipboard;
 }
 interface
 
+{$IFDEF VER230}
+  {$DEFINE XE2}
+{$ENDIF}
+{$IFDEF VER240}
+  {$DEFINE XE3}
+  {$DEFINE XE3ORLATER}
+{$ENDIF}
+{$IF NOT DEFINED(XE2) AND NOT DEFINED(XE3)}
+  {$DEFINE XE4ORLATER}
+{$IFEND}
+
 uses
   System.SysUtils, System.Classes, FMX.Types;
 
@@ -36,7 +47,7 @@ type
     FOpenCount: Integer;
     FEmptied: Boolean;
     class var FInstance: TClipboard;
-    class var FcfText, FcfBitmap, FcfTIFF: TClipboardFormat;
+    class var FcfText, FcfBitmap, FcfPNG, FcfTIFF: TClipboardFormat;
     class constructor InitializeClass;
     class destructor FinalizeClass;
     procedure Adding;
@@ -44,7 +55,7 @@ type
     procedure SetAsText(const Value: string);
   strict protected
     constructor CreateForAnything; //just calls the inherited Create, which is hidden otherwise
-    constructor CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat); virtual;
+    constructor CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); virtual;
     procedure DoAssignBitmap(ABitmap: TBitmap); virtual; abstract;
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ABytes: TBytes); virtual;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); virtual;
@@ -87,6 +98,7 @@ function Clipboard: TClipboard; inline;
 function cfText: TClipboardFormat; inline;
 function cfBitmap: TClipboardFormat; inline;
 function cfTIFF: TClipboardFormat; inline;
+function cfPNG: TClipboardFormat; inline;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
 
@@ -99,7 +111,7 @@ uses
   {$IFDEF MSWINDOWS}
   CCR.FMXClipboard.Win,
   {$ENDIF}
-  {$IF FireMonkeyVersion >= 18}
+  {$IFDEF XE4ORLATER}
   FMX.Surfaces,
   {$ENDIF}
   System.Math, System.RTLConsts;
@@ -128,8 +140,13 @@ begin
   Result := TClipboard.FcfTIFF
 end;
 
+function cfPNG: TClipboardFormat;
+begin
+  Result := TClipboard.FcfPNG
+end;
+
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
-{$IF FireMonkeyVersion < 17}     //XE2
+{$IFDEF XE2}
 var
   Filter: TBitmapCodec;
 begin
@@ -147,11 +164,13 @@ begin
   end;
   Result := False;
 end;
-{$ELSEIF FireMonkeyVersion < 18} //XE3
+{$ENDIF}
+{$IFDEF XE3}
 begin
   Result := TBitmapCodecManager.LoadFromFile(FileName, Bitmap);
 end;
-{$ELSE}
+{$ENDIF}
+{$IFDEF XE4ORLATER}
 var
   Surface: TBitmapSurface;
 begin
@@ -163,7 +182,7 @@ begin
     Surface.Free;
   end;
 end;
-{$IFEND}
+{$ENDIF}
 
 const
   ConcreteClass: TClipboardClass =
@@ -177,7 +196,7 @@ const
 
 class constructor TClipboard.InitializeClass;
 begin
-  FInstance := ConcreteClass.CreateForSingleton(FcfText, FcfBitmap, FcfTIFF);
+  FInstance := ConcreteClass.CreateForSingleton(FcfText, FcfBitmap, FcfPng, FcfTIFF);
 end;
 
 class destructor TClipboard.FinalizeClass;
@@ -195,7 +214,7 @@ begin
   inherited Create;
 end;
 
-constructor TClipboard.CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
+constructor TClipboard.CreateForSingleton(out cfText, cfBitmap, cfPng, cfTIFF: TClipboardFormat);
 begin
   CreateForAnything;
 end;

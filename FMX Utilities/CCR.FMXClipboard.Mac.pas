@@ -39,7 +39,7 @@ type
     constructor DoCreate(const ACustomPasteboard: NSPasteboard; Dummy: Integer = 0); reintroduce;
     function GetPasteboard: NSPasteboard; inline;
   strict protected
-    constructor CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat); override;
+    constructor CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
     procedure DoAssignBitmap(ABitmap: TBitmap); override;
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ASource: TBytes); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
@@ -139,12 +139,13 @@ begin
     FRegisteredFormats := TDictionary<string, TClipboardFormat>.Create;
 end;
 
-constructor TMacClipboard.CreateForSingleton(out cfText, cfBitmap, cfTIFF: TClipboardFormat);
+constructor TMacClipboard.CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
 begin
   DoCreate(nil);
   cfText := GetStdFormat(NSPasteboardTypeString);
-  cfBitmap := GetStdFormat(NSPasteboardTypePNG);
+  cfPNG := GetStdFormat(NSPasteboardTypePNG);
   cfTIFF := GetStdFormat(NSPasteboardTypeTIFF);
+  cfBitmap := cfPNG;
 end;
 
 constructor TMacClipboard.CreateForPasteboard(const APasteBoard: NSPasteboard);
@@ -170,7 +171,7 @@ end;
 
 procedure TMacClipboard.DoAssignBitmap(ABitmap: TBitmap);
 begin
-  Assign(cfBitmap, ABitmap as IStreamPersist);
+  Assign(cfPNG, ABitmap as IStreamPersist);
 end;
 
 procedure TMacClipboard.DoAssignBytes(AFormat: TClipboardFormat; const ASource: TBytes);
@@ -223,7 +224,7 @@ begin
     end;
   end;
   //look for actual image data
-  DataType := Pasteboard.availableTypeFromArray(FormatsToNSArray([cfBitmap, cfTIFF]));
+  DataType := Pasteboard.availableTypeFromArray(FormatsToNSArray([cfPNG, cfTIFF]));
   if DataType <> nil then Data := Pasteboard.dataForType(DataType);
   if Data = nil then
   begin
