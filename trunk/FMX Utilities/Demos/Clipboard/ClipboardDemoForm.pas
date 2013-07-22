@@ -1,7 +1,9 @@
 unit ClipboardDemoForm;
 
 interface
-
+{
+  In XE2 and XE3, delete FMX.StdCtrls from the uses clause to compile!
+}
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Layouts, FMX.Memo,

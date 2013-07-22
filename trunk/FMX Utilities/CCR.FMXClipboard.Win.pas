@@ -66,9 +66,9 @@ implementation
 {$IFDEF MSWINDOWS}
 uses
   Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
-  {$IFDEF XE3ORLATER}, FMX.PixelFormats,{$ENDIF};
+  {$IFNDEF VER230}, FMX.PixelFormats{$ENDIF};
 
-{$IFDEF XE2}
+{$IF NOT DECLARED(TMapAccess)}
 type
   TPixelFormat = (pfUnknown, pfA8R8G8B8);
 
@@ -76,6 +76,8 @@ type
     Data: Pointer;
     Pitch: Integer;
     PixelFormat: TPixelFormat;
+    Source: TBitmap;
+    function GetScanline(Row: Integer): Pointer;
   end;
 
   TMapAccess = (maRead, maWrite, maReadWrite);
@@ -85,18 +87,34 @@ type
     procedure Unmap(var Data: TBitmapData);
   end;
 
+function TBitmapData.GetScanline(Row: Integer): Pointer;
+begin
+  Result := Source.ScanLine[Row];
+end;
+
 function TBitmapHelper.Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
 begin
   Data.Data := StartLine;
   Data.Pitch := Width * 4;
-  Data.PixelFormat := TPixelFormat.pfA8R8B8B8;
+  Data.PixelFormat := TPixelFormat.pfA8R8G8B8;
+  Data.Source := Self;
   Result := True;
 end;
 
 procedure TBitmapHelper.Unmap(var Data: TBitmapData);
 begin
 end;
-{$ENDIF}
+{$ELSEIF NOT DECLARED(TIdleMessage)} //urgh, buggy XE4 OS X compiler - can't test for FireMonkeyVersion!
+type
+  TBitmapDataHelper = record helper for TBitmapData
+    function GetScanline(Row: Integer): Pointer;
+  end;
+
+function TBitmapDataHelper.GetScanline(Row: Integer): Pointer;
+begin
+  Result := @PByte(Data)[Pitch * Row];
+end;
+{$IFEND}
 
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
@@ -178,16 +196,17 @@ begin
   end;
 end;
 
-procedure DoAddBitmapDataToClipboard(SourceBits: TBitmapData);
+procedure DoAddDIBToClipboard(const Source: TBitmap);
 var
   DestPtr: PBitmapV5Header;
   DestPitch, X, Y: Integer;
+  SourceBits: TBitmapData;
   SourceLine: PAlphaColorRecArray;
   MemObj: HGLOBAL;
 begin
-  DestPitch := SourceBits.Width * 4;
+  DestPitch := Source.Width * 4;
   MemObj := GlobalAlloc(GMEM_MOVEABLE and GMEM_DDESHARE,
-    SizeOf(TBitmapV5Header) + DestPitch * SourceBits.Height);
+    SizeOf(TBitmapV5Header) + DestPitch * Source.Height);
   if MemObj = 0 then RaiseLastOSError;
   DestPtr := GlobalLock(MemObj);
   if DestPtr = nil then
@@ -198,10 +217,9 @@ begin
   ZeroMemory(DestPtr, SizeOf(TBitmapV5Header));
   DestPtr.bV5Size := SizeOf(TBitmapV5Header);
   DestPtr.bV5Planes := 1;
-  DestPtr.bV5Width := Max(1, SourceBits.Width);
-  DestPtr.bV5Height := -Max(1, SourceBits.Height); //top-down DIB
-  DestPtr.bV5SizeImage := DestPitch * SourceBits.Height;
-  SourceLine := SourceBits.Data;
+  DestPtr.bV5Width := Max(1, Source.Width);
+  DestPtr.bV5Height := -Max(1, Source.Height); //top-down DIB
+  DestPtr.bV5SizeImage := DestPitch * Source.Height;
   DestPtr.bV5Compression := BI_BITFIELDS;
   DestPtr.bV5BitCount := 32;
   DestPtr.bV5RedMask   := $00FF0000;
@@ -209,13 +227,20 @@ begin
   DestPtr.bV5BlueMask  := $000000FF;
   DestPtr.bV5AlphaMask := $FF000000;
   Inc(DestPtr);
-  for Y := 0 to SourceBits.Height - 1 do
-  begin
-    for X := 0 to SourceBits.Width - 1 do
-      PAlphaColorArray(DestPtr)[X] := MakeColor(SourceLine[X].R, SourceLine[X].G, SourceLine[X].B);
-    Move(SourceLine^, DestPtr^, DestPitch);
-    Inc(PByte(SourceLine), SourceBits.Pitch);
-    Inc(PByte(DestPtr), DestPitch);
+  if not Source.Map(TMapAccess.maRead, SourceBits) then
+    raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
+  try
+    SourceLine := SourceBits.Data;
+    for Y := 0 to Source.Height - 1 do
+    begin
+      for X := 0 to Source.Width - 1 do
+        PAlphaColorArray(DestPtr)[X] := MakeColor(SourceLine[X].R, SourceLine[X].G, SourceLine[X].B);
+      Move(SourceLine^, DestPtr^, DestPitch);
+      Inc(PByte(SourceLine), SourceBits.Pitch);
+      Inc(PByte(DestPtr), DestPitch);
+    end;
+  finally
+    Source.Unmap(SourceBits);
   end;
   GlobalUnlock(MemObj);
   //assign the completed DIB memory object to the clipboard
@@ -274,13 +299,7 @@ begin
         SourceForDIB.Canvas.EndScene;
       end;
     end;
-    if not SourceForDIB.Map(TMapAccess.maRead, SourceBits) then
-      raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
-    try
-      DoAddBitmapDataToClipboard(SourceBits);
-    finally
-      SourceForDIB.Unmap(SourceBits);
-    end;
+    DoAddDIBToClipboard(SourceForDIB);
   finally
     if SourceForDIB <> ABitmap then SourceForDIB.Free;
   end;
