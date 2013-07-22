@@ -208,46 +208,46 @@ begin
   MemObj := GlobalAlloc(GMEM_MOVEABLE and GMEM_DDESHARE,
     SizeOf(TBitmapV5Header) + DestPitch * Source.Height);
   if MemObj = 0 then RaiseLastOSError;
-  DestPtr := GlobalLock(MemObj);
-  if DestPtr = nil then
-  begin
-    GlobalFree(MemObj);
-    RaiseLastOSError;
-  end;
-  ZeroMemory(DestPtr, SizeOf(TBitmapV5Header));
-  DestPtr.bV5Size := SizeOf(TBitmapV5Header);
-  DestPtr.bV5Planes := 1;
-  DestPtr.bV5Width := Max(1, Source.Width);
-  DestPtr.bV5Height := -Max(1, Source.Height); //top-down DIB
-  DestPtr.bV5SizeImage := DestPitch * Source.Height;
-  DestPtr.bV5Compression := BI_BITFIELDS;
-  DestPtr.bV5BitCount := 32;
-  DestPtr.bV5RedMask   := $00FF0000;
-  DestPtr.bV5GreenMask := $0000FF00;
-  DestPtr.bV5BlueMask  := $000000FF;
-  DestPtr.bV5AlphaMask := $FF000000;
-  Inc(DestPtr);
-  if not Source.Map(TMapAccess.maRead, SourceBits) then
-    raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
   try
-    SourceLine := SourceBits.Data;
-    for Y := 0 to Source.Height - 1 do
-    begin
-      for X := 0 to Source.Width - 1 do
-        PAlphaColorArray(DestPtr)[X] := MakeColor(SourceLine[X].R, SourceLine[X].G, SourceLine[X].B);
-      Move(SourceLine^, DestPtr^, DestPitch);
-      Inc(PByte(SourceLine), SourceBits.Pitch);
-      Inc(PByte(DestPtr), DestPitch);
+    DestPtr := GlobalLock(MemObj);
+    if DestPtr = nil then RaiseLastOSError;
+    try
+      ZeroMemory(DestPtr, SizeOf(TBitmapV5Header));
+      DestPtr.bV5Size := SizeOf(TBitmapV5Header);
+      DestPtr.bV5Planes := 1;
+      DestPtr.bV5Width := Max(1, Source.Width);
+      DestPtr.bV5Height := -Max(1, Source.Height); //top-down DIB
+      DestPtr.bV5SizeImage := DestPitch * Source.Height;
+      DestPtr.bV5Compression := BI_BITFIELDS;
+      DestPtr.bV5BitCount := 32;
+      DestPtr.bV5RedMask   := $00FF0000;
+      DestPtr.bV5GreenMask := $0000FF00;
+      DestPtr.bV5BlueMask  := $000000FF;
+      DestPtr.bV5AlphaMask := $FF000000;
+      Inc(DestPtr);
+      if not Source.Map(TMapAccess.maRead, SourceBits) then
+        raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
+      try
+        SourceLine := SourceBits.Data;
+        for Y := 0 to Source.Height - 1 do
+        begin
+          for X := 0 to Source.Width - 1 do
+            PAlphaColorArray(DestPtr)[X] := MakeColor(SourceLine[X].R, SourceLine[X].G, SourceLine[X].B);
+          Move(SourceLine^, DestPtr^, DestPitch);
+          Inc(PByte(SourceLine), SourceBits.Pitch);
+          Inc(PByte(DestPtr), DestPitch);
+        end;
+      finally
+        Source.Unmap(SourceBits);
+      end;
+    finally
+      GlobalUnlock(MemObj);
     end;
-  finally
-    Source.Unmap(SourceBits);
-  end;
-  GlobalUnlock(MemObj);
-  //assign the completed DIB memory object to the clipboard
-  if SetClipboardData(CF_DIBV5, MemObj) = 0 then
-  begin
+    //assign the completed DIB memory object to the clipboard
+    if SetClipboardData(CF_DIBV5, MemObj) = 0 then RaiseLastOSError;
+  except
     GlobalFree(MemObj);
-    RaiseLastOSError;
+    raise;
   end;
 end;
 
