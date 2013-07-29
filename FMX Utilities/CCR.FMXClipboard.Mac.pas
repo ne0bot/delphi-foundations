@@ -17,10 +17,14 @@
 
 unit CCR.FMXClipboard.Mac;
 {
-  Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of this unit
-  to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas to FMX.Platform.pas.
+  Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of
+  this unit to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas
+  to FMX.Platform.pas.
 
-  Revised 12/8/12 to allow instantiation with a specific NSPasteboard.
+  History
+  - 29/7/13: if a PNG or TIFF is not available, get a bitmap via NSImage. This covers
+    cases such as when only a PDF is on the clipboard.
+  - 12/8/12: allow instantiation with a specific NSPasteboard.
 }
 interface
 
@@ -31,7 +35,8 @@ uses
 
 type
   TMacClipboard = class(TClipboard)
-  strict private class var
+  private class var
+    FcfPDF: TClipboardFormat;
     FRegisteredFormats: TDictionary<string, TClipboardFormat>;
   strict private
     FCustomPasteboard: NSPasteboard;
@@ -53,18 +58,21 @@ type
     constructor CreateForPasteboard(const APasteBoard: NSPasteboard);
     destructor Destroy; override;
     function GetFormats: TArray<TClipboardFormat>; override;
+    function HasFormat(AFormat: TClipboardFormat): Boolean; override;
     function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
     class function GetFormatName(AFormat: TClipboardFormat): string; override;
     class function RegisterFormat(const AName: string): TClipboardFormat; override;
     property Pasteboard: NSPasteboard read GetPasteboard;
   end;
+
+function cfPDF: TClipboardFormat; inline;
 {$ENDIF}
 
 implementation
 
 {$IFDEF MACOS}
 uses
-  System.RTLConsts, Macapi.ObjCRuntime, Macapi.ObjectiveC, Macapi.CocoaTypes;
+  System.RTLConsts, Macapi.CoreGraphics, Macapi.ObjCRuntime, Macapi.ObjectiveC, Macapi.CocoaTypes;
 
 type
   //XE2's NSStringClass declaration is faulty, so redeclare with what we need
@@ -123,9 +131,20 @@ begin
   Result := TNSArray.Wrap(TNSArray.OCClass.arrayWithObjects(@AFormats[0], Length(AFormats)))
 end;
 
+function IsFormat(const NS: NSString; const AFormat: TClipboardFormat): Boolean;
+begin
+  Result := (CFStringCompare((NS as ILocalObject).GetObjectID,
+    CFStringRef(AFormat), 0) = kCFCompareEqualTo);
+end;
+
 function GetStdFormat(const NSStr: NSString): TClipboardFormat; inline;
 begin
   Result := TClipboardFormat((NSStr as ILocalObject).GetObjectID);
+end;
+
+function cfPDF: TClipboardFormat;
+begin
+  Result := TMacClipboard.FcfPDF;
 end;
 
 { TMacClipboard }
@@ -146,6 +165,7 @@ begin
   cfPNG := GetStdFormat(NSPasteboardTypePNG);
   cfTIFF := GetStdFormat(NSPasteboardTypeTIFF);
   cfBitmap := cfPNG;
+  FcfPDF := GetStdFormat(NSPasteboardTypePDF);
 end;
 
 constructor TMacClipboard.CreateForPasteboard(const APasteBoard: NSPasteboard);
@@ -223,9 +243,17 @@ begin
       if TryLoadBitmapFromFile(ABitmap, FileName) then Exit;
     end;
   end;
-  //look for actual image data
+  //look for actual image data, initially the FMX 'native' formats, then via NSImage
   DataType := Pasteboard.availableTypeFromArray(FormatsToNSArray([cfPNG, cfTIFF]));
-  if DataType <> nil then Data := Pasteboard.dataForType(DataType);
+  if DataType <> nil then
+    Data := Pasteboard.dataForType(DataType)
+  else
+  begin
+    Objs := Pasteboard.readObjectsForClasses(TNSArray.Wrap(
+      TNSArray.OCClass.arrayWithObject(objc_getClass('NSImage'))), nil);
+    if (Objs <> nil) and (Objs.count > 0) then
+      Data := TNSImage.Wrap(Objs.objectAtIndex(0)).TIFFRepresentation;
+  end;
   if Data = nil then
   begin
     ABitmap.SetSize(0, 0);
@@ -307,6 +335,16 @@ begin
   if AFormat = 0 then
     raise EArgumentException.CreateRes(@sArgumentInvalid);
   Result := CFStringGetValue(CFStringRef(AFormat));
+end;
+
+function TMacClipboard.HasFormat(AFormat: TClipboardFormat): Boolean;
+var
+  Dummy: TClipboardFormat;
+begin
+  if AFormat = cfBitmap then
+    Result := TNSImage.OCClass.canInitWithPasteboard(Pasteboard)
+  else
+    Result := HasFormat([AFormat], Dummy);
 end;
 
 function TMacClipboard.HasFormat(const AFormats: array of TClipboardFormat;
