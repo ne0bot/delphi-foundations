@@ -17,8 +17,8 @@
 
 unit CCR.FMXClipboard;
 {
-  Abstracts from the Windows clipboard and Cocoa pasteboard API to provide an interface very close
-  to the VCL TClipboard.
+  Abstracts from the Windows clipboard and Cocoa pasteboard API to provide an interface
+  very close to the VCL TClipboard.
 }
 interface
 
@@ -29,22 +29,35 @@ type
   EClipboardException = class(Exception);
 
   { On Windows, TClipboardFormat hold CF_XXX values; on OS X, typecast CFStrings. }
-  TClipboardFormat = type {$IFDEF MSWINDOWS}Cardinal{$ELSE}NativeUInt{$ENDIF};
+{$IFDEF MSWINDOWS}
+  TClipboardFormat = type Cardinal;
+{$ELSE}
+  {$DEFINE UsingOpaqueTClipboardFormat}
+  TClipboardFormat = packed record
+  strict private
+    Data: Pointer;
+  public
+    class operator Equal(const Format1, Format2: TClipboardFormat): Boolean;
+    class operator NotEqual(const Format1, Format2: TClipboardFormat): Boolean;
+  end;
+{$ENDIF}
 
   TClipboard = class(TPersistent)
   private
     FOpenCount: Integer;
     FEmptied: Boolean;
     class var FInstance: TClipboard;
-    class var FcfText, FcfBitmap, FcfPNG, FcfTIFF: TClipboardFormat;
+    class var FcfText, FcfRTF, FcfBitmap, FcfPNG, FcfTIFF: TClipboardFormat;
     class constructor InitializeClass;
     class destructor FinalizeClass;
     procedure Adding;
+    function GetAsRTF: string; inline;
+    procedure SetAsRTF(const Value: string);
     function GetAsText: string;
     procedure SetAsText(const Value: string);
   strict protected
     constructor CreateForAnything; //just calls the inherited Create, which is hidden otherwise
-    constructor CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); virtual;
+    constructor CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); virtual;
     procedure DoAssignBitmap(ABitmap: TBitmap); virtual; abstract;
     procedure DoAssignBytes(AFormat: TClipboardFormat; const ABytes: TBytes); virtual;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); virtual;
@@ -59,6 +72,9 @@ type
     function DoToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; virtual;
   protected
     procedure AssignTo(Dest: TPersistent); override;
+    {$IFDEF UsingOpaqueTClipboardFormat}
+    class function SameFormat(const Format1, Format2: TClipboardFormat): Boolean; virtual; abstract;
+    {$ENDIF}
   public
     class procedure Create; static; deprecated 'FMX TClipboard cannot be explicitly instantiated';
     procedure Open;
@@ -71,12 +87,14 @@ type
     procedure Clear;
     function GetFormats: TArray<TClipboardFormat>; virtual; abstract;
     function HasFormat(AFormat: TClipboardFormat): Boolean; overload; virtual;
-    function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; overload; virtual; abstract;
+    function HasFormat(const AFormats: array of TClipboardFormat; var Matched: TClipboardFormat): Boolean; overload; virtual; abstract;
     class function GetFormatName(AFormat: TClipboardFormat): string; virtual; abstract;
     class function RegisterFormat(const AName: string): TClipboardFormat; virtual; abstract;
     function ToBytes(AFormat: TClipboardFormat): TBytes;
     function ToStream(AFormat: TClipboardFormat; AStream: TStream): Integer; //returns no. of bytes written
     function ToString: string; override;
+    property AsBytes[Format: TClipboardFormat]: TBytes read ToBytes write Assign;
+    property AsRTF: string read GetAsRTF write SetAsRTF;
     property AsText: string read GetAsText write SetAsText;
   end;
 
@@ -88,6 +106,7 @@ function cfText: TClipboardFormat; inline;
 function cfBitmap: TClipboardFormat; inline;
 function cfTIFF: TClipboardFormat; inline;
 function cfPNG: TClipboardFormat; inline;
+function cfRTF: TClipboardFormat; inline;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
 
@@ -108,6 +127,7 @@ uses
 resourcestring
   SCannotOpenClipboard = 'Cannot open clipboard: %s';
   SUnbalancedClose = 'Unbalanced Clipboard.Close call';
+  SRTFExpected = 'RTF expected but not found';
 
 function Clipboard: TClipboard;
 begin
@@ -132,6 +152,11 @@ end;
 function cfPNG: TClipboardFormat;
 begin
   Result := TClipboard.FcfPNG
+end;
+
+function cfRTF: TClipboardFormat;
+begin
+  Result := TClipboard.FcfRTF;
 end;
 
 function TryLoadBitmapFromFile(Bitmap: TBitmap; const FileName: string): Boolean;
@@ -171,6 +196,8 @@ begin
 end;
 {$IFEND}
 
+{ TClipboardFormat }
+
 const
   ConcreteClass: TClipboardClass =
     {$IFDEF MSWINDOWS}
@@ -179,11 +206,23 @@ const
     TMacClipboard
     {$ENDIF};
 
+{$IFDEF UsingOpaqueTClipboardFormat}
+class operator TClipboardFormat.Equal(const Format1, Format2: TClipboardFormat): Boolean;
+begin
+  Result := (Format1.Data = Format2.Data) or ConcreteClass.SameFormat(Format1, Format2);
+end;
+
+class operator TClipboardFormat.NotEqual(const Format1, Format2: TClipboardFormat): Boolean;
+begin
+  Result := not (Format1 = Format2);
+end;
+{$ENDIF}
+
 { TClipboard }
 
 class constructor TClipboard.InitializeClass;
 begin
-  FInstance := ConcreteClass.CreateForSingleton(FcfText, FcfBitmap, FcfPng, FcfTIFF);
+  FInstance := ConcreteClass.CreateForSingleton(FcfText, FcfRTF, FcfBitmap, FcfPng, FcfTIFF);
 end;
 
 class destructor TClipboard.FinalizeClass;
@@ -201,7 +240,7 @@ begin
   inherited Create;
 end;
 
-constructor TClipboard.CreateForSingleton(out cfText, cfBitmap, cfPng, cfTIFF: TClipboardFormat);
+constructor TClipboard.CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPng, cfTIFF: TClipboardFormat);
 begin
   CreateForAnything;
 end;
@@ -232,6 +271,18 @@ begin
   if FOpenCount = 0 then raise EClipboardException.CreateRes(@SUnbalancedClose);
   Dec(FOpenCount);
   if FOpenCount = 0 then DoClose;
+end;
+
+function TClipboard.GetAsRTF: string;
+begin
+  Result := StringOf(ToBytes(cfRTF))
+end;
+
+procedure TClipboard.SetAsRTF(const Value: string);
+begin
+  if Pos('\rtf', Value) = 0 then
+    raise EClipboardException.CreateRes(@SRTFExpected);
+  Assign(cfRTF, BytesOf(Value));
 end;
 
 function TClipboard.GetAsText: string;

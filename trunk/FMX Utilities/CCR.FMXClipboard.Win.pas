@@ -39,7 +39,7 @@ type
   strict private
     FOwnerWnd: HWND;
   strict protected
-    constructor CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
+    constructor CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
     procedure DoAssignBitmap(ABitmap: TBitmap); override;
     procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
     procedure DoGetBitmap(ABitmap: TBitmap); override;
@@ -53,20 +53,39 @@ type
     function GetFormats: TArray<TClipboardFormat>; override;
     class function GetFormatName(AFormat: TClipboardFormat): string; override;
     function HasFormat(AFormat: TClipboardFormat): Boolean; override;
-    function HasFormat(const AFormats: array of TClipboardFormat; out Matched: TClipboardFormat): Boolean; override;
+    function HasFormat(const AFormats: array of TClipboardFormat; var Matched: TClipboardFormat): Boolean; override;
     class function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
 
-resourcestring
-  SCannotMapBitmap = 'Map method of TBitmap failed';
+const
+  cfMetafilePict    = TClipboardFormat(CF_METAFILEPICT);
+  cfSYLK            = TClipboardFormat(CF_SYLK);
+  cfDIF             = TClipboardFormat(CF_DIF);
+  cfOemText         = TClipboardFormat(CF_OEMTEXT);
+  cfDIB             = TClipboardFormat(CF_DIB);
+  cfPalette         = TClipboardFormat(CF_PALETTE);
+  cfPenData         = TClipboardFormat(CF_PENDATA);
+  cfRiff            = TClipboardFormat(CF_RIFF);
+  cfWave            = TClipboardFormat(CF_WAVE);
+  cfEnhMetafile     = TClipboardFormat(CF_ENHMETAFILE);
+  cfHDROP           = TClipboardFormat(CF_HDROP);
+  cfLocale          = TClipboardFormat(CF_LOCALE);
+  cfDIBv5           = TClipboardFormat(CF_DIBV5);
+  cfDspText         = TClipboardFormat(CF_DSPTEXT);
+  cfDspBitmap       = TClipboardFormat(CF_DSPBITMAP);
+  cfDspMetafilePict = TClipboardFormat(CF_DSPMETAFILEPICT);
+  cfDspEnhMetafile  = TClipboardFormat(CF_DSPENHMETAFILE);
 {$ENDIF}
 
 implementation
 
 {$IFDEF MSWINDOWS}
 uses
-  Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
+  Winapi.RichEdit, Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
   {$IFNDEF VER230}, FMX.PixelFormats{$ENDIF};
+
+resourcestring
+  SCannotMapBitmap = 'Map method of TBitmap failed';
 
 {$IF NOT DECLARED(TMapAccess)}
 type
@@ -122,12 +141,13 @@ function GetPriorityClipboardFormat(const paFormatPriorityList;
 var
   WndClass: TWndClassEx = (cbSize: SizeOf(WndClass); lpszClassName: 'FMXClipboard');
 
-constructor TWinClipboard.CreateForSingleton(out cfText, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
+constructor TWinClipboard.CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
 begin
   inherited;
   cfText := CF_TEXT;
+  cfRTF := RegisterClipboardFormat(CF_RTF);
   cfBitmap := CF_BITMAP;
-  cfPNG := RegisterFormat('PNG');
+  cfPNG := RegisterClipboardFormat('PNG');
   cfTIFF := CF_TIFF;
   WndClass.lpfnWndProc := @DefWindowProc;
   WndClass.hInstance := HInstance;
@@ -418,13 +438,13 @@ begin
 end;
 
 function TWinClipboard.HasFormat(const AFormats: array of TClipboardFormat;
-  out Matched: TClipboardFormat): Boolean;
+  var Matched: TClipboardFormat): Boolean;
 var
   Item: Integer;
 begin
   Item := GetPriorityClipboardFormat(AFormats[0], Length(AFormats));
   Result := (Item > 0);
-  if Result then Matched := TClipboardFormat(Item) else Matched := 0;
+  if Result then Matched := TClipboardFormat(Item);
 end;
 
 procedure TWinClipboard.DoSetAsText(const Value: string);
