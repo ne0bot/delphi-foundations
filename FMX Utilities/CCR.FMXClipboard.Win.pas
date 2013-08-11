@@ -19,9 +19,10 @@ unit CCR.FMXClipboard.Win;
 {
   Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of
   this unit to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas
-  to FMX.Platform.pas.
+  to FMX.Platform.pas. This unit supports XE2 or later.
 
   History
+  - August 2013: minor tweaks as related units are revised.
   - July 2013: fixed bitmap pitch issue; switched to reading and writing v5 DIBs; if
     source bitmap has transparency, the DIB written is non-transparent, however a PNG
     is written too in such a case (MS Word reads and writes PNGs to the clipboard).
@@ -36,28 +37,32 @@ uses
 
 type
   TWinClipboard = class(TClipboard)
-  strict private
+  strict private class var
     FOwnerWnd: HWND;
   strict protected
-    constructor CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
-    procedure DoAssignBitmap(ABitmap: TBitmap); override;
-    procedure DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
-    procedure DoGetBitmap(ABitmap: TBitmap); override;
+    class constructor Create;
+    class function TryCreateSingleton(out Inst: TClipboard;
+      out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat): Boolean; override;
+    procedure DoAssignBitmap(const ABitmap: TBitmap); override;
+    procedure DoAssignBuffer(const AFormat: TClipboardFormat; const ABuffer; ASize: Integer); override;
+    function DoGetBitmap(ABitmap: TBitmap): Boolean; override;
     procedure DoClear; override;
     function DoOpen: Boolean; override;
     procedure DoClose; override;
     function DoGetAsText: string; override;
     procedure DoSetAsText(const Value: string); override;
-    function DoToBytes(AFormat: TClipboardFormat): TBytes; override;
+    function DoToBytes(const AFormat: TClipboardFormat): TBytes; override;
   public
     function GetFormats: TArray<TClipboardFormat>; override;
-    class function GetFormatName(AFormat: TClipboardFormat): string; override;
-    function HasFormat(AFormat: TClipboardFormat): Boolean; override;
+    function GetFormatName(const AFormat: TClipboardFormat): string; override;
+    function HasFormat(const AFormat: TClipboardFormat): Boolean; override;
     function HasFormat(const AFormats: array of TClipboardFormat; var Matched: TClipboardFormat): Boolean; override;
-    class function RegisterFormat(const AName: string): TClipboardFormat; override;
+    function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
 
 const
+  PlatformClipboardClass: TClipboardClass = TWinClipboard;
+
   cfMetafilePict    = TClipboardFormat(CF_METAFILEPICT);
   cfSYLK            = TClipboardFormat(CF_SYLK);
   cfDIF             = TClipboardFormat(CF_DIF);
@@ -84,83 +89,38 @@ uses
   Winapi.RichEdit, Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
   {$IFNDEF VER230}, FMX.PixelFormats{$ENDIF};
 
-resourcestring
-  SCannotMapBitmap = 'Map method of TBitmap failed';
-
-{$IF NOT DECLARED(TMapAccess)}
-type
-  TPixelFormat = (pfUnknown, pfA8R8G8B8);
-
-  TBitmapData = record
-    Data: Pointer;
-    Pitch: Integer;
-    PixelFormat: TPixelFormat;
-    Source: TBitmap;
-    function GetScanline(Row: Integer): Pointer;
-  end;
-
-  TMapAccess = (maRead, maWrite, maReadWrite);
-
-  TBitmapHelper = class helper for TBitmap
-    function Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
-    procedure Unmap(var Data: TBitmapData);
-  end;
-
-function TBitmapData.GetScanline(Row: Integer): Pointer;
-begin
-  Result := Source.ScanLine[Row];
-end;
-
-function TBitmapHelper.Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
-begin
-  Data.Data := StartLine;
-  Data.Pitch := Width * 4;
-  Data.PixelFormat := TPixelFormat.pfA8R8G8B8;
-  Data.Source := Self;
-  Result := True;
-end;
-
-procedure TBitmapHelper.Unmap(var Data: TBitmapData);
-begin
-end;
-{$ELSEIF NOT DECLARED(TIdleMessage)} //urgh, buggy XE4 OS X compiler - can't test for FireMonkeyVersion!
-type
-  TBitmapDataHelper = record helper for TBitmapData
-    function GetScanline(Row: Integer): Pointer;
-  end;
-
-function TBitmapDataHelper.GetScanline(Row: Integer): Pointer;
-begin
-  Result := @PByte(Data)[Pitch * Row];
-end;
-{$IFEND}
-
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
 
 var
   WndClass: TWndClassEx = (cbSize: SizeOf(WndClass); lpszClassName: 'FMXClipboard');
 
-constructor TWinClipboard.CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
+class constructor TWinClipboard.Create;
 begin
-  inherited;
-  cfText := CF_TEXT;
-  cfRTF := RegisterClipboardFormat(CF_RTF);
-  cfBitmap := CF_BITMAP;
-  cfPNG := RegisterClipboardFormat('PNG');
-  cfTIFF := CF_TIFF;
   WndClass.lpfnWndProc := @DefWindowProc;
   WndClass.hInstance := HInstance;
   RegisterClassEx(WndClass);
   FOwnerWnd := CreateWindow(WndClass.lpszClassName, 'FMXClipboard', 0, 0, 0, 0, 0, HWND_MESSAGE, 0, 0, nil);
 end;
 
-class function TWinClipboard.RegisterFormat(const AName: string): TClipboardFormat;
+class function TWinClipboard.TryCreateSingleton(out Inst: TClipboard;
+  out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat): Boolean;
+begin
+  Inst := Create;
+  cfText := CF_TEXT;
+  cfRTF := RegisterClipboardFormat(CF_RTF);
+  cfBitmap := CF_BITMAP;
+  cfPNG := RegisterClipboardFormat('PNG');
+  cfTIFF := CF_TIFF;
+  Result := True;
+end;
+
+function TWinClipboard.RegisterFormat(const AName: string): TClipboardFormat;
 begin
   Result := RegisterClipboardFormat(PChar(AName));
 end;
 
-procedure TWinClipboard.DoGetBitmap(ABitmap: TBitmap);
+function TWinClipboard.DoGetBitmap(ABitmap: TBitmap): Boolean;
 var
   FileName: array[0..MAX_PATH] of Char;
   Header: TBitmapFileHeader;
@@ -168,6 +128,7 @@ var
   BitmapInfoPtr: PBitmapV5Header;
   Stream: TMemoryStream;
 begin
+  Result := True;
   //is there a file name on the clipboard that points to a graphic?
   DataHandle := GetClipboardData(CF_HDROP);
   if DataHandle <> 0 then
@@ -195,11 +156,7 @@ begin
   //test for DIB...
   DataHandle := GetClipboardData(CF_DIBV5);
   if DataHandle <> 0 then BitmapInfoPtr := GlobalLock(DataHandle);
-  if BitmapInfoPtr = nil then
-  begin
-    ABitmap.SetSize(0, 0);
-    Exit;
-  end;
+  if BitmapInfoPtr = nil then Exit(False);
   Stream := TMemoryStream.Create;
   try
     FillChar(Header, SizeOf(Header), 0);
@@ -271,7 +228,7 @@ begin
   end;
 end;
 
-procedure TWinClipboard.DoAssignBitmap(ABitmap: TBitmap);
+procedure TWinClipboard.DoAssignBitmap(const ABitmap: TBitmap);
 var
   HasTransparency: Boolean;
   Pixels: PAlphaColorRecArray;
@@ -325,7 +282,7 @@ begin
   end;
 end;
 
-procedure TWinClipboard.DoAssignBuffer(AFormat: TClipboardFormat; const ABuffer; ASize: Integer);
+procedure TWinClipboard.DoAssignBuffer(const AFormat: TClipboardFormat; const ABuffer; ASize: Integer);
 var
   DataHandle: HGLOBAL;
   Ptr: PByte;
@@ -398,7 +355,7 @@ begin
   SetLength(Result, Count);
 end;
 
-class function TWinClipboard.GetFormatName(AFormat: TClipboardFormat): string;
+function TWinClipboard.GetFormatName(const AFormat: TClipboardFormat): string;
 var
   Buffer: array[Byte] of Char;
 begin
@@ -431,7 +388,7 @@ begin
   end;
 end;
 
-function TWinClipboard.HasFormat(AFormat: TClipboardFormat): Boolean;
+function TWinClipboard.HasFormat(const AFormat: TClipboardFormat): Boolean;
 begin
   Result := IsClipboardFormatAvailable(AFormat) or
     ((AFormat = cfBitmap) and IsClipboardFormatAvailable(cfPNG)); //special case given trad equivalence of CF_BITMAP with TBitmap
@@ -452,7 +409,7 @@ begin
   DoAssignBuffer(CF_UNICODETEXT, PChar(Value)^, Succ(Length(Value)) * SizeOf(Char));
 end;
 
-function TWinClipboard.DoToBytes(AFormat: TClipboardFormat): TBytes;
+function TWinClipboard.DoToBytes(const AFormat: TClipboardFormat): TBytes;
 var
   Handle: HGLOBAL;
   Ptr: PByte;

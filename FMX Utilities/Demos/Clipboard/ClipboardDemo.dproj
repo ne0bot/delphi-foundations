@@ -96,14 +96,14 @@
 			<DelphiCompile Include="$(MainSource)">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
+			<DCCReference Include="..\..\CCR.FMXClipboard.pas"/>
+			<DCCReference Include="..\..\CCR.FMXClipboard.Apple.pas"/>
+			<DCCReference Include="..\..\CCR.FMXClipboard.iOS.pas"/>
+			<DCCReference Include="..\..\CCR.FMXClipboard.Mac.pas"/>
+			<DCCReference Include="..\..\CCR.FMXClipboard.Win.pas"/>
 			<DCCReference Include="ClipboardDemoForm.pas">
 				<Form>frmClipboardDemo</Form>
-				<FormType>fmx</FormType>
 			</DCCReference>
-			<DCCReference Include="..\..\CCR.FMXClipboard.Mac.pas"/>
-			<DCCReference Include="..\..\CCR.FMXClipboard.pas"/>
-			<DCCReference Include="..\..\CCR.FMXClipboard.Win.pas"/>
-			<DCCReference Include="..\..\CCR.FMXNativeDlgs.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
