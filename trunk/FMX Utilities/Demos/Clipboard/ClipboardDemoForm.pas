@@ -2,12 +2,12 @@ unit ClipboardDemoForm;
 
 interface
 {
-  In XE2 and XE3, delete FMX.StdCtrls from the uses clause to compile!
+  NB: FMX.StdCtrls needs to be in the uses clause for XE4+.
 }
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Layouts, FMX.Memo,
-  CCR.FMXClipboard, CCR.FMXNativeDlgs, FMX.StdCtrls;
+  {$IF FireMonkeyVersion >= 18}FMX.StdCtrls,{$IFEND} CCR.FMXClipboard;
 
 type
   TfrmClipboardDemo = class(TForm)

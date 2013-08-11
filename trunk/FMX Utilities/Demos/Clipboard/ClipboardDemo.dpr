@@ -2,11 +2,12 @@ program ClipboardDemo;
 
 uses
   FMX.Forms,
-  ClipboardDemoForm in 'ClipboardDemoForm.pas' {frmClipboardDemo},
-  CCR.FMXClipboard.Mac in '..\..\CCR.FMXClipboard.Mac.pas',
   CCR.FMXClipboard in '..\..\CCR.FMXClipboard.pas',
+  CCR.FMXClipboard.Apple in '..\..\CCR.FMXClipboard.Apple.pas',
+  CCR.FMXClipboard.iOS in '..\..\CCR.FMXClipboard.iOS.pas',
+  CCR.FMXClipboard.Mac in '..\..\CCR.FMXClipboard.Mac.pas',
   CCR.FMXClipboard.Win in '..\..\CCR.FMXClipboard.Win.pas',
-  CCR.FMXNativeDlgs in '..\..\CCR.FMXNativeDlgs.pas';
+  ClipboardDemoForm in 'ClipboardDemoForm.pas' {frmClipboardDemo};
 
 {$R *.res}
 

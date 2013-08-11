@@ -17,57 +17,60 @@
 
 unit CCR.FMXClipboard.Mac;
 {
-  Part of a FireMonkey TClipboard implementation for Windows and OS X. The relation of
-  this unit to CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Win.pas
-  to FMX.Platform.pas.
+  Part of a FireMonkey TClipboard implementation. The relation of this unit to
+  CCR.FMXClipboard.pas is akin to the relation between FMX.Platform.Mac.pas and
+  FMX.Platform.pas. This unit supports XE2 or later.
 
   History
+  - 11/8/13: further tweaks and parts split out into CCR.FMXClipboard.Apple.pas
+    following introduction of CCR.FMXClipboard.iOS.pas.
   - 31/7/13: fiddled about with TClipboardFormat so that it isn't a number any more.
-  - 29/7/13: if a PNG or TIFF is not available, get a bitmap via NSImage. This covers
-    cases such as when only a PDF is on the clipboard.
+  - 29/7/13: if neither a PNG nor TIFF on the clipboard, other picture formats now
+    supported by dint of using NSImage as an intermediary.
   - 12/8/12: allow instantiation with a specific NSPasteboard.
 }
 interface
 
 {$IFDEF MACOS}
+{$IFNDEF IOS}
 uses
-  Macapi.CoreFoundation, Macapi.Foundation, Macapi.AppKit, System.SysUtils, System.Classes,
-  System.Generics.Collections, FMX.Types, CCR.FMXClipboard;
+  Macapi.CocoaTypes, Macapi.Foundation, Macapi.AppKit,
+  Macapi.ObjectiveC, Macapi.CoreFoundation, System.SysUtils, System.Classes,
+  System.Generics.Collections, System.UITypes, FMX.Types, CCR.FMXClipboard, CCR.FMXClipboard.Apple;
 
 type
-  TMacClipboard = class(TClipboard)
+  TMacClipboard = class(TAppleClipboard)
   private class var
     FcfPDF, FcfRTFD, FcfTabularText, FcfFont, FcfRuler, FcfColor, FcfSound,
     FcfMultipleTextSelection, FcfFindPanelSearchOptions: TClipboardFormat;
-    FRegisteredFormats: TDictionary<string, TClipboardFormat>;
   strict private
     FCustomPasteboard: NSPasteboard;
     FToAdd: TDictionary<TClipboardFormat, TBytes>;
-    constructor DoCreate(const ACustomPasteboard: NSPasteboard; Dummy: Integer = 0); reintroduce;
+    constructor Create(const ACustomPasteboard: NSPasteboard; Dummy: Integer = 0); //avoid compiler warning re C++
     function GetPasteboard: NSPasteboard; inline;
   strict protected
-    constructor CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat); override;
-    procedure DoAssignBitmap(ABitmap: TBitmap); override;
-    procedure DoAssignBytes(AFormat: TClipboardFormat; const ASource: TBytes); override;
-    procedure DoGetBitmap(ABitmap: TBitmap); override;
+    class function TryCreateSingleton(out Inst: TClipboard;
+      out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat): Boolean; override;
+    procedure DoAssignBitmap(const ABitmap: TBitmap); override;
+    procedure DoAssignBytes(const AFormat: TClipboardFormat; const ASource: TBytes); override;
+    function DoGetBitmap(ABitmap: TBitmap): Boolean; override;
     procedure DoClear; override;
     function DoOpen: Boolean; override;
     procedure DoClose; override;
     function DoGetAsText: string; override;
     procedure DoSetAsText(const Value: string); override;
-    function DoToBytes(AFormat: TClipboardFormat): TBytes; override;
-  protected
-    class function SameFormat(const Format1, Format2: TClipboardFormat): Boolean; override;
+    function DoToBytes(const AFormat: TClipboardFormat): TBytes; override;
   public
     constructor CreateForPasteboard(const APasteBoard: NSPasteboard);
     destructor Destroy; override;
     function GetFormats: TArray<TClipboardFormat>; override;
-    function HasFormat(AFormat: TClipboardFormat): Boolean; override;
+    function HasFormat(const AFormat: TClipboardFormat): Boolean; override;
     function HasFormat(const AFormats: array of TClipboardFormat; var Matched: TClipboardFormat): Boolean; override;
-    class function GetFormatName(AFormat: TClipboardFormat): string; override;
-    class function RegisterFormat(const AName: string): TClipboardFormat; override;
     property Pasteboard: NSPasteboard read GetPasteboard;
   end;
+
+const
+  PlatformClipboardClass: TClipboardClass = TMacClipboard;
 
 function cfPDF: TClipboardFormat; inline;
 function cfRTFD: TClipboardFormat; inline;
@@ -79,15 +82,18 @@ function cfSound: TClipboardFormat; inline;
 function cfMultipleTextSelection: TClipboardFormat; inline;
 function cfFindPanelSearchOptions: TClipboardFormat; inline;
 {$ENDIF}
+{$ENDIF}
 
 implementation
 
 {$IFDEF MACOS}
+{$IFNDEF IOS}
 uses
-  System.RTLConsts, Macapi.CoreGraphics, Macapi.ObjCRuntime, Macapi.ObjectiveC, Macapi.CocoaTypes;
+  System.RTLConsts, Macapi.ObjCRuntime;
 
 type
-  //XE2's NSStringClass declaration is faulty, so redeclare with what we need
+  {$IF NOT DECLARED(TIdleMessage)}
+  //XE2 and XE3's NSStringClass declaration is faulty, so redeclare with what we need
   NSStringClass = interface(NSObjectClass)
     ['{A21B9D92-0C1F-4BE4-9FA0-7E5357D46EDA}']
     function availableStringEncodings: PNSStringEncoding; cdecl;
@@ -100,6 +106,13 @@ type
     function stringWithCharacters(characters: PChar; length: NSUInteger): Pointer; cdecl;
   end;
   TNSString = class(TOCGenericImport<NSStringClass, NSString>);
+
+  NSImage = interface(NSObject) //XE2's NSImage declaration was faulty, so same again
+    ['{D39B2515-517A-4EA4-BA74-729198211680}']
+    function CGImageForProposedRect(proposedDestRect: PNSRect; context: NSGraphicsContext; hints: NSDictionary): CGImageRef; cdecl;
+  end;
+  TNSImage = class(TOCGenericImport<NSImageClass, NSImage>)  end;
+  {$IFEND}
 
   TUserMemoryStream = class(TCustomMemoryStream)
     constructor Create(AMemory: Pointer; const ALength: NativeInt);
@@ -115,35 +128,6 @@ end;
 function TUserMemoryStream.Write(const Buffer; Count: Longint): Longint;
 begin
   Result := 0;
-end;
-
-function CFStringGetValue(const CFStr: CFStringRef): string;
-var
-  Range: CFRange;
-begin
-  if CFStr = nil then Exit('');
-  Range.location := 0;
-  Range.length := CFStringGetLength(CFStr);
-  SetLength(Result, Range.length);
-  CFStringGetCharacters(CFStr, Range, PChar(Result));
-end;
-
-function NSStringGetValue(const NSStr: NSString): string; inline;
-begin
-  if NSStr = nil then
-    Result := ''
-  else
-    Result := CFStringGetValue((NSStr as ILocalObject).GetObjectID);
-end;
-
-function FormatToNSString(const AFormat: TClipboardFormat): NSString; inline;
-begin
-  Result := TNSString.Wrap(CFStringRef(AFormat));
-end;
-
-function FormatsToNSArray(const AFormats: array of TClipboardFormat): NSArray;
-begin
-  Result := TNSArray.Wrap(TNSArray.OCClass.arrayWithObjects(@AFormats[0], Length(AFormats)))
 end;
 
 function cfPDF: TClipboardFormat;
@@ -193,28 +177,18 @@ end;
 
 { TMacClipboard }
 
-constructor TMacClipboard.DoCreate(const ACustomPasteboard: NSPasteboard; Dummy: Integer = 0);
+constructor TMacClipboard.Create(const ACustomPasteboard: NSPasteboard; Dummy: Integer = 0);
 begin
-  inherited CreateForAnything;
+  inherited Create;
   FCustomPasteboard := ACustomPasteboard;
+  if FCustomPasteboard <> nil then FCustomPasteboard.retain;
   FToAdd := TDictionary<TClipboardFormat, TBytes>.Create;
-  if ACustomPasteboard = nil then
-    FRegisteredFormats := TDictionary<string, TClipboardFormat>.Create;
 end;
 
-constructor TMacClipboard.CreateForSingleton(out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat);
-
-  function RegisterStdFormat(const StdFormat: NSString): TClipboardFormat;
-  var
-    CF: CFStringRef;
-  begin
-    CF := (StdFormat as ILocalObject).GetObjectID;
-    Result := TClipboardFormat(CF);
-    CFRetain(CF);
-    FRegisteredFormats.Add(CFStringGetValue(CF), Result);
-  end;
+class function TMacClipboard.TryCreateSingleton(out Inst: TClipboard;
+  out cfText, cfRTF, cfBitmap, cfPNG, cfTIFF: TClipboardFormat): Boolean;
 begin
-  DoCreate(nil);
+  Inst := Create(nil);
   cfText := RegisterStdFormat(NSPasteboardTypeString);
   cfRTF := RegisterStdFormat(NSPasteboardTypeRTF);
   cfPNG := RegisterStdFormat(NSPasteboardTypePNG);
@@ -229,56 +203,46 @@ begin
   FcfSound := RegisterStdFormat(NSPasteboardTypeSound);
   FcfMultipleTextSelection := RegisterStdFormat(NSPasteboardTypeMultipleTextSelection);
   FcfFindPanelSearchOptions := RegisterStdFormat(NSPasteboardTypeFindPanelSearchOptions);
+  Result := True;
 end;
 
 constructor TMacClipboard.CreateForPasteboard(const APasteBoard: NSPasteboard);
 begin
   if APasteBoard = nil then
     raise EArgumentNilException.CreateRes(@SArgumentNil);
-  DoCreate(APasteBoard);
+  Create(APasteBoard);
 end;
 
 destructor TMacClipboard.Destroy;
-var
-  Format: TClipboardFormat;
 begin
-  if FCustomPasteboard = nil then
-  begin
-    for Format in FRegisteredFormats.Values do
-      CFRelease(CFStringRef(Format));
-    FRegisteredFormats.Free;
-  end;
+  if FCustomPasteboard <> nil then FCustomPasteboard.release;
   FToAdd.Free;
   inherited;
 end;
 
-procedure TMacClipboard.DoAssignBitmap(ABitmap: TBitmap);
+procedure TMacClipboard.DoAssignBitmap(const ABitmap: TBitmap);
 begin
   Assign(cfPNG, ABitmap as IStreamPersist);
 end;
 
-procedure TMacClipboard.DoAssignBytes(AFormat: TClipboardFormat; const ASource: TBytes);
+procedure TMacClipboard.DoAssignBytes(const AFormat: TClipboardFormat; const ASource: TBytes);
 begin
   FToAdd.AddOrSetValue(AFormat, ASource);
 end;
 
 procedure TMacClipboard.DoSetAsText(const Value: string);
 begin
-  FToAdd.AddOrSetValue(cfText, WideBytesOf(Value));
+  DoAssignBytes(cfText, WideBytesOf(Value));
 end;
 
-function TMacClipboard.DoToBytes(AFormat: TClipboardFormat): TBytes;
-var
-  Data: NSData;
+function TMacClipboard.DoToBytes(const AFormat: TClipboardFormat): TBytes;
 begin
-  Data := GetPasteboard.dataForType(FormatToNSString(AFormat));
-  if Data = nil then Exit(nil);
-  SetLength(Result, Data.length);
-  Data.getBytes(Result, Length(Result));
+  Result := NSDataToBytes(GetPasteboard.dataForType(FormatToNSString(AFormat)));
 end;
 
-procedure TMacClipboard.DoGetBitmap(ABitmap: TBitmap);
+function TMacClipboard.DoGetBitmap(ABitmap: TBitmap): Boolean;
 var
+  CGRef: CGImageRef;
   Objs: NSArray;
   Data: NSData;
   DataType: NSString;
@@ -286,6 +250,7 @@ var
   Stream: TStream;
   URL: NSURL;
 begin
+  Result := True;
   Pasteboard := GetPasteboard;
   //try pasting the file contents first (TextEdit does this)
   Objs := Pasteboard.readObjectsForClasses(TNSArray.Wrap(
@@ -304,17 +269,22 @@ begin
   begin
     Objs := Pasteboard.readObjectsForClasses(TNSArray.Wrap(
       TNSArray.OCClass.arrayWithObject(objc_getClass('NSImage'))), nil);
-    if (Objs <> nil) and (Objs.count > 0) then
-      Data := TNSImage.Wrap(Objs.objectAtIndex(0)).TIFFRepresentation;
+    //getting a CGImage then copying the bitmap bits should usually be more efficient than
+    //calling TIFFRepresentation to get a NSData and streaming the TIFF data in
+    if (Objs <> nil) and (Objs.count > 0) then //Data := TNSImage.Wrap(Objs.objectAtIndex(0)).TIFFRepresentation;
+    begin
+      CGRef := TNSImage.Wrap(Objs.objectAtIndex(0)).CGImageForProposedRect(nil, nil, nil);
+      if CGRef <> nil then
+      begin
+        CopyCGImageToBitmap(CGRef, ABitmap);
+        Exit;
+      end;
+    end;
   end;
-  if Data = nil then
-  begin
-    ABitmap.SetSize(0, 0);
-    Exit;
-  end;
+  if Data = nil then Exit(False);
   Stream := TUserMemoryStream.Create(Data.bytes, Data.length);
   try
-    ABitmap.Clear(0); //needed due to FMX bug - try pasting the same PNG multiple times
+    ABitmap.Clear(TAlphaColors.Null); //needed due to FMX bug - try pasting the same PNG multiple times
     ABitmap.LoadFromStream(Stream);
   finally
     Stream.Free;
@@ -356,7 +326,7 @@ end;
 
 function TMacClipboard.DoGetAsText: string;
 begin
-  Result := CFStringGetValue((GetPasteboard.stringForType(NSPasteboardTypeString) as ILocalObject).GetObjectID);
+  Result := NSStringGetValue(GetPasteboard.stringForType(NSPasteboardTypeString));
 end;
 
 function TMacClipboard.DoOpen: Boolean;
@@ -373,22 +343,11 @@ begin
 end;
 
 function TMacClipboard.GetFormats: TArray<TClipboardFormat>;
-var
-  I: Integer;
-  Types: NSArray;
 begin
-  Types := GetPasteboard.types;
-  SetLength(Result, Types.count);
-  for I := 0 to High(Result) do
-    Result[I] := RegisterFormat(CFStringGetValue(Types.objectAtIndex(I)));
+  Result := TypesToFormats(GetPasteboard.types);
 end;
 
-class function TMacClipboard.GetFormatName(AFormat: TClipboardFormat): string;
-begin
-  Result := CFStringGetValue(CFStringRef(AFormat));
-end;
-
-function TMacClipboard.HasFormat(AFormat: TClipboardFormat): Boolean;
+function TMacClipboard.HasFormat(const AFormat: TClipboardFormat): Boolean;
 var
   Dummy: TClipboardFormat;
 begin
@@ -410,18 +369,7 @@ begin
   if Result then
     Matched := TClipboardFormat((NSStr as ILocalObject).GetObjectID)
 end;
-
-class function TMacClipboard.RegisterFormat(const AName: string): TClipboardFormat;
-begin
-  if FRegisteredFormats.TryGetValue(AName, Result) then Exit;
-  Result := TClipboardFormat(CFStringCreateWithCharacters(nil, PChar(AName), Length(AName)));
-  FRegisteredFormats.Add(AName, Result);
-end;
-
-class function TMacClipboard.SameFormat(const Format1, Format2: TClipboardFormat): Boolean;
-begin
-  Result := (CFStringCompare(CFStringRef(Format1), CFStringRef(Format2), 0) = kCFCompareEqualTo);
-end;
+{$ENDIF}
 {$ENDIF}
 
 end.
