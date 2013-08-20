@@ -26,7 +26,7 @@ uses
   {$ELSE}
   Macapi.CocoaTypes, Macapi.CoreGraphics, Macapi.Foundation,
   {$ENDIF}
-  System.SysUtils, System.Classes, System.Generics.Collections, System.UITypes,
+  System.Math, System.SysUtils, System.Classes, System.Generics.Collections, System.UITypes,
   Macapi.ObjectiveC, Macapi.CoreFoundation, FMX.Types, CCR.FMXClipboard;
 
 type
@@ -40,6 +40,7 @@ type
     class function RegisterStdFormat(const StdFormat: NSString): TClipboardFormat; static;
     function TypesToFormats(const Types: NSArray): TArray<TClipboardFormat>;
   public
+    class var MaxBitmapSize: LongWord;
     function GetFormatName(const AFormat: TClipboardFormat): string; override;
     function RegisterFormat(const AName: string): TClipboardFormat; override;
   end;
@@ -81,8 +82,18 @@ var
   ColorSpace: CGColorSpaceRef;
   Context: CGContextRef;
   MapRec: TBitmapData;
+  W, H: LongWord;
+  C: Extended;
 begin
-  Dest.SetSize(CGImageGetWidth(Source), CGImageGetHeight(Source));
+  W := CGImageGetWidth(Source);
+  H := CGImageGetHeight(Source);
+  C := Max(W, H) / TAppleClipboard.MaxBitmapSize;
+  if C > 1 then
+  begin
+    W := Round(W / C);
+    H := Round(H / C);
+  end;
+  Dest.SetSize(W, H);
   Dest.Clear(TAlphaColors.Null);
   ColorSpace := nil;
   Context := nil;
@@ -91,7 +102,7 @@ begin
   try
     ColorSpace := CGColorSpaceCreateDeviceRGB;
     Context := CGBitmapContextCreate(MapRec.Data, Dest.Width, Dest.Height, 8,
-      Dest.Width * 4, ColorSpace, kCGImageAlphaPremultipliedLast or kCGBitmapByteOrder32Big);
+      MapRec.Pitch, ColorSpace, kCGImageAlphaPremultipliedLast or kCGBitmapByteOrder32Big);
     if Context = nil then RaiseLastOSError;
     CGContextDrawImage(Context, CGRectMake(0, 0, Dest.Width, Dest.Height), Source);
   finally
@@ -114,7 +125,7 @@ begin
   try
     ColorSpace := CGColorSpaceCreateDeviceRGB;
     Context := CGBitmapContextCreate(MapRec.Data, ABitmap.Width, ABitmap.Height, 8,
-      4 * ABitmap.Width, ColorSpace, kCGImageAlphaPremultipliedLast or kCGBitmapByteOrder32Big);
+      MapRec.Pitch, ColorSpace, kCGImageAlphaPremultipliedLast or kCGBitmapByteOrder32Big);
     Result := CGBitmapContextCreateImage(Context);
   finally
     if Context <> nil then CGContextRelease(Context);
@@ -152,6 +163,7 @@ end;
 
 class constructor TAppleClipboard.Create;
 begin
+  MaxBitmapSize := {$IFDEF IOS}1024{$ELSE}MaxInt{$ENDIF};
   FRegisteredFormats := TDictionary<string, TClipboardFormat>.Create;
 end;
 
