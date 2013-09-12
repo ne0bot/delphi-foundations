@@ -18,7 +18,8 @@ interface
 
 uses
   System.Types, System.SysUtils, System.Classes, System.Rtti, FMX.Types, FMX.Forms,
-  Macapi.CoreFoundation, Macapi.CocoaTypes, Macapi.CoreGraphics;
+  Macapi.CoreFoundation, Macapi.CocoaTypes, Macapi.CoreGraphics
+  {$IF FireMonkeyVersion >= 19}, FMX.Graphics{$IFEND};
 
 type
   EPDFWriterError = class(Exception);
@@ -104,6 +105,8 @@ type
     function ToBytes: TBytes;
   end;
 
+function LoadCGStrConst(const Name: PChar): CFStringRef;
+
 implementation
 
 resourcestring
@@ -159,6 +162,19 @@ begin
   Result := CFArrayCreate(nil, Arr, Length(Arr), @DefArrayCallbacks);
   for I := 0 to High(Arr) do
     CFReleaseAndNil(Arr[I]);
+end;
+
+function LoadCGStrConst(const Name: PChar): CFStringRef;
+var
+  Lib: HMODULE;
+begin
+  Result := nil;
+  Lib := LoadLibrary(libCoreGraphics);
+  if Lib <> 0 then
+  begin
+    Result := CFStringRef(GetProcAddress(Lib, PChar(Name))^);
+    FreeLibrary(Lib);
+  end;
 end;
 
 { TPDFWriter }
@@ -308,7 +324,7 @@ var
 begin
   if FPageDictionary = nil then
   begin
-    KeyName := CFSTR('kCGPDFContextMediaBox');
+    KeyName := LoadCGStrConst('kCGPDFContextMediaBox');
     MediaBoxData := CFDataCreate(nil, @FMediaBox, SizeOf(FMediaBox));
     FPageDictionary := CFDictionaryCreate(nil, @KeyName, @MediaBoxData, 1,
       @DefKeyCallbacks, @DefValueCallbacks);

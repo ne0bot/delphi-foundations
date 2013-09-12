@@ -5,7 +5,7 @@ unit PDFWriterForm;
   PDF canvas; page 2, in contrast, writes some text explicitly. Note that since
   TPDFFileWriter's purpose is to expose an OS X API, the demo doesn't run on Windows!
 
-  Chris Rolliston, August 2012; updated July 2013 for XE4
+  Chris Rolliston, August 2012; updated July 2013 for XE4 and Sept 2013 for XE5
   http://delphifoundations.com/
 }
 interface
@@ -57,6 +57,9 @@ implementation
 
 uses
   Posix.Stdlib, System.StrUtils, CCR.MacPDFWriter,
+  {$IF FireMonkeyVersion >= 19}
+  FMX.Graphics,
+  {$IFEND}
   {$IF FireMonkeyVersion < 17}
   CCR.FMXNativeDlgs
   {$ELSEIF FireMonkeyVersion < 18}
