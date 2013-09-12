@@ -36,7 +36,8 @@ interface
 uses
   Macapi.CocoaTypes, Macapi.Foundation, Macapi.AppKit,
   Macapi.ObjectiveC, Macapi.CoreFoundation, System.SysUtils, System.Classes,
-  System.Generics.Collections, System.UITypes, FMX.Types, CCR.FMXClipboard, CCR.FMXClipboard.Apple;
+  System.Generics.Collections, System.UITypes, FMX.Types,
+  CCR.FMXClipboard, CCR.FMXClipboard.Apple;
 
 type
   TMacClipboard = class(TAppleClipboard)
