@@ -58,9 +58,16 @@ interface
 {$ENDIF}
 
 uses
-  System.SysUtils, System.Classes, FMX.Types;
+  System.SysUtils, System.Classes, FMX.Types
+  {$IF FireMonkeyVersion >= 19}, FMX.Graphics{$IFEND};
 
 type
+  {$IF FireMonkeyVersion >= 19}
+  TBitmap = FMX.Graphics.TBitmap;
+  TBitmapData = FMX.Graphics.TBitmapData;
+  TMapAccess = FMX.Graphics.TMapAccess;
+  {$IFEND}
+
   EClipboardException = class(Exception);
 
   { On Windows, TClipboardFormat hold CF_XXX values; on OS X, typecast CFStrings. }
