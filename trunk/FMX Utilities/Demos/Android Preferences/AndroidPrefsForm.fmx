@@ -1,0 +1,190 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 883
+  ClientWidth = 601
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [dkDesktop]
+  OnCreate = FormCreate
+  DesignerMobile = True
+  DesignerWidth = 601
+  DesignerHeight = 905
+  DesignerDeviceName = 'Google Nexus 7'
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object Label1: TLabel
+    Height = 21.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 16.000000000000000000
+    Text = 'Section:'
+    Width = 82.000000000000000000
+    Trimming = ttCharacter
+  end
+  object edtSection: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 1
+    Text = 'General'
+    Position.X = 184.000000000000000000
+    Position.Y = 9.000000000000000000
+    Width = 337.000000000000000000
+    Height = 32.000000000000000000
+    KillFocusByReturn = False
+  end
+  object Label2: TLabel
+    Height = 21.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 56.000000000000000000
+    Text = 'Key:'
+    Width = 82.000000000000000000
+    Trimming = ttCharacter
+  end
+  object edtKey: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 3
+    Text = 'Info'
+    Position.X = 184.000000000000000000
+    Position.Y = 49.000000000000000000
+    Width = 337.000000000000000000
+    Height = 32.000000000000000000
+    KillFocusByReturn = False
+  end
+  object edtValue: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 4
+    Position.X = 184.000000000000000000
+    Position.Y = 89.000000000000000000
+    Width = 337.000000000000000000
+    Height = 32.000000000000000000
+    KillFocusByReturn = False
+  end
+  object Label3: TLabel
+    Height = 21.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 96.000000000000000000
+    Text = 'Value/default value:'
+    Width = 177.000000000000000000
+    Trimming = ttCharacter
+  end
+  object btnReadBool: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 6
+    Text = 'Read as Boolean'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadBoolClick
+  end
+  object btnReadFloat: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 192.000000000000000000
+    TabOrder = 7
+    Text = 'Read as Float'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadFloatClick
+  end
+  object btnReadInt: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 240.000000000000000000
+    TabOrder = 8
+    Text = 'Read as Integer'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadIntClick
+  end
+  object btnReadStr: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 288.000000000000000000
+    TabOrder = 9
+    Text = 'Read as String'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadStrClick
+  end
+  object btnWriteBool: TButton
+    Height = 44.000000000000000000
+    Position.X = 208.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 10
+    Text = 'Write as Boolean'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnWriteBoolClick
+  end
+  object btnWriteFloat: TButton
+    Height = 44.000000000000000000
+    Position.X = 208.000000000000000000
+    Position.Y = 192.000000000000000000
+    TabOrder = 11
+    Text = 'Write as Float'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnWriteFloatClick
+  end
+  object btnWriteInt: TButton
+    Height = 44.000000000000000000
+    Position.X = 208.000000000000000000
+    Position.Y = 240.000000000000000000
+    TabOrder = 12
+    Text = 'Write as Integer'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnWriteIntClick
+  end
+  object btnWriteStr: TButton
+    Height = 44.000000000000000000
+    Position.X = 208.000000000000000000
+    Position.Y = 288.000000000000000000
+    TabOrder = 13
+    Text = 'Write as String'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnWriteStrClick
+  end
+  object btnUpdateFile: TButton
+    Height = 44.000000000000000000
+    Position.X = 400.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 14
+    Text = 'Update File'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnUpdateFileClick
+  end
+  object btnReadSection: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 336.000000000000000000
+    TabOrder = 15
+    Text = 'Read Section'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadSectionClick
+  end
+  object btnReadSectionVals: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 384.000000000000000000
+    TabOrder = 16
+    Text = 'Read Section Values'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadSectionValsClick
+  end
+  object btnReadSections: TButton
+    Height = 44.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 432.000000000000000000
+    TabOrder = 17
+    Text = 'Read Sections'
+    Trimming = ttCharacter
+    Width = 185.000000000000000000
+    OnClick = btnReadSectionsClick
+  end
+end
