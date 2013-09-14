@@ -2,7 +2,7 @@ program MacPrefsDemo;
 
 uses
   FMX.Forms,
-  CCR.MacPrefsIniFile in '..\..\CCR.MacPrefsIniFile.pas',
+  CCR.Apple.PrefsIniFile in '..\..\CCR.Apple.PrefsIniFile.pas',
   MacPrefsDemoForm in 'MacPrefsDemoForm.pas' {frmMacPrefsDemo},
   ShellUtils in 'ShellUtils.pas';
 

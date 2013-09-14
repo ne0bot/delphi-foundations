@@ -1,4 +1,4 @@
-unit CCR.MacPrefsIniFile deprecated;
+unit CCR.Apple.PrefsIniFile;
 {
   Implements a TCustomIniFile descendant that delegates to the Core Foundation
   preferences API.
@@ -31,11 +31,11 @@ unit CCR.MacPrefsIniFile deprecated;
 interface
 
 uses
-  System.SysUtils, System.Classes, System.IniFiles, System.StrUtils
+  System.SysUtils, System.Classes, System.IniFiles, System.DateUtils, System.StrUtils
   {$IFDEF MACOS}, Macapi.CoreFoundation{$ENDIF};
 
 type
-  TMacPreferencesIniFile = class(TCustomIniFile)
+  TApplePreferencesIniFile = class(TCustomIniFile)
   {$IFDEF MACOS}
   strict private
     FAllKeysCache: TArray<string>;
@@ -84,20 +84,21 @@ type
   public
     constructor Create; platform;
   {$ENDIF}
-  end deprecated 'Use TApplePreferencesIniFile from CCR.Apple.PrefsIniFile instead';
-
-{$SCOPEDENUMS ON}
-  TWinLocation = (IniFile, Registry);
-
-function CreateUserPreferencesIniFile(AWinLocation: TWinLocation = TWinLocation.Registry): TCustomIniFile;
+  end;
 
 implementation
 
-{$IFDEF MSWINDOWS}
-uses Winapi.Windows, System.Win.Registry;
-{$ENDIF}
-{$IFDEF MACOS}
-uses System.DateUtils;
+{$IFNDEF MACOS}
+
+resourcestring
+  SNotSupportedError = 'TApplePreferencesIniFile only supported when targeting OS X or iOS';
+
+constructor TApplePreferencesIniFile.Create;
+begin
+  raise ENotSupportedException.CreateRes(@SNotSupportedError);
+end;
+
+{$ELSE}
 
 function CFDateCreateFromTDateTime(const DateTime: TDateTime): CFDateRef;
 var
@@ -161,9 +162,9 @@ begin
   CFStringGetCharacters(CFStr, Range, PChar(Result));
 end;
 
-{ TMacPreferencesIniFile }
+{ TApplePreferencesIniFile }
 
-constructor TMacPreferencesIniFile.Create(const ApplicationID: string = '');
+constructor TApplePreferencesIniFile.Create(const ApplicationID: string = '');
 var
   BundleHandle: CFBundleRef;
 begin
@@ -188,19 +189,19 @@ begin
   FDelimiter := DefaultDelimiter;
 end;
 
-destructor TMacPreferencesIniFile.Destroy;
+destructor TApplePreferencesIniFile.Destroy;
 begin
   UpdateFile;
   if FUsingCustomApplicationID then CFRelease(FApplicationID);
   inherited;
 end;
 
-procedure TMacPreferencesIniFile.DeleteKey(const Section, Ident: string);
+procedure TApplePreferencesIniFile.DeleteKey(const Section, Ident: string);
 begin
   WriteValue(Section, Ident, nil);
 end;
 
-procedure TMacPreferencesIniFile.EraseSection(const Section: string);
+procedure TApplePreferencesIniFile.EraseSection(const Section: string);
 var
   Key, PrefixToFind: string;
 begin
@@ -209,7 +210,7 @@ begin
     if StartsStr(PrefixToFind, Key) then WriteValue(Key, nil);
 end;
 
-function TMacPreferencesIniFile.GetAllKeys: TArray<string>;
+function TApplePreferencesIniFile.GetAllKeys: TArray<string>;
 var
   I: Integer;
   Keys: CFArrayRef;
@@ -229,7 +230,7 @@ begin
   Result := FAllKeysCache;
 end;
 
-function TMacPreferencesIniFile.ReadBinaryStream(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadBinaryStream(const Section, Ident: string;
   Stream: TStream): Integer;
 var
   Value: CFPropertyListRef;
@@ -245,7 +246,7 @@ begin
   end;
 end;
 
-function TMacPreferencesIniFile.ReadBool(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadBool(const Section, Ident: string;
   Default: Boolean): Boolean;
 var
   TypeID: CFTypeID;
@@ -270,13 +271,13 @@ begin
     end;
 end;
 
-function TMacPreferencesIniFile.ReadDate(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadDate(const Section, Ident: string;
   Default: TDateTime): TDateTime;
 begin
   Result := Int(ReadDateTime(Section, Ident, Default));
 end;
 
-function TMacPreferencesIniFile.ReadDateTime(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadDateTime(const Section, Ident: string;
   Default: TDateTime): TDateTime;
 var
   TypeID: CFTypeID;
@@ -299,7 +300,7 @@ begin
     end;
 end;
 
-function TMacPreferencesIniFile.ReadFloat(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadFloat(const Section, Ident: string;
   Default: Double): Double;
 var
   TypeID: CFTypeID;
@@ -324,7 +325,7 @@ begin
     end;
 end;
 
-function TMacPreferencesIniFile.ReadInteger(const Section, Ident: string;
+function TApplePreferencesIniFile.ReadInteger(const Section, Ident: string;
   Default: Integer): Integer;
 var
   TypeID: CFTypeID;
@@ -349,7 +350,7 @@ begin
     end;
 end;
 
-procedure TMacPreferencesIniFile.ReadSection(const Section: string; Strings: TStrings);
+procedure TApplePreferencesIniFile.ReadSection(const Section: string; Strings: TStrings);
 var
   Key, PrefixToFind, S: string;
 begin
@@ -372,17 +373,17 @@ begin
   end;
 end;
 
-procedure TMacPreferencesIniFile.ReadSections(Strings: TStrings);
+procedure TApplePreferencesIniFile.ReadSections(Strings: TStrings);
 begin
   ReadSections('', Strings);
 end;
 
-procedure TMacPreferencesIniFile.ReadSections(const ParentSection: string; Strings: TStrings);
+procedure TApplePreferencesIniFile.ReadSections(const ParentSection: string; Strings: TStrings);
 begin
   ReadSubSections(ParentSection, Strings, False);
 end;
 
-procedure TMacPreferencesIniFile.ReadSubSections(const ParentSection: string;
+procedure TApplePreferencesIniFile.ReadSubSections(const ParentSection: string;
   Strings: TStrings; Recurse: Boolean);
 var
   Added: TStringHash;
@@ -428,7 +429,7 @@ begin
   end;
 end;
 
-procedure TMacPreferencesIniFile.ReadSectionValues(const Section: string; Strings: TStrings);
+procedure TApplePreferencesIniFile.ReadSectionValues(const Section: string; Strings: TStrings);
 var
   Ident: string;
   I: Integer;
@@ -446,7 +447,7 @@ begin
   end;
 end;
 
-function TMacPreferencesIniFile.ReadString(const Section, Ident, Default: string): string;
+function TApplePreferencesIniFile.ReadString(const Section, Ident, Default: string): string;
 var
   TypeID: CFTypeID;
   Value: CFPropertyListRef;
@@ -472,7 +473,7 @@ begin
     end;
 end;
 
-function TMacPreferencesIniFile.ReadValue(const Section, Ident: string): CFPropertyListRef;
+function TApplePreferencesIniFile.ReadValue(const Section, Ident: string): CFPropertyListRef;
 var
   Key: CFStringRef;
 begin
@@ -487,7 +488,7 @@ begin
   end;
 end;
 
-procedure TMacPreferencesIniFile.WriteBinaryStream(const Section, Ident: string;
+procedure TApplePreferencesIniFile.WriteBinaryStream(const Section, Ident: string;
   Stream: TStream);
 var
   Data: CFMutableDataRef;
@@ -504,7 +505,7 @@ begin
   end;
 end;
 
-procedure TMacPreferencesIniFile.WriteBool(const Section, Ident: string; Value: Boolean);
+procedure TApplePreferencesIniFile.WriteBool(const Section, Ident: string; Value: Boolean);
 begin
   if Value then
     WriteValue(Section, Ident, kCFBooleanTrue)
@@ -512,32 +513,32 @@ begin
     WriteValue(Section, Ident, kCFBooleanFalse);
 end;
 
-procedure TMacPreferencesIniFile.WriteDateTime(const Section, Ident: string; Value: TDateTime);
+procedure TApplePreferencesIniFile.WriteDateTime(const Section, Ident: string; Value: TDateTime);
 begin
   WriteValue(Section, Ident, CFDateCreateFromTDateTime(Value), True);
 end;
 
-procedure TMacPreferencesIniFile.WriteDate(const Section, Ident: string; Value: TDateTime);
+procedure TApplePreferencesIniFile.WriteDate(const Section, Ident: string; Value: TDateTime);
 begin
   WriteDateTime(Section, Ident, Value);
 end;
 
-procedure TMacPreferencesIniFile.WriteFloat(const Section, Ident: string; Value: Double);
+procedure TApplePreferencesIniFile.WriteFloat(const Section, Ident: string; Value: Double);
 begin
   WriteValue(Section, Ident, CFNumberCreate(nil, kCFNumberFloat64Type, @Value), True);
 end;
 
-procedure TMacPreferencesIniFile.WriteInteger(const Section, Ident: string; Value: Int32);
+procedure TApplePreferencesIniFile.WriteInteger(const Section, Ident: string; Value: Int32);
 begin
   WriteValue(Section, Ident, CFNumberCreate(nil, kCFNumberSInt32Type, @Value), True);
 end;
 
-procedure TMacPreferencesIniFile.WriteString(const Section, Ident, Value: string);
+procedure TApplePreferencesIniFile.WriteString(const Section, Ident, Value: string);
 begin
   WriteValue(Section, Ident, CFStringCreate(Value), True);
 end;
 
-procedure TMacPreferencesIniFile.WriteValue(const Key: string;
+procedure TApplePreferencesIniFile.WriteValue(const Key: string;
   Value: CFPropertyListRef; ReleaseValueAfterWrite: Boolean = False);
 var
   S: CFStringRef;
@@ -552,7 +553,7 @@ begin
   end;
 end;
 
-procedure TMacPreferencesIniFile.WriteValue(const Section, Ident: string;
+procedure TApplePreferencesIniFile.WriteValue(const Section, Ident: string;
   Value: CFPropertyListRef; ReleaseValueAfterWrite: Boolean = False);
 var
   Key: string;
@@ -564,12 +565,12 @@ begin
   WriteValue(Key, Value, ReleaseValueAfterWrite);
 end;
 
-procedure TMacPreferencesIniFile.UpdateFile;
+procedure TApplePreferencesIniFile.UpdateFile;
 begin
   CFPreferencesAppSynchronize(FApplicationID);
 end;
 
-function TMacPreferencesIniFile.ValueExists(const Section, Ident: string): Boolean;
+function TApplePreferencesIniFile.ValueExists(const Section, Ident: string): Boolean;
 var
   Key, ToFind: string;
 begin
@@ -582,57 +583,6 @@ begin
   Result := False;
 end;
 
-function CreateUserPreferencesIniFile(AWinLocation: TWinLocation): TCustomIniFile;
-begin
-  Result := TMacPreferencesIniFile.Create;
-end;
-
-{$ELSE}
-
-constructor TMacPreferencesIniFile.Create;
-begin
-  raise ENotSupportedException.Create('TMacPreferencesIniFile only supported on Mac OS X');
-end;
-
-function CreateUserPreferencesIniFile(AWinLocation: TWinLocation = TWinLocation.Registry): TCustomIniFile;
-var
-  CompanyName, ProductName, Path: string;
-  {$IFDEF MSWINDOWS}
-  Handle, Len: DWORD;
-  Data: TBytes;
-  CP: PWordArray;
-  CharPtr: PChar;
-  {$ENDIF}
-begin
-  Path := GetModuleName(0);
-  ProductName := ChangeFileExt(ExtractFileName(Path), '');
-  {$IFDEF MSWINDOWS}
-  SetLength(Data, GetFileVersionInfoSize(PChar(Path), Handle));
-  if GetFileVersionInfo(PChar(Path), Handle, Length(Data), Data) and
-     VerQueryValue(Data, 'VarFileInfo\Translation', Pointer(CP), Len) then
-  begin
-    FmtStr(Path, 'StringFileInfo\%.4x%.4x\', [CP[0], CP[1]]);
-    if VerQueryValue(Data, PChar(Path + 'CompanyName'), Pointer(CharPtr), Len) then
-      SetString(CompanyName, CharPtr, Len - 1);
-    if VerQueryValue(Data, PChar(Path + 'ProductName'), Pointer(CharPtr), Len) then
-      SetString(ProductName, CharPtr, Len - 1);
-  end;
-  {$ENDIF}
-  if CompanyName = '' then
-    Path := ProductName
-  else
-    Path := CompanyName + PathDelim + ProductName;
-  {$IF DECLARED(TRegistryIniFile)}
-  if AWinLocation = TWinLocation.Registry then
-  begin
-    Result := TRegistryIniFile.Create('Software\' + Path);
-    Exit;
-  end;
-  {$IFEND}
-  Path := IncludeTrailingPathDelimiter(GetHomePath) + Path;
-  ForceDirectories(Path);
-  Result := TMemIniFile.Create(Path + PathDelim + 'Preferences.ini', TEncoding.UTF8);
-end;
 {$ENDIF}
 
 end.

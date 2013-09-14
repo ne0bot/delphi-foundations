@@ -1,6 +1,6 @@
 unit MacPrefsDemoForm;
 {
-  Simple demo of my TMacPreferencesIniFile class. Uses TMemIniFile instead when
+  Simple demo of the TApplePreferencesIniFile class. Uses TMemIniFile instead when
   targeting Windows. NB - you will have to manually delete the entry for
   FMX.StdCtrls on line 11 below to compile in XE3.
 }
@@ -57,13 +57,17 @@ var
 implementation
 
 uses
-  CCR.MacPrefsIniFile, ShellUtils;
+  CCR.Apple.PrefsIniFile, ShellUtils;
 
 {$R *.fmx}
 
 procedure TfrmMacPrefsDemo.FormCreate(Sender: TObject);
 begin
-  FIniFile := CreateUserPreferencesIniFile(TWinLocation.IniFile);
+  {$IFDEF MACOS}
+  FIniFile := TApplePreferencesIniFile.Create;
+  {$ELSE}
+  FIniFile := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'), TEncoding.UTF8);
+  {$ENDIF}
 end;
 
 procedure TfrmMacPrefsDemo.FormDestroy(Sender: TObject);
