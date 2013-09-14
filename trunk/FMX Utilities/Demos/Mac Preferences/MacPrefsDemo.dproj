@@ -94,7 +94,7 @@
 			<DelphiCompile Include="$(MainSource)">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="..\..\CCR.MacPrefsIniFile.pas"/>
+			<DCCReference Include="..\..\CCR.Apple.PrefsIniFile.pas"/>
 			<DCCReference Include="MacPrefsDemoForm.pas">
 				<Form>frmMacPrefsDemo</Form>
 			</DCCReference>
