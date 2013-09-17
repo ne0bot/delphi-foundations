@@ -15,7 +15,7 @@
 {                                                                                      }
 {**************************************************************************************}
 
-unit CCR.Android.PrefsIniFile;
+unit CCR.PrefsIniFile.Android;
 {
   Maps the TCustomIniFile interface to the Android shared preferences API.
   NB: as that API is case sensitive, so to is this wrapper.

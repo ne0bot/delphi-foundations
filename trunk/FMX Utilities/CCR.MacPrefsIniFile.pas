@@ -1,32 +1,25 @@
+{**************************************************************************************}
+{                                                                                      }
+{ FMX Utilities: TMacPreferencesIniFile                                                }
+{                                                                                      }
+{ The contents of this file are subject to the Mozilla Public License Version 1.1      }
+{ (the "License"); you may not use this file except in compliance with the License.    }
+{ You may obtain a copy of the License at http://www.mozilla.org/MPL/                  }
+{                                                                                      }
+{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT   }
+{ WARRANTY OF ANY KIND, either express or implied. See the License for the specific    }
+{ language governing rights and limitations under the License.                         }
+{                                                                                      }
+{ The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
+{ Chris Rolliston are Copyright (C) 2013 Chris Rolliston. All Rights Reserved.         }
+{                                                                                      }
+{**************************************************************************************}
+
 unit CCR.MacPrefsIniFile deprecated;
 {
-  Implements a TCustomIniFile descendant that delegates to the Core Foundation
-  preferences API.
-
-  Types native to that API are written, so that WriteBool writes a CFBool,
-  WriteInteger and WriteFloat a CFNumber, WriteDate and WriteDateTime a CFDate,
-  and WriteBinaryStream a CFData object. Also, UpdateFile is mapped to
-  CFPreferencesAppSynchronize, and the inherited FileName property returns the
-  path to relevant .plist file under ~/Library/Preferences.
-
-  By default, the application's own preferences file is read and written to. This
-  can be changed however by passing an appropriate Mac bundle identifier to the
-  constructor, e.g. IniFile := TMacPreferencesIniFile.Create('com.apple.Safari').
-
-  The preferences API itself works in terms of simple Name=Value pairs. While a
-  value could itself be a name=value list, the dictionary object returned by the
-  API in such a case is immutable. This means changing just a single nested
-  value requires the whole section to be read, copied, amended, and rewritten.
-  Yucky-yuck!
-
-  Because of this, I've mapped the INI file structure to the top level name/
-  value list only, using a delimeter (a colon by default) to separate section
-  name from key name. This is what TextWrangler does, for example, along with
-  Microsoft Word (well, Word uses a backslash). TCustomIniFile's admittedly
-  somewhat hacked-on sub-section interface is also supported using this scheme.
-
-  One word of warning: since the underlying API is case sensitive, so is this
-  wrapper.
+  This unit has been replaced with CCR.PrefsIniFile.Apple (for
+  TMacPreferencesIniFile, now TApplePreferencesIniFile) and CCR.PrefsIniFile
+  (for CreateUserPreferencesIniFile).
 }
 interface
 
@@ -84,12 +77,12 @@ type
   public
     constructor Create; platform;
   {$ENDIF}
-  end deprecated 'Use TApplePreferencesIniFile from CCR.Apple.PrefsIniFile instead';
+  end deprecated 'Use TApplePreferencesIniFile from CCR.PrefsIniFile.Apple instead';
 
 {$SCOPEDENUMS ON}
   TWinLocation = (IniFile, Registry);
 
-function CreateUserPreferencesIniFile(AWinLocation: TWinLocation = TWinLocation.Registry): TCustomIniFile;
+function CreateUserPreferencesIniFile(AWinLocation: TWinLocation = TWinLocation.Registry): TCustomIniFile; deprecated 'Use the version in CCR.PrefsIniFile instead';
 
 implementation
 

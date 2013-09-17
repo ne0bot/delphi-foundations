@@ -57,17 +57,13 @@ var
 implementation
 
 uses
-  CCR.Apple.PrefsIniFile, ShellUtils;
+  CCR.PrefsIniFile, ShellUtils;
 
 {$R *.fmx}
 
 procedure TfrmMacPrefsDemo.FormCreate(Sender: TObject);
 begin
-  {$IFDEF MACOS}
-  FIniFile := TApplePreferencesIniFile.Create;
-  {$ELSE}
-  FIniFile := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'), TEncoding.UTF8);
-  {$ENDIF}
+  FIniFile := CreateUserPreferencesIniFile(TWinLocation.IniFile);
 end;
 
 procedure TfrmMacPrefsDemo.FormDestroy(Sender: TObject);
