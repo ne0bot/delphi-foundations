@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.IniFiles,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Layouts, FMX.Edit;
+  FMX.Layouts, FMX.Edit, CCR.PrefsIniFile;
 
 type
   TfrmMobilePrefs = class(TForm)
@@ -55,34 +55,9 @@ implementation
 
 {$R *.fmx}
 
-{$IFDEF ANDROID}
-uses CCR.Android.PrefsIniFile;
-
-function CreatePreferencesIniFile: TCustomIniFile;
-begin
-  Result := TAndroidPreferencesIniFile.Create;
-end;
-{$ENDIF}
-
-{$IFDEF iOS}
-uses CCR.Apple.PrefsIniFile;
-
-function CreatePreferencesIniFile: TCustomIniFile;
-begin
-  Result := TApplePreferencesIniFile.Create;
-end;
-{$ENDIF}
-
-{$IFDEF MSWINDOWS}
-function CreatePreferencesIniFile: TCustomIniFile;
-begin
-  Result := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
-end;
-{$ENDIF}
-
 procedure TfrmMobilePrefs.FormCreate(Sender: TObject);
 begin
-  FIniFile := CreatePreferencesIniFile;
+  FIniFile := CreateUserPreferencesIniFile;
 end;
 
 procedure TfrmMobilePrefs.FormDestroy(Sender: TObject);

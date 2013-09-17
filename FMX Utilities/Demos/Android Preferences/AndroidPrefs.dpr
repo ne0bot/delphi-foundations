@@ -4,7 +4,7 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   AndroidPrefsForm in 'AndroidPrefsForm.pas' {Form1},
-  CCR.Android.PrefsIniFile in '..\..\CCR.Android.PrefsIniFile.pas';
+  CCR.PrefsIniFile.Android in '..\..\CCR.PrefsIniFile.Android.pas';
 
 {$R *.res}
 

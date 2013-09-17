@@ -4,8 +4,9 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   MobilePrefsForm in 'MobilePrefsForm.pas' {frmMobilePrefs},
-  CCR.Apple.PrefsIniFile in '..\..\CCR.Apple.PrefsIniFile.pas',
-  CCR.Android.PrefsIniFile in '..\..\CCR.Android.PrefsIniFile.pas';
+  CCR.PrefsIniFile.Apple in '..\..\CCR.PrefsIniFile.Apple.pas',
+  CCR.PrefsIniFile.Android in '..\..\CCR.PrefsIniFile.Android.pas',
+  CCR.PrefsIniFile in '..\..\CCR.PrefsIniFile.pas';
 
 {$R *.res}
 
