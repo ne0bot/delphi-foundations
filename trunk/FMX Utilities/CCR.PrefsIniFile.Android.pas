@@ -24,8 +24,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, System.IniFiles, System.Rtti, System.Generics.Collections
-  {$IFDEF ANDROID}, AndroidApi.Jni.JavaTypes, AndroidApi.Jni.App,
-  AndroidApi.Jni.GraphicsContentViewText, FMX.Helpers.Android{$ENDIF};
+  {$IFDEF ANDROID}, AndroidApi.JniBridge, AndroidApi.Jni.JavaTypes, AndroidApi.Jni.App,
+  AndroidApi.Jni.GraphicsContentViewText, AndroidApi.Log, FMX.Helpers.Android{$ENDIF};
 
 type
   TAndroidPreferencesIniFile = class(TCustomIniFile)
@@ -52,6 +52,8 @@ type
     function JKeyName(const Section, Ident: string): JString; inline;
     procedure DeleteKey(const Section: string; const Ident: string); override;
     procedure EraseSection(const SectionToErase: string); override;
+    function ReadBool(const Section, Ident: string; Default: Boolean): Boolean; override;
+    function ReadFloat(const Section, Name: string; Default: Double): Double; override;
     function ReadInteger(const Section, Ident: string; Default: Integer): Integer; override;
     function ReadString(const Section, Ident, Default: string): string; override;
     procedure ReadSection(const SectionToRead: string; Strings: TStrings); override;
@@ -175,15 +177,62 @@ begin
   UpdateFile; //ditto
 end;
 
+function TryBooleanCast(const Obj: JObject; var Value: Boolean): Boolean;
+begin
+  Result := TJBoolean.JavaClass.&TYPE.isInstance(Obj);
+  if Result then Value := TJNIResolver.GetRawValueFromJBoolean((Obj as ILocalObject).GetObjectID)
+end;
+
+function TryIntegerCast(const Obj: JObject; var Value: Integer): Boolean;
+begin
+  Result := TJInteger.JavaClass.&TYPE.isInstance(Obj);
+  if Result then Value := TJNIResolver.GetRawValueFromJInteger((Obj as ILocalObject).GetObjectID)
+end;
+
+function TrySingleCast(const Obj: JObject; var Value: Single): Boolean;
+begin
+  Result := TJFloat.JavaClass.&TYPE.isInstance(Obj);
+  if Result then Value := TJNIResolver.GetRawValueFromJFloat((Obj as ILocalObject).GetObjectID)
+end;
+
+function TAndroidPreferencesIniFile.ReadBool(const Section, Ident: string; Default: Boolean): Boolean;
+var
+  Obj: JObject;
+  I: Integer;
+  S: Single;
+begin
+  NeedMap;
+  Obj := FMap.get(JKeyName(Section, Ident));
+  if Obj = nil then Exit(Default);
+  if TryBooleanCast(Obj, Result) then Exit;
+  if TryIntegerCast(Obj, I) then Exit(I <> 0);
+  if TrySingleCast(Obj, S) and (Frac(S) = 0) then Exit(S <> 0);
+  Result := StrToBoolDef(JStringToString(Obj.toString), Default);
+end;
+
+function TAndroidPreferencesIniFile.ReadFloat(const Section, Name: string; Default: Double): Double;
+var
+  Obj: JObject;
+  B: Boolean;
+  I: Integer;
+  S: Single;
+begin
+  NeedMap;
+  if Obj = nil then Exit(Default);
+  if TrySingleCast(Obj, S) then Exit(S);
+  if TryIntegerCast(Obj, I) then Exit(I);
+  if TryBooleanCast(Obj, B) then Exit(Ord(B));
+  Result := StrToFloatDef(JStringToString(Obj.toString), Default)
+end;
+
 function TAndroidPreferencesIniFile.ReadInteger(const Section, Ident: string;
   Default: Integer): Integer;
 var
-  Value: Double;
+  Value: Int64;
 begin
-  //work around a rounded javaFloat.toString returning point zero, which causes StrToInt to fail
-  Value := ReadFloat(Section, Ident, Default);
-  if (Frac(Value) = 0) and (Value >= Result.MinValue) and (Value <= Result.MaxValue) then
-    Result := Trunc(Value)
+  Value := Round(ReadFloat(Section, Ident, Default));
+  if (Value >= Result.MinValue) and (Value <= Result.MaxValue) then
+    Result := Value
   else
     Result := Default;
 end;
@@ -242,12 +291,12 @@ end;
 
 function TAndroidPreferencesIniFile.ReadString(const Section, Ident, Default: string): string;
 var
-  RawValue: JObject;
+  Obj: JObject;
 begin
   NeedMap;
-  RawValue := FMap.get(JKeyName(Section, Ident));
-  if RawValue <> nil then
-    Result := JStringToString(RawValue.toString)
+  Obj := FMap.get(JKeyName(Section, Ident));
+  if Obj <> nil then
+    Result := JStringToString(Obj.toString)
   else
     Result := Default;
 end;
