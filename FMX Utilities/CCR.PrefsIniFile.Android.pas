@@ -192,9 +192,6 @@ function TAndroidPreferencesIniFile.ReadFloat(const Section, Name: string; Defau
 var
   ClassName: string;
   Obj: JObject;
-  B: Boolean;
-  I: Integer;
-  S: Single;
   ID: Pointer;
 begin
   NeedMap;
@@ -209,7 +206,7 @@ begin
   else if ClassName = 'java.lang.Boolean' then
     Result := Ord(TJNIResolver.GetRawValueFromJBoolean(ID))
   else
-    Result := StrToFloatDef(JStringToString(Obj.toString), Default)
+    Result := StrToFloatDef(JStringToString(Obj.toString), Default, FormatSettings)
 end;
 
 function TAndroidPreferencesIniFile.ReadInteger(const Section, Ident: string;
