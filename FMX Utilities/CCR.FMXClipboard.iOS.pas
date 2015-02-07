@@ -169,7 +169,7 @@ end;
 
 procedure TiOSClipboard.DoSetAsText(const Value: string);
 begin
-  FToAdd.setValue((NSSTR(Value) as ILocalObject).GetObjectID, FormatToNSString(cfText));
+  FToAdd.setValue((StrToNSString(Value) as ILocalObject).GetObjectID, FormatToNSString(cfText));
 end;
 
 function TiOSClipboard.DoToBytes(const AFormat: TClipboardFormat): TBytes;
