@@ -87,6 +87,11 @@ end;
 
 {$ELSE}
 
+type
+  Context = record const
+    MODE_PRIVATE = 0;
+  end;
+
 class constructor TAndroidPreferencesIniFile.InitializeClass;
 begin
   FormatSettings := TFormatSettings.Create('en-us');
@@ -97,10 +102,10 @@ begin
   inherited Create(Name);
   FDelimiter := DefaultDelimiter;
   if Name = '' then
-    FSharedPrefs := SharedActivity.getPreferences(TJActivity.JavaClass.MODE_PRIVATE)
+    FSharedPrefs := SharedActivity.getPreferences(Context.MODE_PRIVATE)
   else
     FSharedPrefs := SharedActivity.getSharedPreferences(StringToJString(Name),
-      TJActivity.JavaClass.MODE_PRIVATE);
+      Context.MODE_PRIVATE);
 end;
 
 destructor TAndroidPreferencesIniFile.Destroy;
