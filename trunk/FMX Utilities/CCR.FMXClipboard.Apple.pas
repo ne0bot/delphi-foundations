@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
+{ Chris Rolliston are Copyright (C) 2012-15 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -53,6 +53,7 @@ function FormatToNSString(const AFormat: TClipboardFormat): NSString; inline;
 function FormatsToNSArray(const AFormats: array of TClipboardFormat): NSArray;
 function NSDataToBytes(const Data: NSData): TBytes;
 function NSStringGetValue(const NSStr: NSString): string; inline;
+function StrToNSString(const S: string): NSString;
 {$ENDIF}
 
 implementation
@@ -97,7 +98,7 @@ begin
   Dest.Clear(TAlphaColors.Null);
   ColorSpace := nil;
   Context := nil;
-  if not Dest.Map(TMapAccess.maWrite, MapRec) then
+  if not Dest.Map(TMapAccess.Write, MapRec) then
     raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
   try
     ColorSpace := CGColorSpaceCreateDeviceRGB;
@@ -120,7 +121,7 @@ var
 begin
   ColorSpace := nil;
   Context := nil;
-  if not ABitmap.Map(TMapAccess.maRead, MapRec) then
+  if not ABitmap.Map(TMapAccess.Read, MapRec) then
     raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
   try
     ColorSpace := CGColorSpaceCreateDeviceRGB;
@@ -157,6 +158,14 @@ begin
     Result := ''
   else
     Result := CFStringGetValue((NSStr as ILocalObject).GetObjectID);
+end;
+
+function StrToNSString(const S: string): NSString;
+begin
+  if S = '' then
+    Result := TNSString.Wrap(nil)
+  else
+    Result := TNSString.Wrap(TNSString.OCClass.stringWithCharacters(PChar(S), Length(S)));
 end;
 
 { TAppleClipboard }

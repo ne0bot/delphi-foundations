@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
+{ Chris Rolliston are Copyright (C) 2012-15 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -153,13 +153,19 @@ type
     function GetScanline(Row: Integer): Pointer;
   end;
 
-  TMapAccess = (maRead, maWrite, maReadWrite);
+  TMapAccess = (Read, Write, ReadWrite);
 
   TBitmapHelper = class helper for TBitmap
     function Map(const Access: TMapAccess; var Data: TBitmapData): Boolean;
     procedure Unmap(var Data: TBitmapData);
   end;
 {$ELSEIF FireMonkeyVersion < 18}
+  TMapAccessHelper = record helper for TMapAccess
+  const
+    Read = TMapAccess.maRead;
+    Write = TMapAccess.maWrite;
+    ReadWrite = TMapAccess.maReadWrite;
+  end;
   {$DEFINE TBitmapDataHelperNeeded}
   TBitmapDataHelper = record helper for TBitmapData
     function GetScanline(Row: Integer): Pointer;

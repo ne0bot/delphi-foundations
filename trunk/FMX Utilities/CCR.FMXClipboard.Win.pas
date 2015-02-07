@@ -11,7 +11,7 @@
 { language governing rights and limitations under the License.                         }
 {                                                                                      }
 { The Initial Developer of the Original Code is Chris Rolliston. Portions created by   }
-{ Chris Rolliston are Copyright (C) 2012-13 Chris Rolliston. All Rights Reserved.      }
+{ Chris Rolliston are Copyright (C) 2012-15 Chris Rolliston. All Rights Reserved.      }
 {                                                                                      }
 {**************************************************************************************}
 
@@ -22,6 +22,7 @@ unit CCR.FMXClipboard.Win;
   to FMX.Platform.pas. This unit supports XE2 or later.
 
   History
+  - Feb 2015: minor tweaks to still compile with recent FMX versions.
   - August 2013: minor tweaks as related units are revised.
   - July 2013: fixed bitmap pitch issue; switched to reading and writing v5 DIBs; if
     source bitmap has transparency, the DIB written is non-transparent, however a PNG
@@ -87,7 +88,7 @@ implementation
 {$IFDEF MSWINDOWS}
 uses
   Winapi.RichEdit, Winapi.ShellApi, System.Math, System.RTLConsts, System.UIConsts
-  {$IFNDEF VER230}, FMX.PixelFormats{$ENDIF};
+  {$IF (RTLVersion > 23) AND (RTLVersion < 27)}, FMX.PixelFormats{$IFEND};
 
 function GetPriorityClipboardFormat(const paFormatPriorityList;
   cFormats: Integer): Integer; stdcall; external user32;
@@ -202,7 +203,7 @@ begin
       DestPtr.bV5BlueMask  := $000000FF;
       DestPtr.bV5AlphaMask := $FF000000;
       Inc(DestPtr);
-      if not Source.Map(TMapAccess.maRead, SourceBits) then
+      if not Source.Map(TMapAccess.Read, SourceBits) then
         raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
       try
         SourceLine := SourceBits.Data;
@@ -238,7 +239,7 @@ var
   Stream: TMemoryStream;
   X, Y: Integer;
 begin
-  if not ABitmap.Map(TMapAccess.maRead, SourceBits) then
+  if not ABitmap.Map(TMapAccess.Read, SourceBits) then
     raise EInvalidOperation.CreateRes(@SCannotMapBitmap);
   try
     HasTransparency := False;
